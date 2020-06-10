@@ -262,7 +262,6 @@ note: initial tau and taut data need to be manually populated into local DB and 
     - follow TAUaddr
     - unfollow TAUaddr
     - blackist TAUaddr
-<br/>
 ### Messages - from followed chains, allow filter chains，选择框类似选择照片
   - magnet link display
   - ANN; include initial bootstrap (bs) for getting block info.
