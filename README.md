@@ -8,6 +8,7 @@ Core UI experienses:= {
       * Describe the content and paste the link, app verifies the format of the link
       * Chose community/chain to publish //support multi-chains publishing
       * Reminder: make user actually file is seeded on a public IP torrent client.
+      * Batch publish window. Link1/content1;Link2/content2
    * Create Publishing Community: build a blockchain of community for torrent sharing. 
       * Give a name to new blockchain // auto gen a city name for choice 
       * Creation of a blockchain with 10 million coins at 5 minutes per block generation rate
@@ -294,5 +295,5 @@ note: initial tau and taut data need to be manually populated into local DB and 
 # To do 
 - [ ] resource management process,
 - [ ] re-announce management
-- [ ] for community admin, provide pc and linux tool for hosting dht. 
+- [ ] for community admin, provide pc and linux tool for hosting dht, and commandline tool for publish magnet link. Android app and linux cli. 
 
