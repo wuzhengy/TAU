@@ -259,7 +259,7 @@ This process is for multiple chains paralell execution.
 note: initial tau and taut data need to be manually populated into local DB and DHT 
 
 ---
-## App UI 界面
+## User Interface: andriod app in firewall and linux cli on public server.
 ### Blockchains - explore community and display mining info 区块链浏览器
 - Community: community pkess, coin numbers, members number, magnet links numbers
     - Follow (mining) chains：mining data, power 链端
