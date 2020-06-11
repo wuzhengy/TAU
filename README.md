@@ -31,6 +31,7 @@ Core UI experienses:= {
     - Charging ON: wake lock ON. 
     - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime
     - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime
+  - Running like a server, require wifi: on/off, if on, wifi/wake lock on, never go sleep. 
 - Chains prebuilt into TAU app.
     - TAUcoin chain: provides place to publish new community. App will read TAUcoin chain for app operation such as bootstrap DHT node.
     - TAU-T chain: provides default place to publish video magnet links and dht bootstrap node.
