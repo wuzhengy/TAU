@@ -271,7 +271,7 @@ note: initial tau and taut data need to be manually populated into local DB and 
   - magnet link display
   - ANN; include initial bootstrap (bs) for getting block info.
   - Messages
-### Vidoes - Magnet links smart display
+### Vidoes - Magnet links smart display, download and seeding.
 ### Locator & Search
   - locate transaction URL
     - TAUtx:?blockroot=`hash`
