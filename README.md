@@ -290,4 +290,5 @@ note: initial tau and taut data need to be manually populated into local DB and 
 # To do 
 - [ ] resource management process,
 - [ ] re-announce management
+- [ ] for community admin, provide pc and linux tool for hosting dht. 
 
