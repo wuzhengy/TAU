@@ -10,7 +10,7 @@ Core UI experienses:= {
       * Reminder: make user actually file is seeded on a public IP torrent client.
    * Create Publishing Community: build a blockchain of community for torrent sharing. 
       * Give a name to new blockchain // auto gen a city name for choice 
-      * Creation of a blockchain with 1 million coins at 5 minutes per block generation rate
+      * Creation of a blockchain with 10 million coins at 5 minutes per block generation rate
       * Annouce the new chain on TAU, given that TAUcoin balance is enough.
    * Other Transactions
       * Message  //support multi-chains pub
@@ -59,9 +59,9 @@ Core UI experienses:= {
 - One block has one transaction for both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. 
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
-  - Coin volumen is 1 million
+  - Coin volumen is 10 million
   - Default block time is 300 seconds, which will be enhanced by software and device improvement
-  - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 1 million coins and 600 seconds block time. 
+  - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 10 million coins and 600 seconds block time. 
 - TAUpk: balance identifier under different chains; holds the power and perform mining. Seed generate privatekey then public key. In TAU, we use seed to import and export account. 
 - New POT use power as square root the nounce.
 - 投票策略设计。
