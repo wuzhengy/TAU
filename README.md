@@ -18,6 +18,7 @@ Core UI experienses:= {
       * DHT BootStrap Node Annoucement //support multi-chains pub
       * Wiring Transaction // single chain
       * Coins trading telegram group annoucement
+      * Identity annoucement
 - Dashboard:  "DHT Exploring Kb/s" 
   - Change effective for 1 hour, 3h, 12h, forever. Default is `1 hour`.
     - on telecom data: 
