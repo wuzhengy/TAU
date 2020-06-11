@@ -16,6 +16,7 @@ Core UI experienses:= {
       * Chain Annoucement //support multi-chains pub
       * DHT BootStrap Node Annoucement //support multi-chains pub
       * Wiring Transaction // single chain
+      * Coins trading telegram group annoucement
 - Dashboard:  "DHT Exploring Kb/s" 
   - Change effective for 1 hour, 3h, 12h, forever. Default is `1 hour`.
     - on telecom data: 
@@ -34,9 +35,9 @@ Core UI experienses:= {
 ## Persistence variables
 ```
 1.  Chains  map[ChainID] config; 
-2.  CurrentBlockRoot    map[ChainID] cbor.cid; // the map holding the recent blocks
+2.  CurrentBlockRoot    map[ChainID]; // the map holding the recent blocks
 3.  MutableRange    map[ChainID]uInt  // blocks in the mutable range is subject to change any time 
-5.  TAUpeers       map[ChainID]map[TAUaddr]config;// for chains, when discovery new TAU peers, adding here with config info.
+5.  TAUpeers       map[ChainID]map[TAUpk]config;// for chains, when discovery new TAU peers, adding here with config info.
 6.  TAUselfTxsPool         map[ChainID]map[TxHASH]config
 7.  TotalUsedData
 8.  ImmutablePointBlock    map[ChainID] uInt 
@@ -54,27 +55,27 @@ Core UI experienses:= {
 ## Design Concepts
 - Version 1 operation parameters: 5 minutes a block for single community. These numbers can be upgraded when network infrastructure upgrading. 
 - One block has one transaction for both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. 
-- Community ChainID := `community name`#`coins volumn in millions`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
+- Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
-  - Default coin volumen is 1 million
-  - Default block time is 300 seconds, which is upgradable by software and device improvement
-  - example: TAUcoin ID is TAU#10000##hash; community ID: Shanghai###hash, which is a chain name Shanghai with 1 million coins and 300 seconds block time. 
-- TAUaddress: balance identifier under different chains; holds the power and perform mining. Seed generate privatekey then public key. In TAU, we use seed to import and export account. 
+  - Coin volumen is 1 million
+  - Default block time is 300 seconds, which will be enhanced by software and device improvement
+  - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 1 million coins and 600 seconds block time. 
+- TAUpk: balance identifier under different chains; holds the power and perform mining. Seed generate privatekey then public key. In TAU, we use seed to import and export account. 
 - New POT use power as square root the nounce.
 - 投票策略设计。
    - 投票范围：当前ImmutablePointBlock **往未来** 的 `MutableRange` 周期为计算票范围。这个范围应该部分达到未来。
    - 每到新的VotesCountingPointBlocks结束时，统计投票产生新的ImmutablePointBlock和新的VotesCountingPointBlocks, 得票最高的当选, 同样票数时间最近的胜利。
       - 如果投出来的新ImmutablePointBlock, 这个root不在目前链上，表示finality失败，把自己当作新节点处理，获得新链。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果在一个MutableRange时间内反复出现finality失败，提交人工处理。
-      - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- (`MutableRange` - MaxBlockTime)）为ImmutablePointBlock，开始出块做交易，等待下次投票结果。
+      - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- (`MutableRange` - DefaultMaxBlockTime)）为ImmutablePointBlock，开始出块做交易，等待下次投票结果。
       - 如果投票出的新ImmutablePointBlock，root在同一链上，说明是链的正常发展，继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易到。// 新的ImmutablePointBlock root不可能早于目前ImmutablePointBlock的。
    - 获得新root，如果是longest chain开始进入验证流程，如果不是进入计票流程.    
 - **libtorrent dht as storage and communication**
   * salt = chainID
   * immutable message = block content
-  * mutable message's public key = TAUaddr public key
-  * mutable message by hash(public key + salt) = value is the block hash of TAU address future prediction on a chain
+  * mutable message's public key = TAUpk public key
+  * mutable message by hash(public key + salt) = value is the block hash of TAU pkess future prediction on a chain
 - get message (mutable)
-  - Get future block associated with a TAUaddr + chainID (pub key + salt).  If the queried node has the block, it is returned in a key "values" as a list of strings. If the queried node has no such block, a key "nodes" is returned containing the K nodes in the queried nodes routing table closest to the hash supplied in the query.  TAU dev public DHT nodes will store all info hash space for all chain_id.
+  - Get future block associated with a TAUpk + chainID (pub key + salt).  If the queried node has the block, it is returned in a key "values" as a list of strings. If the queried node has no such block, a key "nodes" is returned containing the K nodes in the queried nodes routing table closest to the hash supplied in the query.  TAU dev public DHT nodes will store all info hash space for all chain_id.
   http://www.bittorrent.org/beps/bep_0044.html
 ```
 Request:
@@ -149,9 +150,9 @@ blockJSON  = {
 7. generation signature;
 9. msg; // transaction content with ChainID, txType, content. 
 10. ChainID
-11. `TsenderTAUaddress`Noune
+11. `TsenderTAUpk`Noune
 12. `Tsender`Balance;
-13. `TminerTAUaddress`Balance;
+13. `TminerTAUpk`Balance;
 14. `Treceiver`Balance;
 16. TAUsignature;
 }
@@ -161,9 +162,9 @@ blockJSON  = {
 * WakeUpTime: sleeping mode wake up random range 10 minutes
 * GenesisCoins: default coins 1,000,000. Integer, no decimals. 
 * GenesisBasetarget:  0x21D0369D036978 ; 仿真100万个地址，平均出块时间60s
-* MinBlockTime:  1 minutes, this is fixed block time. do not let user choose as for now.
-* MaxBlockTime:  9 minutes, when no body mining, you have to generate blocks.
-* AverageBlockTime: 5 miniutes
+* DefaultMinBlockTime:  60 seconds, this is fixed block time. do not let user choose as for now.
+* DefaultMaxBlockTime:  540 seconds, when no body mining, you have to generate blocks.
+* DefaultBlockTime: 300 seconds
 
 ## Blockchain structure and processes
 ### Genesis 
@@ -190,18 +191,18 @@ This process is for multiple chains paralell execution.
 ```
 1. Pick up a random `chainID` in the Chains[] map.
 
-2. If the (current time -  `ChainID` current-block time ) is bigger than MaxBlockTime, 
+2. If the (current time -  `ChainID` current-block time ) is bigger than DefaultMaxBlockTime, 
     go to (9) to use current safe root to generate the new current block 
-    // not find new block than MaxBlockTime, everyonce is entitled to generate a block
+    // not find new block than DefaultMaxBlockTime, everyonce is entitled to generate a block
 
 3. Choose a Peer from  P:=TAUpeers[`ChainID`]
-      If chainID+Peer is requested within AverageBlockTime, go to (1) //不要对一个chainID+Peer 组合重复访问
+      If chainID+Peer is requested within DefaultBlockTime, go to (1) //不要对一个chainID+Peer 组合重复访问
     connect to P;
       if err go to (1)
       
 4. DHT_get(`hash(TAUpk+chainID)`); 
     if not_found go to (1) 
-    TAUpeers[ChainID][Peer].update(timestamp) // for counting the AverageBlockTime
+    TAUpeers[ChainID][Peer].update(timestamp) // for counting the DefaultBlockTime
 
 5. if root/PreviousBlockRoot/timestamp is later than present time, 不能在未来再次预测未来, aka n+2 , go to (1)
 
@@ -224,7 +225,7 @@ This process is for multiple chains paralell execution.
    goto (1)
 
 9. generate new block 
-   if TAUaddr on this chain balance is null; go to (1) // this is the follower
+   if TAUpk on this chain balance is null; go to (1) // this is the follower
    generate currentBlockroot
       - contract
       - send, receive
@@ -243,7 +244,7 @@ This process is for multiple chains paralell execution.
     * dht_put(blocks)
 2. When no TAU privatekey
   * generate seed and key pair
-  * greate TAU private key and address
+  * greate TAU key pair
   * load URLs of `TAU`, `Taut`  into level db.
 3. check system resources and daily data consumption, start Mining process according system resources availability.
   * Mining process will follow TAU and TAUT
@@ -254,14 +255,14 @@ note: initial tau and taut data need to be manually populated into local DB and 
 ---
 ## App UI 界面
 ### Blockchains - explore community and display mining info 区块链浏览器
-- Community: community address, coin numbers, members number, magnet links numbers
+- Community: community pkess, coin numbers, members number, magnet links numbers
     - Follow (mining) chains：mining data, power 链端
     - Unfollow chains those are recorded in the ANN message from the followed chains. 
     - Blacklist Chain
 - User: balance, power
-    - follow TAUaddr
-    - unfollow TAUaddr
-    - blackist TAUaddr
+    - follow TAUpk
+    - unfollow TAUpk
+    - blackist TAUpk
 ### Messages - from followed chains, allow filter chains，选择框类似选择照片
   - magnet link display
   - ANN; include initial bootstrap (bs) for getting block info.
