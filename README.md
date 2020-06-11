@@ -7,6 +7,7 @@ Core UI experienses:= {
       * Make a Magnet Link sharing transaction
       * Describe the content and paste the link, app verifies the format of the link
       * Chose community/chain to publish //support multi-chains publishing
+      * Reminder: make user actually file is seeded on a public IP torrent client.
    * Create Publishing Community: build a blockchain of community for torrent sharing. 
       * Give a name to new blockchain // auto gen a city name for choice 
       * Creation of a blockchain with 1 million coins at 5 minutes per block generation rate
@@ -20,7 +21,8 @@ Core UI experienses:= {
 - Dashboard:  "DHT Exploring Kb/s" 
   - Change effective for 1 hour, 3h, 12h, forever. Default is `1 hour`.
     - on telecom data: 
-      - Daily maximum data 10M, 30M, 60M, Unlimited. (default `30M`). 
+      - DHT_get only, daily maximum data 30M, 60M, Unlimited. (default `60M`). 
+      - except when sending transaction, enable DHT_put
     - on wifi: 
       - Daily maximum data 200M, Unlimited. (default `Unlimited`)
   - Common config, do not display to UI
@@ -65,10 +67,11 @@ Core UI experienses:= {
 - 投票策略设计。
    - 投票范围：当前ImmutablePointBlock **往未来** 的 `MutableRange` 周期为计算票范围。这个范围应该部分达到未来。
    - 每到新的VotesCountingPointBlocks结束时，统计投票产生新的ImmutablePointBlock和新的VotesCountingPointBlocks, 得票最高的当选, 同样票数时间最近的胜利。
-      - 如果投出来的新ImmutablePointBlock, 这个root不在目前链上，表示finality失败，把自己当作新节点处理，获得新链。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果在一个MutableRange时间内反复出现finality失败，提交人工处理。
+      - 如果投出来的新ImmutablePointBlock, 这个block不在目前链的mutable range内，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。。
       - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- (`MutableRange` - DefaultMaxBlockTime)）为ImmutablePointBlock，开始出块做交易，等待下次投票结果。
       - 如果投票出的新ImmutablePointBlock，root在同一链上，说明是链的正常发展，继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易到。// 新的ImmutablePointBlock root不可能早于目前ImmutablePointBlock的。
-   - 获得新root，如果是longest chain开始进入验证流程，如果不是进入计票流程.    
+   - 获得新root，如果是longest chain开始进入验证流程，如果不是进入计票流程.  
+   - If the longest chain forks prior to mutable range, going to new node process; if fork prior to 3x mutable range, ignore. therefore, 3x mutablerange is really the finality. 
 - **libtorrent dht as storage and communication**
   * salt = chainID
   * immutable message = block content
@@ -154,7 +157,7 @@ blockJSON  = {
 12. `Tsender`Balance;
 13. `TminerTAUpk`Balance;
 14. `Treceiver`Balance;
-16. TAUsignature;
+15. TAUsignature;
 }
 ```
 ## Constants
