@@ -149,8 +149,8 @@ blockJSON  = {
 1. version;
 2. timestamp; 
 3. BlockNumber;
-4. PreviousBlockRoot; // for verification
-5. ImmutablePointBlockRoot; // for voting, simple skip list
+4. PreviousBlockHash; // for verification
+5. ImmutablePointBlockHash; // for voting, simple skip list
 5. basetarget;
 6. cummulative difficulty;
 7. generation signature;
@@ -202,13 +202,11 @@ This process is for multiple chains paralell execution.
     // not find new block than DefaultMaxBlockTime, everyonce is entitled to generate a block
 
 3. Choose a Peer from  P:=TAUpeers[`ChainID`]
-      If chainID+Peer is requested within DefaultBlockTime, go to (1) //不要对一个chainID+Peer 组合重复访问
-    connect to P;
-      if err go to (1)
+      If chainID+Peer is requested within DefaultBlockTime, go to (1) // do not revisit same peer within block time
       
 4. DHT_get(`hash(TAUpk+chainID)`); 
     if not_found go to (1) 
-    TAUpeers[ChainID][Peer].update(timestamp) // for counting the DefaultBlockTime
+    TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
 
 5. if root/PreviousBlockRoot/timestamp is later than present time, 不能在未来再次预测未来, aka n+2 , go to (1)
 
@@ -216,22 +214,24 @@ This process is for multiple chains paralell execution.
     if the fork point out of the ImmutablePointBlock, go to (7) to collect voting. //如果难度更高的链在immutablePoint之前，则计入投票不做验证。
     verify this chain's transactions from the ImmutablePointBlock; // 任何验证只做immutable point之后的检查。
     if verification successful and populate new states
+    new safety block identified. 
     go to (9) to generate new block; // found longest chain   
     }
    
 7. // voting on low difficulty or forked chain.
-   DHT_get(a random block in the MutableRange); //这里要考虑用simple skip list to increase reversal efficiency
+   DHT_get(ImmutablePointBlockHash); // use simple skip list to increase reversal efficiency
    collected block is put into voting pool. 
 
 8. If the present block number equal  VotesCountingPointBlocks[`ChainID`], {
     accounting all the voting results for that MutableRange to get the consensused block //统计方法是所有的root的计权重，选最高最新。
     calculate new ImmutablePointBlock[`ChainID`] and new  VotesCountingPointBlocks[`ChainID`]
    }
+   new safety block identified.
    clear voting pool to restart votes pool
    goto (1)
 
 9. generate new block 
-   if TAUpk on this chain balance is null; go to (1) // this is the follower
+   if TAUpk on this chain balance is null; go to (1) // this is the follower do not DHT_put
    generate currentBlockroot
       - contract
       - send, receive
@@ -260,7 +260,7 @@ note: initial tau and taut data need to be manually populated into local DB and 
 
 ---
 ## User Interface: andriod app in firewall and linux cli on public server.
-### Blockchains - explore community and display mining info 区块链浏览器
+### Blockchains - explore community and display mining info, focus display coins economy
 - Community: community pkess, coin numbers, members number, magnet links numbers
     - Follow (mining) chains：mining data, power 链端
     - Unfollow chains those are recorded in the ANN message from the followed chains. 
