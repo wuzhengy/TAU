@@ -1,4 +1,4 @@
-# TAU - Video publishing with blockchain economy
+# TAU - Video sharing with crypto-coin economy
 Torrent information publishing on permission-less parallel blockchains using proof-of-transaction consensus, mobile devices and distributed-hash-table.
 
 Core UI experienses:= {
@@ -261,6 +261,7 @@ note: initial tau and taut data need to be manually populated into local DB and 
 
 ---
 ## User Interface: andriod app in firewall and linux cli on public server.
+torrent client download - magnet link; browswer open - youtube, tiktok.
 ### Blockchains - explore community and display mining info, focus display coins economy
 - Community: community pkess, coin numbers, members number, magnet links numbers
     - Follow (mining) chains：mining data, power 链端
