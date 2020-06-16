@@ -1,10 +1,10 @@
-# TAU - Torrent Publishing on Mobile Blockchains
+# TAU - Video publishing with blockchain economy
 Torrent information publishing on permission-less parallel blockchains using proof-of-transaction consensus, mobile devices and distributed-hash-table.
 
 Core UI experienses:= {
 - **"(+)"** floating button with three functions:
    * Publish Video.
-      * Make a Magnet Link sharing transaction
+      * Make a video Link sharing transaction, include magnet, youtube and other url.
       * Describe the content and paste the link, app verifies the format of the link
       * Chose community/chain to publish //support multi-chains publishing
       * Reminder: make user actually file is seeded on a public IP torrent client.
@@ -67,8 +67,9 @@ Core UI experienses:= {
   - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 10 million coins and 600 seconds block time. 
 - TAUpk: balance identifier under different chains; holds the power and perform mining. Seed generate privatekey then public key. In TAU, we use seed to import and export account. 
 - New POT use power as square root the nounce.
-- 投票策略设计。
-   - 投票范围：当前ImmutablePointBlock **往未来** 的 `MutableRange` 周期为计算票范围。这个范围应该部分达到未来。
+- genesis block power: give one year power to genesis to make admin airdrop possible. 
+- 投票策略设计。For a new peer coming on-line, the peer uses voting to chose the right fork to follow. Voting is collecting a certain sample block prior to the mutable range. Mutable range is the range of blocks from the current block number to a specific history block number. 
+   - 投票范围：定位投票点，当前ImmutablePointBlock **往未来** 的 `MutableRange` 周期为计算票范围。这个范围应该部分达到未来。
    - 每到新的VotesCountingPointBlocks结束时，统计投票产生新的ImmutablePointBlock和新的VotesCountingPointBlocks, 得票最高的当选, 同样票数时间最近的胜利。
       - 如果投出来的新ImmutablePointBlock, 这个block不在目前链的mutable range内，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。。
       - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- (`MutableRange` - DefaultMaxBlockTime)）为ImmutablePointBlock，开始出块做交易，等待下次投票结果。
@@ -195,7 +196,7 @@ blockJSON  = {
 ## Mining Process: Votings, chain choice and block generation. 
 This process is for multiple chains paralell execution.  
 ```
-1. Pick up a random `chainID` in the Chains[] map.
+1. get chain ID. 
 
 2. If the (current time -  `ChainID` current-block time ) is bigger than DefaultMaxBlockTime, 
     go to (9) to use current safe root to generate the new current block 
