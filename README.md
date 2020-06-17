@@ -56,8 +56,8 @@ Core UI experienses:= {
 ## Data flow: StateDB, BlocksDB and DHT
   - statedb is the local database holding account power and balance
   - blockdb is the local database holding the blocks content that will be put and get through DHT
-  - DHT is the network key-value database
-  - Data flow
+  - DHT is the network key-value database, similar to cache
+  - Data flow: memory <-> storage <-> cache
     - `blockdb` ---> `libtorrent put` ---> `DHT`
     - `blockdb` <--- `libtorrent get` <--- `DHT`
     - `statedb` <--> `blockdb`
@@ -74,13 +74,14 @@ Core UI experienses:= {
 - New POT use power as square root the nounce.
 - genesis block power: give one year power to genesis to make admin airdrop possible. 
 - 投票策略设计。For a new peer coming on-line, the peer uses voting to chose the right fork to follow. Voting is collecting a certain sample block prior to the mutable range. Mutable range is the range of blocks from the current block number to a specific history block number. 
-   - 投票范围：定位投票点，当前ImmutablePointBlock **往未来** 的 `MutableRange` 周期为计算票范围。这个范围应该部分达到未来。
+   - 投票范围：定位投票点，当前ImmutablePointBlock。The voting window is the DefaultMaxBlockTime.
    - 每到新的VotesCountingPointBlocks结束时，统计投票产生新的ImmutablePointBlock和新的VotesCountingPointBlocks, 得票最高的当选, 同样票数时间最近的胜利。
       - 如果投出来的新ImmutablePointBlock, 这个block不在目前链的mutable range内，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。。
       - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- (`MutableRange` - DefaultMaxBlockTime)）为ImmutablePointBlock，开始出块做交易，等待下次投票结果。
       - 如果投票出的新ImmutablePointBlock，root在同一链上，说明是链的正常发展，继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易到。// 新的ImmutablePointBlock root不可能早于目前ImmutablePointBlock的。
    - 获得新root，如果是longest chain开始进入验证流程，如果不是进入计票流程.  
-   - If the longest chain forks prior to mutable range, going to new node process; if fork prior to 3x mutable range, ignore. therefore, 3x mutablerange is really the finality. 
+   - If the longest chain forks prior to mutable range, going to new node process; if 黑客分叉 fork prior to 3x mutable range, ignore，报警. therefore, 3x mutablerange is really the finality. 
+   - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
 - **libtorrent dht as storage and communication**
   * salt = chainID
   * immutable message = block content
