@@ -4,7 +4,9 @@ Torrent information publishing on permission-less parallel blockchains using pro
 Core UI experienses:= {
 - **"(+)"** floating button with three functions:
    * Publish Video.
-      * Make a video Link sharing transaction, include magnet, youtube and other url.
+      * Make a video Link sharing transaction, include magnet, youtube and other video url.
+        - for magnet link: torrent client download
+        - for http link: browser streaming
       * Describe the content and paste the link, app verifies the format of the link
       * Chose community/chain to publish //support multi-chains publishing
       * Reminder: make user actually file is seeded on a public IP torrent client.
@@ -35,7 +37,10 @@ Core UI experienses:= {
 - Chains prebuilt into TAU app.
     - TAUcoin chain: provides place to publish new community. App will read TAUcoin chain for app operation such as bootstrap DHT node.
     - TAU-T chain: provides default place to publish video magnet links and dht bootstrap node.
-- Search engine: internal search
+- Find engine: app internal search
+- DHT search engine: centralized engine to find new community and links.
+- Content filtering: this is an centralized option to use dht search engine to screen content for child porn, etc. 
+
 --- 
 ## Persistence variables
 ```
