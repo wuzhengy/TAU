@@ -65,7 +65,7 @@ Core UI experienses:= {
 ## Design Concepts
 - Version 1 operation parameters: 5 minutes a block for single community. These numbers can be upgraded when network infrastructure upgrading. 
 - One block has one transaction for both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. 
-- DHT put frequency: sampling the date life time on dht, each miner writing into dht one history block when publish a new block. 
+- DHT put frequency: each time a miner get a block, then put a block, keep get-put ratio 1. one function: exchange().
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
   - Coin volumen is 10 million
@@ -245,7 +245,7 @@ This process is for multiple chains paralell execution.
       - send, receive
       - coinbase tx
       - finish contract execution
-   DHT_put()
+   DHT_exchange
    populate leveldb database variables. 
 
 10. go to step (1)
