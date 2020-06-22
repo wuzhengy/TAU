@@ -1,46 +1,29 @@
-# TAU - Video sharing with crypto-coin economy
-Torrent information publishing on permission-less parallel blockchains using proof-of-transaction consensus, mobile devices and distributed-hash-table.
-
+# TAU 
 Core UI experienses:= {
-- **"(+)"** floating button with three functions:
-   * Publish Video.
-      * Make a video Link sharing transaction, include magnet, youtube and other video url.
-        - for magnet link: torrent client download
-        - for http link: browser streaming
-      * Describe the content and paste the link, app verifies the format of the link
-      * Chose community/chain to publish //support multi-chains publishing
-      * Reminder: make user actually file is seeded on a public IP torrent client.
-      * Batch publish window. Link1/content1;Link2/content2
-   * Create Publishing Community: build a blockchain of community for torrent sharing. 
-      * Give a name to new blockchain // auto gen a city name for choice 
+- decentralized message with centralized embeded light display media links to youtube, instgram or magnet. 
+- **"(+)"** floating button on home page
+   * Create a Community: build a blockchain of community for torrent sharing. 
+      * Give a name to new blockchain 
       * Creation of a blockchain with 10 million coins at 5 minutes per block generation rate
-      * Annouce the new chain on TAU, given that TAUcoin balance is enough.
-   * Other Transactions
-      * Message  //support multi-chains pub
-      * Chain Annoucement //support multi-chains pub
-      * DHT BootStrap Node Annoucement //support multi-chains pub
-      * Wiring Transaction // single chain
-      * Coins trading telegram group annoucement
-      * Identity annoucement
-- Dashboard:  "DHT Exploring Kb/s" 
-  - Change effective for 1 hour, 3h, 12h, forever. Default is `1 hour`.
-    - on telecom data: 
-      - DHT_get only, daily maximum data 30M, 60M, Unlimited. (default `60M`). 
-      - except when sending transaction, enable DHT_put
-    - on wifi: 
-      - Daily maximum data 200M, Unlimited. (default `Unlimited`)
+      * Optional annouce the new chain on TAU, given that TAUcoin balance is enough.
+- **"(+)"** floating button on community page
+   * Transactions
+      * Message
+      * Chain Annoucement
+      * DHT BootStrap Node Annoucement
+      * Wiring Transaction
+      * Identity annoucement in the community
+      * Transaction content can be encrypted by receiver's public key
+- Dashboard:  Data * Kb/s
+  - Wifi only: on/off, default is ON.  Wifi turn to Off, ask for how long: 5 minutes/30 minutes/ 1 hour/ 3 hours
   - Common config, do not display to UI
     - Charging ON: wake lock ON. 
     - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime
     - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime
-  - Running like a server, require wifi: on/off, if on, wifi/wake lock on, never go sleep. 
 - Chains prebuilt into TAU app.
     - TAUcoin chain: provides place to publish new community. App will read TAUcoin chain for app operation such as bootstrap DHT node.
-    - TAU-T chain: provides default place to publish video magnet links and dht bootstrap node.
-- Find engine: app internal search
-- DHT search engine: centralized engine to find new community and links.
-- Content filtering: this is an centralized option to use dht search engine to screen content for child porn, etc. 
-
+- Find engine: app internal search for name and content
+- TAU dev might provide DHT search engine: centralized engine to find new community and links.
 --- 
 ## Persistence variables
 ```
