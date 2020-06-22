@@ -270,8 +270,8 @@ torrent client download - magnet link; browswer open - youtube, tiktok.
   - locate transaction URL
     - TAUtx:?blockroot=`hash`
   - locate chain URL
-    - URL: TAUchain:?bs=`hash(tau pk1 + salt)`&bs=`hash(tau pk1 + salt)`  // maybe 10 bs provided
-    - 搜索chainID URL自动归入followed chains.
+    - URL: TAUchain:?salt=`salt`&pk=`public key 1`&pk=`public key 2`  // maybe 10 publickey provided
+    - salt: chain_name#hash(genesis_public_key + timestamp)
   - internal search only
 ### System
   - Auto Start : ON, 2am every day.
