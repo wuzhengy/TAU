@@ -1,6 +1,8 @@
 # TAU 
 Core UI experienses:= {
 - decentralized message with centralized embeded light display media links to youtube, instgram or magnet. 
+  - browser and small picture to present http links
+  - torrent client to open magnet link
 - **"(+)"** floating button on home page
    * Create a Community: build a blockchain of community for torrent sharing. 
       * Give a name to new blockchain 
@@ -20,8 +22,7 @@ Core UI experienses:= {
     - Charging ON: wake lock ON. 
     - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime
     - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime
-- Chains prebuilt into TAU app.
-    - TAUcoin chain: provides place to publish new community. App will read TAUcoin chain for app operation such as bootstrap DHT node.
+- Chains prebuilt: TAUcoin chain: provides place to publish new community. App will read TAUcoin chain for app operation such as bootstrap DHT node.
 - Find engine: app internal search for name and content
 - TAU dev might provide DHT search engine: centralized engine to find new community and links.
 --- 
