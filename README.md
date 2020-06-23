@@ -285,6 +285,7 @@ torrent client download - magnet link; browswer open - youtube, tiktok.
   - TCP Proxy
   - Blockchain Storage
   - Connection limit: high water and low water
+# database: leveldb andriod
   
 # To do 
 - [ ] resource management process,
