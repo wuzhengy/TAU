@@ -30,8 +30,8 @@ Core UI experienses:= {
 1.  Chains  map[ChainID] config; 
 2.  CurrentBlockRoot    map[ChainID]; // the map holding the recent blocks
 3.  MutableRange    map[ChainID]uInt  // blocks in the mutable range is subject to change any time 
-4.  TAUpeers       map[ChainID]map[TAUpk]config;// for chains, when discovery new TAU peers, adding here with config info.
-5.  TAUselfTxsPool         map[ChainID]map[TxHASH]config
+4.  Peers       map[ChainID]map[TAUpk]config;// for chains, when discovery new TAU peers, adding here with config info.
+5.  SelfTxsPool         map[ChainID]map[TxHASH]config
 6.  ImmutablePointBlock    map[ChainID] uInt 
 7.  VotesCountingPointBlock   map[ChainID] uInt 
 
