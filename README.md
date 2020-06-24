@@ -26,17 +26,15 @@ Core UI experienses:= {
 - Find engine: app internal search for name and content
 - TAU dev might provide DHT search engine: centralized engine to find new community and links.
 --- 
-## Persistence variables
-```
+## Persistence
 1.  Chains  map[ChainID] config; 
 2.  CurrentBlockRoot    map[ChainID]; // the map holding the recent blocks
 3.  MutableRange    map[ChainID]uInt  // blocks in the mutable range is subject to change any time 
-5.  TAUpeers       map[ChainID]map[TAUpk]config;// for chains, when discovery new TAU peers, adding here with config info.
-6.  TAUselfTxsPool         map[ChainID]map[TxHASH]config
-7.  TotalUsedData
-8.  ImmutablePointBlock    map[ChainID] uInt 
-9.  VotesCountingPointBlock   map[ChainID] uInt 
-```
+4.  TAUpeers       map[ChainID]map[TAUpk]config;// for chains, when discovery new TAU peers, adding here with config info.
+5.  TAUselfTxsPool         map[ChainID]map[TxHASH]config
+6.  ImmutablePointBlock    map[ChainID] uInt 
+7.  VotesCountingPointBlock   map[ChainID] uInt 
+
 ## Data flow: StateDB, BlocksDB and DHT
   - statedb is the local database holding account power and balance
   - blockdb is the local database holding the blocks content that will be put and get through DHT
