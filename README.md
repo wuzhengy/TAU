@@ -17,7 +17,7 @@ Core UI experienses:= {
       * Identity annoucement in the community
       * Transaction content can be encrypted by receiver's public key
 - Dashboard:  Data * Kb/s
-  - Wifi only: on/off, default is ON.  Wifi turn to Off, ask for how long: 5 minutes/30 minutes/ 1 hour/ 3 hours
+  - Wifi only: on/off, default is ON.  Wifi turn to Off, ask for how long: 30 minutes/ 1 hour(default)/ 3 hours
   - Common config, do not display to UI
     - Charging ON: wake lock ON. 
     - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime
