@@ -47,8 +47,10 @@ Core UI experienses:= {
 ## Design Concepts
 - Version 1 operation parameters: 5 minutes a block for single community. These numbers can be upgraded when network infrastructure upgrading. 
 - One block has one transaction for both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. 
-- DHT put frequency: each time a miner get a block, then put a block, keep get-put ratio 1. one function: exchange().
-- a-b;a-c;  a-b;a-c;b-c; when b receive message, it will re-pub message a to dht. put/get = repub
+- immutable item dhtTAUget: 1. get one immutable item; 2. put a random immutable item from the same blockchain. 
+- mutable item dhtTAUget: 1. get one mutable item; 2. put the same mutable item back into dht; the value of a mutable item is a hash pointing to a block
+- immutable and mutable item PUT: this is the same as mainline dht put.
+- blockchain and hash-chain: blockchain belong to community, hash-chain belong to personal chat messages on that blockchain(`salt`+'#'). 
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
   - Coin volumen is 10 million
