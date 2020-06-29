@@ -132,14 +132,12 @@ blockJSON  = {
 
 ```
 ---
-## Mining Process: Votings, chain choice and block generation. 
-This process is for multiple chains paralell execution.  
+## Mining Process: Votings, chain choice and block generation.   
 ```
 1. get chain ID. 
 
-2. If the (current time -  `ChainID` current-block time ) is bigger than DefaultMaxBlockTime, 
-    go to (9) to use current safe root to generate the new current block 
-    // not find new block than DefaultMaxBlockTime, everyonce is entitled to generate a block with a valid transaction
+2. If the (current time -  `ChainID` current-block time ) is bigger than DefaultMaxBlockTime and a valid transaction exist in tx pool
+    go to (9) to generate a new block 
 
 3. Choose a Peer from  P:=TAUpeers[`ChainID`]
       If chainID+Peer is requested within DefaultBlockTime, go to (1) // do not revisit same peer within block time
@@ -148,36 +146,29 @@ This process is for multiple chains paralell execution.
     if not_found go to (1) 
     TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
 
-5. if root/PreviousBlockRoot/timestamp is later than present time, 不能在未来再次预测未来, aka n+2 , go to (1)
-
-6. if received root and block shows a higher difficulty than current difficulty  {
+6. if received root and block shows a valid higher difficulty than current difficulty  {
     if the fork point out of the ImmutablePointBlock, go to (7) to collect voting. //如果难度更高的链在immutablePoint之前，则计入投票不做验证。
     verify this chain's transactions from the ImmutablePointBlock; // 任何验证只做immutable point之后的检查。
-    if verification successful and populate new states
-    new safety block identified. 
-    go to (9) to generate new block; // found longest chain   
+    if verification successful and populate new states, new safety block identified. 
     }
+   go to (9) 
    
-7. // voting on low difficulty or forked chain.
-   DHT_get(ImmutablePointBlockHash); // use simple skip list to increase reversal efficiency
+7. // voting on low difficulty or forked chain. collecting all peers from mutable range for voting. 
+   DHT_get(ImmutablePointBlockHash);
    collected block is put into voting pool. 
 
-8. If the present block number equal  VotesCountingPointBlocks[`ChainID`], {
-    accounting all the voting results for that MutableRange to get the consensused block //统计方法是所有的root的计权重，选最高最新。
-    calculate new ImmutablePointBlock[`ChainID`] and new  VotesCountingPointBlocks[`ChainID`]
-   }
-   new safety block identified.
+8. new safety block identified.
    clear voting pool to restart votes pool
    goto (1)
 
 9. generate new block 
-   if TAUpk on this chain balance is null; go to (1) // this is the follower do not DHT_put
+   if TAUpk not qualify POT requirment; go to (1) 
    generate currentBlockroot
       - contract
       - send, receive
       - coinbase tx
       - finish contract execution
-   DHT_exchange
+   DHT_put
    populate leveldb database variables. 
 
 10. go to step (1)
