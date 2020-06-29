@@ -7,18 +7,18 @@ Core UI experienses:= {
    * Create a Community: build a blockchain of community for torrent sharing. 
       * Give a name to new blockchain 
       * Creation of a blockchain with 10 million coins at 5 minutes per block generation rate
-      * Optional annouce the new chain on TAU, given that TAUcoin balance is enough.
 - **"(+)"** floating button on community page
    * Transactions
-      * Message
+      * Regular Message
       * Chain Annoucement
       * DHT BootStrap Node Annoucement
       * Wiring Transaction
       * Identity annoucement in the community
-      * Transaction content can be encrypted by receiver's public key
+      * Private message, content can be encrypted by receiver's public key.
 - Dashboard:  Data * Kb/s
-  - Wifi only: on/off, default is ON.  Wifi turn to Off, ask for how long: 30 minutes/ 1 hour(default)/ 3 hours
-  - Common config, do not display to UI
+  - Wifi only: on/off, default is ON.  
+    - if "Wifi only" turn to Off, ask for how long: 30 minutes/ 1 hour(default)/ 3 hours
+  - Internal config:
     - Charging ON: wake lock ON. 
     - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime
     - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime
@@ -47,16 +47,13 @@ Core UI experienses:= {
 ## Design Concepts
 - Version 1 operation parameters: 5 minutes a block for single community. These numbers can be upgraded when network infrastructure upgrading. 
 - One block has one transaction for both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. 
-- immutable item dhtTAUget: 1. get one immutable item; 2. put a random immutable item from the same blockchain. 
-- mutable item dhtTAUget: 1. get one mutable item; 2. put the same mutable item back into dht; the value of a mutable item is a hash pointing to a block
-- immutable and mutable item PUT: this is the same as mainline dht put.
 - blockchain and hash-chain: blockchain belong to community, hash-chain belong to personal chat messages on that blockchain(`salt`+'#'). 
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
   - Coin volumen is 10 million
   - Default block time is 300 seconds, which will be enhanced by software and device improvement
   - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 10 million coins and 600 seconds block time. 
-- TAUpk: balance identifier under different chains; holds the power and perform mining. Seed generate privatekey then public key. In TAU, we use seed to import and export account. 
+- TAUpk: balance identifier under different chains; holds the power and perform mining. Seed generate privatekey and public key. In new TAU, we use seed to import and export account. 
 - New POT use power as square root the nounce.
 - genesis block power: give one year power to genesis to make admin airdrop possible. 
 - 投票策略设计。For a new peer coming on-line, the peer uses voting to chose the right fork to follow. Voting is collecting a certain sample block prior to the mutable range. Mutable range is the range of blocks from the current block number to a specific history block number. 
@@ -73,64 +70,12 @@ Core UI experienses:= {
   * immutable message = block content
   * mutable message's public key = TAUpk public key
   * mutable message by hash(public key + salt) = value is the block hash of TAU pkess future prediction on a chain
-- get message (mutable)
-  - Get future block associated with a TAUpk + chainID (pub key + salt).  If the queried node has the block, it is returned in a key "values" as a list of strings. If the queried node has no such block, a key "nodes" is returned containing the K nodes in the queried nodes routing table closest to the hash supplied in the query.  TAU dev public DHT nodes will store all info hash space for all chain_id.
-  http://www.bittorrent.org/beps/bep_0044.html
-```
-Request:
-{ "a":
-    { "id": <20 byte id of sending node (string)>,
-        "seq": <optional sequence number (integer)>,
-        "target:" <20 byte SHA-1 hash of public key and salt (string)>
-    },
-    "t": <transaction-id (string)>,
-    "y": "q",
-    "q": "get"
-}
-Response:
-{  "r":
-    { "id": <20 byte id of sending node (string)>,
-        "k": <ed25519 public key (32 bytes string)>,
-        "nodes": <IPv4 nodes close to 'target'>,
-        "nodes6": <IPv6 nodes close to 'target'>,
-        "seq": <monotonically increasing sequence number (integer)>,
-        "sig": <ed25519 signature (64 bytes string)>,
-        "token": <write-token (string)>,
-        "v": <any bencoded type, whose encoded size <= 1000>
-    },
-    "t": <transaction-id (string)>,
-    "y": "r",
-}
-```  
-- put block
-```
-Request:
-{ "a":
-    { "cas": <optional expected seq-nr (int)>,
-        "id": <20 byte id of sending node (string)>,
-        "k": <ed25519 public key (32 bytes string)>, TAU public key
-        "salt": <optional salt to be appended to "k" when hashing (string)>
-        "seq": <monotonically increasing sequence number (integer)>,
-        "sig": <ed25519 signature (64 bytes string)>,
-        "token": <write-token (string)>,
-        "v": <any bencoded type, whose encoded size < 1000>
-    },
-    "t": <transaction-id (string)>,
-    "y": "q",
-    "q": "put"
-}
-{ "r": { "id": <20 byte id of sending node (string)> },
-    "t": <transaction-id (string)>,
-    "y": "r",
-}
-```
-- DHT persistence storage: DHT includes nodes and items
-  - DHT nodes state and items table is transient
-  - Consensused block content will be persisted via libretorrent app db. 
-  - Each time DHT nodes start with zero information, the app will put into information to be announced. 
-- Overall user experiece is text based torrent file info and messages. TAU app does not offer upload and download of video, it is up to each user using torrent client. TAU app is for publishing and coins circulation. 
-- Provide miner optional manual approval function for admit transactions expecially the negative value and problem content. 
-- dht is a public kv database. 
+- immutable_item_dhtTAUget: 1. get one immutable item; 2. put a random immutable item from the same blockchain. 
+- mutable_item_dhtTAUget: 1. get one mutable item; 2. put the same mutable item back into dht; the value of a mutable item is a hash pointing to a block
+  - Get future block associated with a TAUpk + chainID (pub key + salt).  If the queried node has the block, it is returned in a key "values" as a list of strings. If the queried node has no such block, a key "nodes" is returned containing the K nodes in the queried nodes routing table closest to the hash supplied in the query.http://www.bittorrent.org/beps/bep_0044.html
+- immutable and mutable item PUT: this is the same as mainline dht put.
+  
+- Provide miner manual approval function for admit transactions, expecially the negative value and problem content. 
 - URL: TAUchain:?bs=`hash(tau pk1 + salt)`&bs=`hash(tau pk1 + salt)`  // maybe 10 bs provided
       - dht_get(hash(tau pk1 + salt)) is the mutable item, which is a hash to immutable item Y.
       - dht_get(Y) return immutable item, which is block content (previous_hash, chainID, timestamp ...)
