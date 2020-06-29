@@ -1,20 +1,22 @@
 # TAU - Messenger with high-scaling blockchain economy.
 Core UI experienses:= {
-- decentralized message with centralized embeded light display media links to youtube, instgram or magnet. 
-  - browser and small picture to present http links
+- decentralized community chatting, not designed as personal messenger 
+  - browser and small picture to present http links of youtube, instgram or tiktok
   - torrent client to open magnet link
 - **"(+)"** floating button on home page
-   * Create a Community: build a blockchain of community for torrent sharing. 
+   * Create a Community 
       * Give a name to new blockchain 
       * Creation of a blockchain with 10 million coins at 5 minutes per block generation rate
 - **"(+)"** floating button on community page
-   * Transactions
-      * Regular Message
-      * Chain Annoucement
+   * Transactions on community blockchain
+      * Regular forum note and comments
+      * New community Annoucement
       * DHT BootStrap Node Annoucement
       * Wiring Transaction
-      * Identity annoucement in the community
-      * Private message, content can be encrypted by receiver's public key.
+      * Identity annoucement
+   * Messages on peer hash chain
+      * Private message between two peers, content can be encrypted by receiver's public key.
+        * only peers belong one community can send messages.
 - Dashboard:  Data * Kb/s
   - Wifi only: on/off, default is ON.  
     - if "Wifi only" turn to Off, ask for how long: 30 minutes/ 1 hour(default)/ 3 hours
@@ -137,7 +139,7 @@ This process is for multiple chains paralell execution.
 
 2. If the (current time -  `ChainID` current-block time ) is bigger than DefaultMaxBlockTime, 
     go to (9) to use current safe root to generate the new current block 
-    // not find new block than DefaultMaxBlockTime, everyonce is entitled to generate a block
+    // not find new block than DefaultMaxBlockTime, everyonce is entitled to generate a block with a valid transaction
 
 3. Choose a Peer from  P:=TAUpeers[`ChainID`]
       If chainID+Peer is requested within DefaultBlockTime, go to (1) // do not revisit same peer within block time
@@ -181,20 +183,6 @@ This process is for multiple chains paralell execution.
 10. go to step (1)
 
 ```
-## Controller: process manager and app initiation
-1. When no database
-  * create local level db.
-  * with loca database 
-    * dht_put(blocks)
-2. When no TAU privatekey
-  * generate seed and key pair
-  * greate TAU key pair
-  * load URLs of `TAU`, `Taut`  into level db.
-3. check system resources and daily data consumption, start Mining process according system resources availability.
-  * Mining process will follow TAU and TAUT
-4. Writing local DB data into DHT kv db with time interval, random writing. 
-<br/>
-note: initial tau and taut data need to be manually populated into local DB and DHT 
 
 ---
 ## User Interface: andriod app in firewall and linux cli on public server.
