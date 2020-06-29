@@ -45,25 +45,25 @@ Core UI experienses:= {
     - `statedb` <--> `blockdb`
   - myth: p2p communication is not possible to implement given firewalls and personal device security restrictions. DHT is used to be p2p communication substrate. When peer is not online, the content is still available to exchange. 
 ## Design Concepts
-- Version 1 operation parameters: 5 minutes a block for single community. These numbers can be upgraded when network infrastructure upgrading. 
-- One block has one transaction for both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. 
-- blockchain and hash-chain: blockchain belong to community, hash-chain belong to personal chat messages on that blockchain(`salt`+'#'). 
+- Version 1 default parameters: 
+  - 5 minutes average to generate a block. It can be upgraded when network infrastructure upgrading. 
+  - One block has one transaction, which fits both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
+- blockchain and hash-chain: blockchain belong to community consensus, hash-chain belong to personal instant chat messages on that blockchain(`salt`+'#' is the hash-chain ID). 
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
   - Coin volumen is 10 million
-  - Default block time is 300 seconds, which will be enhanced by software and device improvement
+  - Default block time is 300 seconds
   - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 10 million coins and 600 seconds block time. 
 - TAUpk: balance identifier under different chains; holds the power and perform mining. Seed generate privatekey and public key. In new TAU, we use seed to import and export account. 
 - New POT use power as square root the nounce.
 - genesis block power: give one year power to genesis to make admin airdrop possible. 
 - 投票策略设计。For a new peer coming on-line, the peer uses voting to chose the right fork to follow. Voting is collecting a certain sample block prior to the mutable range. Mutable range is the range of blocks from the current block number to a specific history block number. 
-   - 投票范围：定位投票点，当前ImmutablePointBlock。The voting window is the DefaultMaxBlockTime.
-   - 每到新的VotesCountingPointBlocks结束时，统计投票产生新的ImmutablePointBlock和新的VotesCountingPointBlocks, 得票最高的当选, 同样票数时间最近的胜利。
+   - 投票范围：定位投票点为当前ImmutablePointBlock位置。The voting peers are the peers in the mutable range.
+   - 结束时，统计投票产生新的ImmutablePointBlock hash, 得票最高的当选, 同样票数时间最近的胜利。
       - 如果投出来的新ImmutablePointBlock, 这个block不在目前链的mutable range内，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。。
-      - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- (`MutableRange` - DefaultMaxBlockTime)）为ImmutablePointBlock，开始出块做交易，等待下次投票结果。
-      - 如果投票出的新ImmutablePointBlock，root在同一链上，说明是链的正常发展，继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易到。// 新的ImmutablePointBlock root不可能早于目前ImmutablePointBlock的。
+      - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- `MutableRange` ）为ImmutablePointBlock，开始出块做交易，等待下次投票结果。
+      - 如果投票出的新ImmutablePointBlock，root在同一链上，说明是链的正常发展，继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易。// 新的ImmutablePointBlock root不可能早于目前ImmutablePointBlock的。
    - 获得新root，如果是longest chain开始进入验证流程，如果不是进入计票流程.  
-   - If the longest chain forks prior to mutable range, going to new node process; if 黑客分叉 fork prior to 3x mutable range, ignore，报警. therefore, 3x mutablerange is really the finality. 
    - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
 - **libtorrent dht as storage and communication**
   * salt = chainID
