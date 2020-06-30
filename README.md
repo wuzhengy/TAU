@@ -178,27 +178,9 @@ blockJSON  = {
 ---
 ## User Interface: andriod app in firewall and linux cli on public server.
 torrent client download - magnet link; browswer open - youtube, tiktok.
-### Blockchains - explore community and display mining info, focus display coins economy
-- Community: community pkess, coin numbers, members number, magnet links numbers
-    - Follow (mining) chains：mining data, power 链端
-    - Unfollow chains those are recorded in the ANN message from the followed chains. 
-    - Blacklist Chain
-- User: balance, power
-    - follow TAUpk
-    - unfollow TAUpk
-    - blackist TAUpk
-### Messages - from followed chains, allow filter chains，选择框类似选择照片
-  - magnet link display
-  - ANN; include initial bootstrap (bs) for getting block info.
-  - Messages
-### Vidoes - Magnet links smart display, download and seeding.
-### Locator & Search
-  - locate transaction URL
-    - TAUtx:?blockroot=`hash`
   - locate chain URL
     - URL: TAUchain:?salt=`salt`&pk=`public key 1`&pk=`public key 2`  // maybe 10 publickey provided
     - salt: chain_name#hash(genesis_public_key + timestamp)
-  - internal search only
 ### System
   - Auto Start : ON, 2am every day.
   - Sync when you sleep: ON, 2am - 6am
