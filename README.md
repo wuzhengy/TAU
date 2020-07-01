@@ -58,13 +58,14 @@ Core UI experienses:= {
 - TAUpk is the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. In new TAU, we use "seed" to import and export account identifier. 
 - New POT defines power as square root of the nounce.
 - genesis block power: give one year power to genesis public key to make admin airdrop possible. 
-- Voting process: 投票策略设计。For a new peer coming on-line, the peer uses voting to chose the right fork to follow. Voting is collecting a specific block from mining peers in the mutable range. Mutable range is the range of blocks from the current block number to a specific history block number. 
-   - 投票范围：定位投票点为当前ImmutablePointBlock位置。The voting peers are the peers in the mutable range.
-   - 统计投票产生新的ImmutablePointBlock hash, 得票最高的当选
-      - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- `MutableRange` ）为ImmutablePointBlock，开始投票。
-      - 如果投票出的新ImmutablePointBlock，root在同一链上，说明是链的正常发展，继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易。// 新的ImmutablePointBlock root不可能早于目前ImmutablePointBlock的。
-      - 如果投出来的新ImmutablePointBlock, 这个block不在目前链的mutable range内，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the member of potential attack。  
-   - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
+- Voting process: for a new peer coming on-line, the peer uses a voting process to chose the right fork to follow. Voting is collecting a specific block, which is the "immutable point block" from block producers within the mutable range. Mutable range is the range of blocks from the current tip to a specific history block. 
+   - voting position: The ImmutablePointBlock, the voting peers are the peers in the mutable range.
+   - select the highest voted ImmutablePointBlock hash
+      - 新节点上线，快速启动随机相信一个能够覆盖到mutable range的链，获得数据，设置链的（顶端- `MutableRange` ）为ImmutablePointBlock。
+      - 如果投票出的新ImmutablePointBlock，root在同一链上mutable range内，说明是链的正常发展
+        - 继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易。
+      - 如果投出来的新ImmutablePointBlock, 这个block is within 1x - 3x out of mutable range，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the member of potential attack。  
+        - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
 - **libtorrent dht as cache and communication**
   * salt = chainID
   * immutable item = block content
@@ -131,45 +132,38 @@ blockJSON  = {
 ```
 1. get chain ID. 
 
-2. If the (current time -  `ChainID` current-block time ) is bigger than DefaultMaxBlockTime and a valid transaction exist in tx pool
+2. If the (current time -  `ChainID` tip block time ) is bigger than DefaultMaxBlockTime and a valid transaction exist in own tx pool
     go to (9) to generate a new block 
 
 3. Choose a Peer from  P:=TAUpeers[`ChainID`]
-      If chainID+Peer is requested within DefaultBlockTime, go to (1) // do not revisit same peer within block time
+      If chainID+Peer is requested within DefaultBlockTime, go to (1) // do not revisit same peer within default block time
       
-4. DHT_get(`hash(TAUpk+chainID)`); 
+4. DHT_get(`hash(TAUpk+chainID)`); get tip block;
     if not_found go to (1) 
     TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
 
-6. if received root and block shows a valid higher difficulty than current difficulty  {
+6. if received block shows a valid higher difficulty than current difficulty  {
     if the fork point out of the ImmutablePointBlock, go to (7) to collect voting. //如果难度更高的链在immutablePoint之前，则计入投票不做验证。
     verify this chain's transactions from the ImmutablePointBlock; // 任何验证只做immutable point之后的检查。
     if verification successful and populate new states, new safety block identified. 
     }
    go to (9) 
    
-7. // voting on low difficulty or forked chain. collecting all peers from mutable range for voting. 
+7. collecting all peers from mutable range for voting. 
    DHT_get(ImmutablePointBlockHash);
    collected block is put into voting pool. 
 
-8. new safety block identified.
-   clear voting pool to restart votes pool
-   goto (1)
+8. new safety block voted.
+   clear voting pool, goto (1)
 
-9. generate new block 
-   if TAUpk not qualify POT requirment; go to (1) 
-   generate currentBlockroot
-      - contract
-      - send, receive
-      - coinbase tx
-      - finish contract execution
-   DHT_put
+9. if TAUpk not qualify POT requirment; go to (1) 
+   generate new block
+   put into DHT
    populate leveldb database variables. 
 
 10. go to step (1)
 
 ```
-
 ---
 
 ### System config
@@ -183,5 +177,5 @@ blockJSON  = {
 # To do 
 - [ ] resource management process,
 - [ ] re-announce management protocol
-- [ ] for community admin, provide pc and linux tool for hosting dht, and commandline tool for publish magnet link. Android app and linux cli. 
+- [ ] Android app and linux cli. 
 
