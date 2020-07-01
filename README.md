@@ -1,6 +1,6 @@
 # TAU - Messenger with high-scaling blockchain economy.
 Core UI experienses:= {
-- decentralized community chatting
+- decentralized community chatting with crypto-coins circulation
 - **"(+)"** floating button on home page
    * Create a Community 
       * Give a name to new blockchain 
@@ -75,7 +75,7 @@ Core UI experienses:= {
   - ref: http://www.bittorrent.org/beps/bep_0044.html
 - immutable and mutable item PUT: this is the same as mainline dht put.
 - Provide miner manual approval function for admit transactions, expecially the negative value and problem content. 
-- URL: TAUchain:?bs=`hash(tau pk1 + salt)`&bs=`hash(tau pk1 + salt)`  // maybe 10 bs provided
+- URL: TAUchain:?bs=`hash(tau pk1 + salt)`&bs=`hash(tau pk1 + salt)`&dn=`chainID`  // maybe 10 bs provided
 
 ## Block content
 
@@ -171,21 +171,12 @@ blockJSON  = {
 ```
 
 ---
-## User Interface: andriod app in firewall and linux cli on public server.
-torrent client download - magnet link; browswer open - youtube, tiktok.
-  - locate chain URL
-    - URL: TAUchain:?salt=`salt`&pk=`public key 1`&pk=`public key 2`  // maybe 10 publickey provided
-    - salt: chain_name#hash(genesis_public_key + timestamp)
-### System
+
+### System config
   - Auto Start : ON, 2am every day.
   - Sync when you sleep: ON, 2am - 6am
   - Start when device start: ON
-  - Auto stream waiting time: 5, 10, never
-  - Roaming download: off
-  - CPU alive: off
-  - Battery limit: 15%, when below this turn off mining process B
-  - TCP Proxy
-  - Blockchain Storage
+  - Blockchain Storage size
   - Connection limit: high water and low water
 # database: leveldb andriod
   
