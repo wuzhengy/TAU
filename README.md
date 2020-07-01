@@ -96,7 +96,8 @@ blockJSON  = {
 12. `Tsender`Balance;
 13. `TminerTAUpk`Balance;
 14. `Treceiver`Balance;
-15. TAUsignature;
+15. ED25519 public key as TAUaddress
+16. ED25519 signature
 }
 ```
 ## Constants
@@ -123,7 +124,8 @@ blockJSON  = {
 9. msg; // {genesis state k-v 初始账户信息列表} 
 10. ChainID  
 // genesis 0号区块，没有矿工奖励，余额都在初始状态表
-11. signature;
+11. ED25519 public key as TAUaddress
+12. ED25519 signature
 }
 
 ```
