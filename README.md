@@ -1,12 +1,10 @@
 # TAU - Messenger with high-scaling blockchain economy.
 Core UI experienses:= {
-- decentralized community chatting, not designed as personal messenger 
-  - browser and small picture to present http links of youtube, instgram or tiktok
-  - torrent client to open magnet link
+- decentralized community chatting
 - **"(+)"** floating button on home page
    * Create a Community 
       * Give a name to new blockchain 
-      * Creation of a blockchain with 10 million coins at 5 minutes per block generation rate
+      * Default to creation of a blockchain with 10 million coins at 5 minutes per block generation rate
 - **"(+)"** floating button on community page
    * Transactions on community blockchain
       * Regular forum note and comments
@@ -15,27 +13,27 @@ Core UI experienses:= {
       * Wiring Transaction
       * Identity annoucement
    * Messages on peer hash chain
-      * Private message between two peers, content can be encrypted by receiver's public key.
-        * only peers belong one community can send messages.
+      * Private message between two peers, content is encrypted by receiver's public key.
+        * only peers belong to a community can exchange messages.
+   * Decentralized blacklist - easy to blacklist an address from client
 - Dashboard:  Data * Kb/s
   - Wifi only: on/off, default is ON.  
-    - if "Wifi only" turn to Off, ask for how long: 30 minutes/ 1 hour(default)/ 3 hours
+    - if "Wifi only" turn to Off, ask for how long: 30 minutes(default) / 1 hour / 3 hours
   - Internal config:
     - Charging ON: wake lock ON. 
     - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime
     - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime
-- Chains prebuilt: TAUcoin chain: provides place to publish new community. App will read TAUcoin chain for app operation such as bootstrap DHT node.
+- Chains prebuilt: TAUcoin chain: provides place to publish news and ads. App will read TAUcoin chain for app operation config such as bootstrap DHT node.
 - Find engine: app internal search for name and content
-- TAU dev might provide DHT search engine: centralized engine to find new community and links.
+- TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
 --- 
 ## Persistence
 1.  Chains  map[ChainID] config; 
 2.  CurrentBlockRoot    map[ChainID]; // the map holding the recent blocks
 3.  MutableRange    map[ChainID]uInt  // blocks in the mutable range is subject to change any time 
-4.  Peers       map[ChainID]map[TAUpk]config;// for chains, when discovery new TAU peers, adding here with config info.
+4.  Peers       map[ChainID]map[TAUpk]config; // for chains, when discovery new TAU peers, adding here with config info.
 5.  SelfTxsPool         map[ChainID]map[TxHASH]config
 6.  ImmutablePointBlock    map[ChainID] uInt 
-7.  VotesCountingPointBlock   map[ChainID] uInt 
 
 ## Data flow: StateDB, BlocksDB and DHT
   - statedb is the local database holding account power and balance
@@ -45,42 +43,39 @@ Core UI experienses:= {
     - `blockdb` ---> `libtorrent put` ---> `DHT`
     - `blockdb` <--- `libtorrent get` <--- `DHT`
     - `statedb` <--> `blockdb`
-  - myth: p2p communication is not possible to implement given firewalls and personal device security restrictions. DHT is used to be p2p communication substrate. When peer is not online, the content is still available to exchange. 
+  - myth: p2p communication is not possible to implement, given firewalls and personal device security restrictions. DHT is used to be p2p communication substrate. When peer is not online, the content is still available in DHT cache for exchange. 
 ## Design Concepts
 - Version 1 default parameters: 
   - 5 minutes average to generate a block. It can be upgraded when network infrastructure upgrading. 
   - One block has one transaction, which fits both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
-- blockchain and hash-chain: blockchain belong to community consensus, hash-chain belong to personal instant chat messages on that blockchain(`salt`+'#' is the hash-chain ID). 
+- blockchain and hash-chain: blockchain reflects to community consensus, hash-chain stores personal instant chat messages on one blockchain. The format looks like, community ID: Shanghai#600#hash; hash chain salt: Shanghai#600#hash`#`
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
   - Coin volumen is 10 million
   - Default block time is 300 seconds
   - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 10 million coins and 600 seconds block time. 
-- TAUpk: balance identifier under different chains; holds the power and perform mining. Seed generate privatekey and public key. In new TAU, we use seed to import and export account. 
-- New POT use power as square root the nounce.
-- genesis block power: give one year power to genesis to make admin airdrop possible. 
-- 投票策略设计。For a new peer coming on-line, the peer uses voting to chose the right fork to follow. Voting is collecting a certain sample block prior to the mutable range. Mutable range is the range of blocks from the current block number to a specific history block number. 
+  - ChainID is the salt in DHT mutable put
+- TAUpk is the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. In new TAU, we use "seed" to import and export account identifier. 
+- New POT defines power as square root of the nounce.
+- genesis block power: give one year power to genesis public key to make admin airdrop possible. 
+- Voting process: 投票策略设计。For a new peer coming on-line, the peer uses voting to chose the right fork to follow. Voting is collecting a specific block from mining peers in the mutable range. Mutable range is the range of blocks from the current block number to a specific history block number. 
    - 投票范围：定位投票点为当前ImmutablePointBlock位置。The voting peers are the peers in the mutable range.
-   - 结束时，统计投票产生新的ImmutablePointBlock hash, 得票最高的当选, 同样票数时间最近的胜利。
-      - 如果投出来的新ImmutablePointBlock, 这个block不在目前链的mutable range内，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。。
-      - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- `MutableRange` ）为ImmutablePointBlock，开始出块做交易，等待下次投票结果。
+   - 统计投票产生新的ImmutablePointBlock hash, 得票最高的当选
+      - 新节点上线，快速启动随机相信一个能够覆盖到全部历史的链获得数据，设置链的（顶端- `MutableRange` ）为ImmutablePointBlock，开始投票。
       - 如果投票出的新ImmutablePointBlock，root在同一链上，说明是链的正常发展，继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易。// 新的ImmutablePointBlock root不可能早于目前ImmutablePointBlock的。
-   - 获得新root，如果是longest chain开始进入验证流程，如果不是进入计票流程.  
+      - 如果投出来的新ImmutablePointBlock, 这个block不在目前链的mutable range内，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the member of potential attack。  
    - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
-- **libtorrent dht as storage and communication**
+- **libtorrent dht as cache and communication**
   * salt = chainID
-  * immutable message = block content
-  * mutable message's public key = TAUpk public key
-  * mutable message by hash(public key + salt) = value is the block hash of TAU pkess future prediction on a chain
+  * immutable item = block content
+  * mutable item's public key = TAUpk public key
+  * mutable item by hash(public key + salt) = value is the block hash, or the key for immutable item. 
 - immutable_item_dhtTAUget: 1. get one immutable item; 2. put a random immutable item from the same blockchain. 
-- mutable_item_dhtTAUget: 1. get one mutable item; 2. put the same mutable item back into dht; the value of a mutable item is a hash pointing to a block
-  - Get future block associated with a TAUpk + chainID (pub key + salt).  If the queried node has the block, it is returned in a key "values" as a list of strings. If the queried node has no such block, a key "nodes" is returned containing the K nodes in the queried nodes routing table closest to the hash supplied in the query.http://www.bittorrent.org/beps/bep_0044.html
+- mutable_item_dhtTAUget: 1. get one mutable item; 2. put the same mutable item back into dht
+  - ref: http://www.bittorrent.org/beps/bep_0044.html
 - immutable and mutable item PUT: this is the same as mainline dht put.
-  
 - Provide miner manual approval function for admit transactions, expecially the negative value and problem content. 
 - URL: TAUchain:?bs=`hash(tau pk1 + salt)`&bs=`hash(tau pk1 + salt)`  // maybe 10 bs provided
-      - dht_get(hash(tau pk1 + salt)) is the mutable item, which is a hash to immutable item Y.
-      - dht_get(Y) return immutable item, which is block content (previous_hash, chainID, timestamp ...)
 
 ## Block content
 
@@ -91,9 +86,9 @@ blockJSON  = {
 3. BlockNumber;
 4. PreviousBlockHash; // for verification
 5. ImmutablePointBlockHash; // for voting, simple skip list
-5. basetarget;
-6. cummulative difficulty;
-7. generation signature;
+6. basetarget;
+7. cummulative difficulty;
+8. generation signature;
 9. msg; // transaction content with ChainID, txType, content. 
 10. ChainID
 11. `TsenderTAUpk`Noune
@@ -196,6 +191,6 @@ torrent client download - magnet link; browswer open - youtube, tiktok.
   
 # To do 
 - [ ] resource management process,
-- [ ] re-announce management
+- [ ] re-announce management protocol
 - [ ] for community admin, provide pc and linux tool for hosting dht, and commandline tool for publish magnet link. Android app and linux cli. 
 
