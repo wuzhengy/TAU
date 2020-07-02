@@ -177,4 +177,4 @@ blockJSON  = {
 # To do 
 - [ ] resource management process
 - [ ] Android app and linux cli. 
-- [ ] Peer to peer secure private messages via community instant messages routing.
+- [ ] Peer to peer secure private messages via community instant messages routing. community DHT becomes a router for peer to peer to send and confirm messages. 
