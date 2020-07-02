@@ -1,4 +1,4 @@
-# TAU - Messenger with high-scaling blockchain economy.
+# TAU - Community chatting with high-scaling blockchain economy.
 Core UI experienses:= {
 - decentralized community chatting with crypto-coins circulation
 - **"(+)"** floating button on home page
@@ -12,9 +12,11 @@ Core UI experienses:= {
       * DHT BootStrap Node Annoucement
       * Wiring Transaction
       * Identity annoucement
-   * Messages on peer hash chain
-      * Private message between two peers, content is encrypted by receiver's public key.
-        * only peers belong to a community can exchange messages.
+   * Instant Messages
+      * Peers can exchange instant messages via DHT put mutable item
+      * Message input rate each 30 seconds to prevent override.
+      * Not garantee messages are always available 
+      * No support for private person to person messages. All messages are public in the community. 
    * Decentralized blacklist - easy to blacklist an address from client
 - Dashboard:  Data * Kb/s
   - Wifi only: on/off, default is ON.  
@@ -72,8 +74,7 @@ Core UI experienses:= {
   * mutable item's public key = TAUpk public key
   * mutable item by hash(public key + salt) = value is the block hash, or the key for immutable item. 
 - immutable_item_dhtTAUget: 1. get one immutable item; 2. put a random immutable item from the same blockchain. 
-- mutable_item_dhtTAUget: 1. get one mutable item; 2. put the same mutable item back into dht
-  - ref: http://www.bittorrent.org/beps/bep_0044.html
+- //mutable_item_dhtTAUget: 1. get one mutable item; 2. put the same mutable item back into dht - ref: http://www.bittorrent.org/beps/bep_0044.html
 - immutable and mutable item PUT: this is the same as mainline dht put.
 - Provide miner manual approval function for admit transactions, expecially the negative value and problem content. 
 - URL: TAUchain:?bs=`hash(tau pk1 + salt)`&bs=`hash(tau pk1 + salt)`&dn=`chainID`  // maybe 10 bs provided
@@ -169,15 +170,11 @@ blockJSON  = {
 ---
 
 ### System config
-  - Auto Start : ON, 2am every day.
-  - Sync when you sleep: ON, 2am - 6am
   - Start when device start: ON
-  - Blockchain Storage size
-  - Connection limit: high water and low water
+  // - Connection limit: high water and low water
 # database: leveldb andriod
   
 # To do 
-- [ ] resource management process,
-- [ ] re-announce management protocol
+- [ ] resource management process
 - [ ] Android app and linux cli. 
-
+- [ ] Peer to peer secure private messages via community instant messages routing.
