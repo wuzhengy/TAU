@@ -12,13 +12,12 @@ Core UI experienses:= {
       * DHT BootStrap Node Annoucement
       * Wiring Transaction
       * Identity annoucement
-   * Off-chain Messages - (public key + chainID + opCode)
-      * Peers can exchange instant messages via DHT put mutable item: m0, m1, m2
-        * No support for private person to person messages. All messages are public in the community. 
+   * Off-chain Peek Messages - (public key + chainID + opCode)
+      * Peers can put peek messages without garantee delivery to very member
       * Special messages
-        - transaction pool update: t0, t1, t2
-        - invitation: i0, i1, i2
-        - secure p2p message rounting: p2p
+        - transaction pool update
+        - invitation
+        - secure p2p message rounting
    * Decentralized blacklist - easy to blacklist an address from client
 - Dashboard:  Data * Kb/s
   - Wifi only: on/off, default is ON.  
