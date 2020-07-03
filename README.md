@@ -6,17 +6,19 @@ Core UI experienses:= {
       * Give a name to new blockchain 
       * Default to creation of a blockchain with 10 million coins at 5 minutes per block generation rate
 - **"(+)"** floating button on community page
-   * Transactions on community blockchain
+   * Transactions on community blockchain - (public key + chainID)
       * Regular forum note and comments
       * New community Annoucement
       * DHT BootStrap Node Annoucement
       * Wiring Transaction
       * Identity annoucement
-   * Instant Messages
-      * Peers can exchange instant messages via DHT put mutable item
-      * Message input rate each 30 seconds to prevent override.
-      * Not garantee messages are always available 
-      * No support for private person to person messages. All messages are public in the community. 
+   * Off-chain Messages - (public key + chainID + opCode)
+      * Peers can exchange instant messages via DHT put mutable item: m0, m1, m2
+        * No support for private person to person messages. All messages are public in the community. 
+      * Special messages
+        - transaction pool update: t0, t1, t2
+        - invitation: i0, i1, i2
+        - secure p2p message rounting: p2p
    * Decentralized blacklist - easy to blacklist an address from client
 - Dashboard:  Data * Kb/s
   - Wifi only: on/off, default is ON.  
@@ -69,18 +71,19 @@ Core UI experienses:= {
       - 如果投出来的新ImmutablePointBlock, 这个block is within 1x - 3x out of mutable range，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the member of potential attack。  
         - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
 - **libtorrent dht as cache and communication**
-  * salt = chainID
-  * immutable item = block content
+  * salt = chainID + optional `opCode`
+  * immutable item's value is block content
   * mutable item's public key = TAUpk public key
-  * mutable item by hash(public key + salt) = value is the block hash, or the key for immutable item. 
-- immutable_item_dhtTAUget: 1. get one immutable item; 2. put a random immutable item from the same blockchain. 
-- //mutable_item_dhtTAUget: 1. get one mutable item; 2. put the same mutable item back into dht - ref: http://www.bittorrent.org/beps/bep_0044.html
-- immutable and mutable item PUT: this is the same as mainline dht put.
-- Provide miner manual approval function for admit transactions, expecially the negative value and problem content. 
+  * mutable item's key is hash(public key + salt), value is the hash of block of immutable item 
+- immutable_item_dhtTAUget: 1. get one immutable item; 2. put a random immutable item from the same blockchain to keep blockchain data life. 
+- Provide opitional miner manual approval on transactions, expecially the negative value and problem content. 
 - URL: TAUchain:?bs=`hash(tau pk1 + salt)`&bs=`hash(tau pk1 + salt)`&dn=`chainID`  // maybe 10 bs provided
+- Mining and following a community: in TAU, there is no different for this two concept. After voting, POT requires reading to valid chain on its own knowlege.
+- Adding a new member into a communtity: 
+  - Share the chain link to member via telegram or wechat, ...
+  - Send off-chain messages ot member via community routing. 
 
 ## Block content
-
 ```
 blockJSON  = { 
 1. version;
@@ -103,6 +106,7 @@ blockJSON  = {
 ```
 ## Constants
 * MutableRange:  864 blocks, 3 days, use block as unit since no censensus
+* WarningRange: 3 x MutableRange
 * WakeUpTime: sleeping mode wake up random range 10 minutes
 * GenesisCoins: default coins 1,000,000. Integer, no decimals. 
 * GenesisBasetarget:  0x21D0369D036978 ; 仿真100万个地址，平均出块时间60s
@@ -131,7 +135,7 @@ blockJSON  = {
 
 ```
 ---
-## Mining Process: Votings, chain choice and block generation.   
+## Mining Process sketch: Votings, chain choice and block generation.   
 ```
 1. get chain ID. 
 
@@ -139,25 +143,26 @@ blockJSON  = {
     go to (9) to generate a new block 
 
 3. Choose a Peer from  P:=TAUpeers[`ChainID`]
-      If chainID+Peer is requested within DefaultBlockTime, go to (1) // do not revisit same peer within default block time
+      If chainID+Peer is requested within DefaultBlockTime, go to (9) // do not revisit same peer within default block time
       
 4. DHT_get(`hash(TAUpk+chainID)`); get tip block;
-    if not_found go to (1) 
+    if not_found go to (9);
     TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
 
 6. if received block shows a valid higher difficulty than current difficulty  {
-    if the fork point out of the ImmutablePointBlock, go to (7) to collect voting. //如果难度更高的链在immutablePoint之前，则计入投票不做验证。
-    verify this chain's transactions from the ImmutablePointBlock; // 任何验证只做immutable point之后的检查。
-    if verification successful and populate new states, new safety block identified. 
+    if the fork happens prior to the ImmutablePointBlock and within the WarningRange, 
+    go to (7) for voting. 
+    if the fork happens piror to the WarningRange, display warning, go to (9)
+    verify this chain's transactions from the ImmutablePointBlock;
+    if verification successful and populate new states, new longest block identified. 
     }
    go to (9) 
    
 7. collecting all peers from mutable range for voting. 
    DHT_get(ImmutablePointBlockHash);
-   collected block is put into voting pool. 
 
-8. new safety block voted.
-   clear voting pool, goto (1)
+8. new ImmutablePointBlock voted.
+   goto (1)
 
 9. if TAUpk not qualify POT requirment; go to (1) 
    generate new block
@@ -171,7 +176,7 @@ blockJSON  = {
 
 ### System config
   - Start when device start: ON
-  // - Connection limit: high water and low water
+  - Wifi Only: ON
 # database: leveldb andriod
   
 # To do 
