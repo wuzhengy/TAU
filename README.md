@@ -12,7 +12,7 @@ Core UI experienses:= {
       * DHT BootStrap Node Annoucement
       * Wiring Transaction
       * Identity annoucement
-   * Off-chain Peek Messages - (public key + chainID + opCode)
+   * Off-chain Peek Messages - (public key + chainID + `#`)
       * Peers can put peek messages without garantee delivery to very member
       * Special messages
         - transaction pool update
