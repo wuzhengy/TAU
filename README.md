@@ -1,6 +1,6 @@
-# TAU - Community chatting with high-scaling blockchain economy.
+# TAU - Community Messenger with high-scaling blockchain economy.
 Core UI experienses:= {
-- decentralized community chatting with crypto-coins circulation
+- decentralized community social hub with crypto-coins circulation
 - **"(+)"** floating button on home page
    * Create a Community 
       * Give a name to new blockchain 
@@ -13,19 +13,18 @@ Core UI experienses:= {
       * Wiring Transaction
       * Identity annoucement
    * Off-chain Peek Messages - (public key + chainID + `#`)
-      * Peers can put peek messages without garantee delivery to very member
-      * Special messages
+      * Messages are coded as key(mutable item key) to value(crypto-graphic addressed message)
+        - key: includes sender(public key), target hub(community or chainID)
+        - value: includes recevier(public key), signed and encrypted messages depends on application
+      * Peers can put peek messages to other peers
+      * Type of messages
         - transaction pool update
-        - invitation
-        - secure p2p message rounting
+        - invitation for chatting
+        - secure p2p message
    * Decentralized blacklist - easy to blacklist an address from client
 - Dashboard:  Data * Kb/s
   - Wifi only: on/off, default is ON.  
     - if "Wifi only" turn to Off, ask for how long: 30 minutes(default) / 1 hour / 3 hours
-  - Internal config:
-    - Charging ON: wake lock ON. 
-    - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime
-    - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime
 - Chains prebuilt: TAUcoin chain: provides place to publish news and ads. App will read TAUcoin chain for app operation config such as bootstrap DHT node.
 - Find engine: app internal search for name and content
 - TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
@@ -41,7 +40,7 @@ Core UI experienses:= {
 ## Data flow: StateDB, BlocksDB and DHT
   - statedb is the local database holding account power and balance
   - blockdb is the local database holding the blocks content that will be put and get through DHT
-  - DHT is the network key-value database, similar to cache
+  - DHT is the network key-value cache
   - Data flow: memory <-> storage <-> cache
     - `blockdb` ---> `libtorrent put` ---> `DHT`
     - `blockdb` <--- `libtorrent get` <--- `DHT`
@@ -70,7 +69,7 @@ Core UI experienses:= {
       - 如果投出来的新ImmutablePointBlock, 这个block is within 1x - 3x out of mutable range，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the member of potential attack。  
         - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
 - **libtorrent dht as cache and communication**
-  * salt = chainID + optional `opCode`
+  * salt = chainID + optional `opCode` ; opcode such as `#` means peek message
   * immutable item's value is block content
   * mutable item's public key = TAUpk public key
   * mutable item's key is hash(public key + salt), value is the hash of block of immutable item 
@@ -80,7 +79,7 @@ Core UI experienses:= {
 - Mining and following a community: in TAU, there is no different for this two concept. After voting, POT requires reading to valid chain on its own knowlege.
 - Adding a new member into a communtity: 
   - Share the chain link to member via telegram or wechat, ...
-  - Send off-chain messages ot member via community routing. 
+  - Send off-chain messages to member via community routing. 
 
 ## Block content
 ```
@@ -107,8 +106,8 @@ blockJSON  = {
 * MutableRange:  864 blocks, 3 days, use block as unit since no censensus
 * WarningRange: 3 x MutableRange
 * WakeUpTime: sleeping mode wake up random range 10 minutes
-* GenesisCoins: default coins 1,000,000. Integer, no decimals. 
-* GenesisBasetarget:  0x21D0369D036978 ; 仿真100万个地址，平均出块时间60s
+* GenesisCoins: default coins 10,000,000. 
+* GenesisBasetarget:  0x21D0369D036978; 仿真100万个地址，平均出块时间60s
 * DefaultMinBlockTime:  60 seconds, this is fixed block time. do not let user choose as for now.
 * DefaultMaxBlockTime:  540 seconds, when no body mining, you have to generate blocks.
 * DefaultBlockTime: 300 seconds
@@ -173,12 +172,19 @@ blockJSON  = {
 ```
 ---
 
-### System config
-  - Start when device start: ON
-  - Wifi Only: ON
+# System config
+  - Auto start when device start: ON
+  - Wifi Only: ON, when turn off, it will ask for time to allow telecom data operating
+  - Charging ON: wake lock ON. 
+  - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to check status 
+  - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to check status
+  - Server mode: OFF, when turn ON, it will turn on wake lock. 
+
 # database: leveldb andriod
   
 # To do 
 - [ ] resource management process
-- [ ] Android app and linux cli. 
-- [ ] Peer to peer secure private messages via community instant messages routing. community DHT becomes a router for peer to peer to send and confirm messages. 
+- [ ] Linux TAU daemon, web server and cli for developers. 
+- [ ] Peer to peer secure private messages, community DHT becomes a router for peer to peer to send and confirm messages. 
+- [ ] Embeded web server in andriod app to provide pc, chromebook, mac or iphone access. Take android as a personal server. 
+
