@@ -1,4 +1,4 @@
-# TAU - Community Messenger with high-scaling blockchain economy.
+# TAU - Community communication with high-scaling blockchain economy.
 Core UI experienses:= {
 - decentralized community social hub with crypto-coins circulation
 - **"(+)"** floating button on home page
