@@ -181,10 +181,12 @@ blockJSON  = {
   - Server mode: OFF, when turn ON, it will turn on wake lock. 
 
 # database: leveldb andriod
+# muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
+  Since `secrete key` is supposed to be on only on device for operation, we focus on use android as core platform. Other platform will use browser to connect andoid TAU app to run TAU functions. As long as other devices can access the android phone via IP network, they can operate a TAU node. 
+  Linux dht command line interfact will be provided to interact with TAU. 
+  Android platform is a great decentral and light OS, given the open-source community support on many components such as leveldb, dht, libtorrent for java, libretorrent and many google UI components. 
   
 # To do 
 - [ ] resource management process
-- [ ] Linux TAU daemon, web server and cli for developers. 
-- [ ] Peer to peer secure private messages, community DHT becomes a router for peer to peer to send and confirm messages. 
-- [ ] Embeded web server in andriod app to provide pc, chromebook, mac or iphone access. Take android as a personal server. 
-
+- [ ] multi-platform
+- [ ] peer to peer secure private messages, community DHT becomes a router for peer to peer to send and confirm secure messages.  
