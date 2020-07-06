@@ -1,30 +1,29 @@
 # TAU - Decentralized communication with high-scaling blockchain economy.
-Core UI experienses:= {
+Core UI experienses
 - decentralized community social hub with crypto-coins circulation
 - **"(+)"** floating button on home page
    * Create a Community 
-      * Give a name to new blockchain 
-      * Default to creation of a blockchain with 10 million coins at 5 minutes per block generation rate
+      * Give a name to new blockchain and its coin
+      * Creation of a blockchain with 10 million coins on 5 minutes per block generation rate
 - **"(+)"** floating button on community page
-   * Transactions on community blockchain - (public key + chainID)
+   * Transactions on community blockchain - DHT mutable key: hash(public key + `chainID#blk`)
       * Regular forum note and comments
-      * New community Annoucement
+      * New community annoucement
       * DHT BootStrap Node Annoucement
       * Wiring Transaction
-      * Identity annoucement
-   * Off-chain Peek Messages - (public key + chainID + `#`)
+      * Personal Identity annoucement
+      * Future: Community name and configuration change by majority stake vote.
+   * Off-chain Peek Messages - DHT mutable key: hash(public key + `chainID#msg`)
       * Messages are coded as key(mutable item key) to value(crypto-graphic addressed message)
         - key: includes sender(public key), target hub(community or chainID)
         - value: includes recevier(public key), signed and encrypted messages depends on application
-      * Peers can put peek messages to other peers
+      * Peers can display peek messages to other peers
       * Type of messages
         - transaction pool update
         - invitation for chatting
         - secure p2p message
    * Decentralized blacklist - easy to blacklist an address from client
-- Dashboard:  Data * Kb/s
-  - Wifi only: on/off, default is ON.  
-    - if "Wifi only" turn to Off, ask for how long: 30 minutes(default) / 1 hour / 3 hours
+- Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s
 - Chains prebuilt: TAUcoin chain: provides place to publish news and ads. App will read TAUcoin chain for app operation config such as bootstrap DHT node.
 - Find engine: app internal search for name and content
 --- 
@@ -44,7 +43,7 @@ Core UI experienses:= {
     - `blockdb` ---> `libtorrent put` ---> `DHT`
     - `blockdb` <--- `libtorrent get` <--- `DHT`
     - `statedb` <--> `blockdb`
-  - myth: p2p communication is not possible to implement, given firewalls and personal device security restrictions. DHT is used to be p2p communication substrate. When peer is not online, the content is still available in DHT cache for exchange. 
+  - myth: p2p IP level communication is not possible to implement, given firewalls and personal device security restrictions. DHT is adopted to be the overlay p2p communication substrate. When peer is not off-line, the content is still available in DHT cache for exchange. 
 ## Design Concepts
 - Version 1 default parameters: 
   - 5 minutes average to generate a block. It can be upgraded when network infrastructure upgrading. 
@@ -79,6 +78,7 @@ Core UI experienses:= {
 - Adding a new member into a communtity: 
   - Share the chain link to member via telegram or wechat, ...
   - Send off-chain messages to member via community routing. 
+- One secrete key per device, not recommend to copy secrete key between devices. 
 
 ## Block content
 ```
