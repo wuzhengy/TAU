@@ -185,8 +185,10 @@ blockJSON  = {
   Linux dht command line interfact will be provided to interact with TAU. 
   Android platform is a great decentral and light OS, given the open-source community support on many components such as leveldb, dht, libtorrent for java, libretorrent and many google UI components. 
   
-# To do 
+# To do and other notes
 - [ ] resource management process
 - [ ] multi-platform
 - [ ] peer to peer secure private messages, community DHT becomes a router for peer to peer to send and confirm secure messages.  
 - [ ] TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
+- transaction collection strategy of a miner: as soon as getting a transaction with fee higher than median fee, capture it with a new block generation. 
+- off-chain message collection: active users having higher change to be displayed off-chain messages. 
