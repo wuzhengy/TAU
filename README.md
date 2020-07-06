@@ -27,7 +27,6 @@ Core UI experienses:= {
     - if "Wifi only" turn to Off, ask for how long: 30 minutes(default) / 1 hour / 3 hours
 - Chains prebuilt: TAUcoin chain: provides place to publish news and ads. App will read TAUcoin chain for app operation config such as bootstrap DHT node.
 - Find engine: app internal search for name and content
-- TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
 --- 
 ## Persistence
 1.  Chains  map[ChainID] config; 
@@ -190,3 +189,4 @@ blockJSON  = {
 - [ ] resource management process
 - [ ] multi-platform
 - [ ] peer to peer secure private messages, community DHT becomes a router for peer to peer to send and confirm secure messages.  
+- [ ] TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
