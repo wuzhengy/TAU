@@ -67,17 +67,17 @@ Core UI experienses
       - 如果投出来的新ImmutablePointBlock, 这个block is within 1x - 3x out of mutable range，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the member of potential attack。  
         - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
 - **libtorrent dht as cache and communication**
-  * salt = chainID + optional `opCode` ; opcode such as `#` means peek message
-  * immutable item's value is block content
-  * mutable item's public key = TAUpk public key
-  * mutable item's key is hash(public key + salt), value is the hash of block of immutable item 
-- immutable_item_dhtTAUget: 1. get one immutable item; 2. put a random immutable item from the same blockchain to keep blockchain data life. 
+  * salt = chainID + `#` + `channel` ; blk is a channel for blocks, such as `shanghaichain#blk`
+  * immutable item's value is the block content
+  * mutable item's signature public key = TAUpk public key
+  * mutable item's key is hash(public key + salt), value is the hash/key of immutable item 
+- immutable_item_dhtTAUget: 1. get one immutable item; 2. put back a random immutable item from the same blockchain to keep blockchain data life. 
 - Provide opitional miner manual approval on transactions, expecially the negative value and problem content. 
 - URL: TAUchain:?bs=`hash(tau pk1 + salt)`&bs=`hash(tau pk1 + salt)`&dn=`chainID`  // maybe 10 bs provided
 - Mining and following a community: in TAU, there is no different for this two concept. After voting, POT requires reading to valid chain on its own knowlege.
 - Adding a new member into a communtity: 
   - Share the chain link to member via telegram or wechat, ...
-  - Send off-chain messages to member via community routing. 
+  - Send off-chain invite messages to member via community routing. 
 - One secrete key per device, not recommend to copy secrete key between devices. 
 
 ## Block content
@@ -136,20 +136,20 @@ blockJSON  = {
 ```
 1. get chain ID. 
 
-2. If the (current time -  `ChainID` tip block time ) is bigger than DefaultMaxBlockTime and a valid transaction exist in own tx pool
-    go to (9) to generate a new block 
+2. If the (current time -  local `ChainID` tip block time ) is bigger than DefaultMaxBlockTime and a valid transaction exist in own tx queue;
+   go to (9) to generate a new block 
 
-3. Choose a Peer from  P:=TAUpeers[`ChainID`]
-      If chainID+Peer is requested within DefaultBlockTime, go to (9) // do not revisit same peer within default block time
+3. Choose a Peer from  TAUpeers[`ChainID`]
+   If chainID+Peer is requested within DefaultBlockTime, go to (9) // do not revisit same peer within default block time
       
-4. DHT_get(`hash(TAUpk+chainID)`); get tip block;
-    if not_found go to (9);
-    TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
+4. DHT_get(`hash(TAUpk+chainID)`); get `ChainID` tip block from DHT;
+   if not_found go to (9);
+   TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
 
 6. if received block shows a valid higher difficulty than current difficulty  {
     if the fork happens prior to the ImmutablePointBlock and within the WarningRange, 
     go to (7) for voting. 
-    if the fork happens piror to the WarningRange, display warning, go to (9)
+    if the fork happens piror to the WarningRange, throw warning to user, go to (9)
     verify this chain's transactions from the ImmutablePointBlock;
     if verification successful and populate new states, new longest block identified. 
     }
@@ -161,10 +161,10 @@ blockJSON  = {
 8. new ImmutablePointBlock voted.
    goto (1)
 
-9. if TAUpk not qualify POT requirment; go to (1) 
+9. if TAUpk not qualifies POT requirment; go to (1) 
    generate new block
    put into DHT
-   populate leveldb database variables. 
+   populate leveldb database. 
 
 10. go to step (1)
 
