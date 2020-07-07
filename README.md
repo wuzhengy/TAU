@@ -10,18 +10,18 @@ Core UI experienses
       * Regular forum note and comments
       * New community annoucement
       * DHT BootStrap Node Annoucement
-      * Wiring Transaction
+      * Wiring Transaction (logN as pool upper limit)
       * Personal Identity annoucement
       * Future: Community name and configuration change by majority stake vote.
    * Off-chain Peek Messages - DHT mutable key: hash(public key + `chainID#msg`)
       * Messages are coded as key(mutable item key) to value(crypto-graphic addressed message)
         - key: includes sender(public key), target hub(community or chainID)
-        - value: includes recevier(public key), signed and encrypted messages depends on application
-      * Peers can display peek messages to other peers
+        - value: includes recevier(public key), signed and encrypted messages depends on specific application
+      * Peers can display peek messages and hope other peers to find it
       * Type of messages
-        - transaction pool update
-        - invitation for chatting
-        - secure p2p message
+        - invitation for chatting, phase 1
+        - secure p2p message, phase 2
+        - transaction pool light update channel, phase 2
    * Decentralized blacklist - easy to blacklist an address from client
 - Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s
 - Chains prebuilt: TAUcoin chain: provides place to publish news and ads. App will read TAUcoin chain for app operation config such as bootstrap DHT node.
@@ -32,7 +32,7 @@ Core UI experienses
 2.  CurrentBlockRoot    map[ChainID]; // the map holding the recent blocks
 3.  MutableRange    map[ChainID]uInt  // blocks in the mutable range is subject to change any time 
 4.  Peers       map[ChainID]map[TAUpk]config; // for chains, when discovery new TAU peers, adding here with config info.
-5.  SelfTxsPool         map[ChainID]map[TxHASH]config
+5.  SelfTxsQueue         map[ChainID]map[TxHASH]config
 6.  ImmutablePointBlock    map[ChainID] uInt 
 
 ## Data flow: StateDB, BlocksDB and DHT
@@ -192,3 +192,4 @@ blockJSON  = {
 - [ ] TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
 - transaction collection strategy of a miner: as soon as getting a transaction with fee higher than median fee, capture it with a new block generation. 
 - off-chain message collection: active users having higher change to be displayed off-chain messages. 
+- transaction pool light update channel
