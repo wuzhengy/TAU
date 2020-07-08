@@ -23,7 +23,7 @@ Core UI experienses
         - secure p2p message, phase 2
         - transaction pool light update channel, phase 2
    * Decentralized blacklist - easy to blacklist an address from client
-- Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s
+- Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s; DHT nodesinfo
 - Chains prebuilt: TAUcoin chain: provides place to publish news and ads. App will read TAUcoin chain for app operation config such as bootstrap DHT node.
 - Find engine: app internal search for name and content
 --- 
