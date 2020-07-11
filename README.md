@@ -20,6 +20,7 @@ Core UI experienses
       * Peers can display peek messages and hope other peers to find it
       * Type of messages
         - invitation for chatting, phase 1
+        - tx candidates, phase 1, each account will provide tx candidates through this channel
         - secure p2p message, phase 2
         - transaction pool light update channel, phase 2
    * Decentralized blacklist - easy to blacklist an address from client
@@ -32,7 +33,7 @@ Core UI experienses
 2.  CurrentBlockRoot    map[ChainID]; // the map holding the recent blocks
 3.  MutableRange    map[ChainID]uInt  // blocks in the mutable range is subject to change any time 
 4.  Peers       map[ChainID]map[TAUpk]config; // for chains, when discovery new TAU peers, adding here with config info.
-5.  SelfTxsQueue         map[ChainID]map[TxHASH]config
+5.  SelfTxsQueue         map[ChainID]map[TxHASH]config // account's own transactions history
 6.  ImmutablePointBlock    map[ChainID] uInt 
 
 ## Data flow: StateDB, BlocksDB and DHT
