@@ -12,7 +12,7 @@ Core UI experienses
       * DHT BootStrap Node Annoucement
       * Wiring Transaction (logN as pool upper limit)
       * Personal Identity annoucement
-      * Future: Community name and configuration change by majority stake vote.
+      * Future: Community name and configuration change by majority stake vote. - phase 2
    * Off-chain Peek Messages - DHT mutable key: hash(public key + `chainID#msg`)
       * Messages are coded as key(mutable item key) to value(crypto-graphic addressed message)
         - key: includes sender(public key), target hub(community or chainID)
@@ -20,7 +20,7 @@ Core UI experienses
       * Peers can display peek messages and hope other peers to find it
       * Type of messages
         - invitation for chatting, phase 1
-        - tx candidates, phase 1, each account will provide tx candidates through this channel
+        - tx candidates, phase 1, each account will provide tx candidates through this channel, and pointer to a recent changed address/pk. (n+1 approach is removed)
         - secure p2p message, phase 2
         - transaction pool light update channel, phase 2
    * Decentralized blacklist - easy to blacklist an address from client
