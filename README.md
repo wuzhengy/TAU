@@ -80,6 +80,14 @@ Core UI experienses
   - Share the chain link to member via telegram or wechat, ...
   - Send off-chain invite messages to member via community routing. 
 - One secrete key per device, not recommend to copy secrete key between devices. 
+- power/balance(0/0) = read only. 
+- "connected" design: Party A; Party B
+  - case 1: if A and B are in a same community, then both think they are "connected"
+  - case 2: A,B are not in any same community. 
+    1. A shares A_pk to B through 3rd party channel; B accepts A_pk, as "pre_connected"; 
+    2. B sending B_pk back to A, A accepts B_pk, as "pre_connected"; then both think they are in "pre_connected" stage
+    3. both A and B waiting on DHT message exchange to be "connected". 
+  - Summary: when A have B's pk, from A view that B is pre_connected; A will send B message on DHT and scan B's DHT channel to seek messages send to A for change to "connected" 
 
 ## Block content
 ```
