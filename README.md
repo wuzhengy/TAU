@@ -19,7 +19,7 @@ Core UI experienses
         - value: includes recevier(public key), signed and encrypted messages depends on specific application
       * Peers can display peek messages and hope other peers to find it
       * Type of messages
-        - invitation for chatting, phase 1
+        - invitation for chatting, phase 1 ??? what is invitation.
         - tx candidates, phase 1, each account will provide tx candidates through this channel, and pointer to a recent changed address/pk. (n+1 approach is removed)
         - secure p2p message, phase 2
         - transaction pool light update channel, phase 2
@@ -81,13 +81,12 @@ Core UI experienses
   - Send off-chain invite messages to member via community routing. 
 - One secrete key per device, not recommend to copy secrete key between devices. 
 - power/balance(0/0) = read only. 
-- "connected" design: Party A; Party B
-  - case 1: if A and B are in a same community, then both think they are "connected"
-  - case 2: A,B are not in any same community. 
-    1. A shares A_pk to B through 3rd party channel; B accepts A_pk, as "pre_connected"; 
-    2. B sending B_pk back to A, A accepts B_pk, as "pre_connected"; then both think they are in "pre_connected" stage
-    3. both A and B waiting on DHT message exchange to be "connected". 
-  - Summary: when A have B's pk, from A view that B is pre_connected; A will send B message on DHT and scan B's DHT channel to seek messages send to A for change to "connected" 
+- "inviting" -> "connected"
+  - when peer A add peer B's public key into contact list, status of B will show "inviting"; and A will publish "signaling B" on own zero salt #msg channel; A will try to ask B to add A's public key into B's contact list as well through inviting link. 
+    - if A and B belong to same community, the status will turn "connected" on B
+    - if A reads B's zero salt #msg channel "signaling A", the status will turn "connected" on B
+    - A will give B through 3rd party channel A's public key for adding. 
+
 
 ## Block content
 ```
