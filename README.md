@@ -21,7 +21,7 @@ Core UI experienses
       * Type of messages
         - invitation for chatting, phase 1 ??? what is invitation.
         - tx candidates, phase 1, each account will provide tx candidates through this channel, and pointer to a recent changed address/pk. (n+1 approach is removed)
-        - secure p2p message, phase 2
+        - secure p2p message, phase 1
         - transaction pool light update channel, phase 2
    * Decentralized blacklist - easy to blacklist an address from client
 - Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s; DHT nodesinfo
@@ -81,7 +81,7 @@ Core UI experienses
   - Send off-chain invite messages to member via community routing. 
 - One secrete key per device, not recommend to copy secrete key between devices. 
 - power/balance(0/0) = read only. 
-- "inviting" -> "connected"
+- "inviting" -> "connected": inviting link has to include both A and B's public key. inviting link generation. 
   - when peer A add peer B's public key into contact list, status of B will show "inviting"; and A will publish "signaling B" on own zero salt #msg channel; A will try to ask B to add A's public key into B's contact list as well through inviting link. 
     - if A and B belong to same community, the status will turn "connected" on B
     - if A reads B's zero salt #msg channel "signaling A", the status will turn "connected" on B
