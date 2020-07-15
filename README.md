@@ -86,6 +86,8 @@ Core UI experienses
     - if A and B belong to same community, the status will turn "connected" on B
     - if A reads B's zero salt #msg channel "signaling A", the status will turn "connected" on B
     - A will give B through 3rd party channel A's public key for adding. 
+- p2p messaging via logN strategy. 
+   - each p2p message include a hash pointing to another public key recently messaging the same receiver. it is like "salt in the zero salt channel" 
 
 
 ## Block content
