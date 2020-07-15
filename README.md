@@ -88,7 +88,7 @@ Core UI experienses
     - A will give B through 3rd party channel A's public key for adding. 
 - p2p messaging via logN strategy. 
    - each p2p message include a hash pointing to another public key recently messaging the same receiver. it is like "salt in the zero salt channel" 
-
+  - in each TAU message either immtuable or mutable, there are hash point in content to make search N complexity to log(N). this is a type of DQ algorithm.
 
 ## Block content
 ```
