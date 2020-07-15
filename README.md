@@ -119,6 +119,7 @@ blockJSON  = {
 * DefaultMinBlockTime:  60 seconds, this is fixed block time. do not let user choose as for now.
 * DefaultMaxBlockTime:  540 seconds, when no body mining, you have to generate blocks.
 * DefaultBlockTime: 300 seconds
+* TXtimeout: 12 Hours
 
 ## Blockchain structure and processes
 ### Genesis 
