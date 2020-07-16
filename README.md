@@ -9,7 +9,6 @@ Core UI experienses
    * Transactions on community blockchain - DHT mutable key: hash(public key + `chainID#blk`)
       * Regular forum note and comments
       * New community annoucement
-      * DHT BootStrap Node Annoucement
       * Wiring Transaction (logN as pool upper limit)
       * Personal Identity annoucement
       * Future: Community name and configuration change by majority stake vote. - phase 2
