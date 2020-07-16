@@ -81,7 +81,7 @@ Core UI experienses
   - Send off-chain invite messages to member via community routing. 
 - One secrete key per device, not recommend to copy secrete key between devices. 
 - power/balance(0/0) = read only. 
-- "inviting" -> "connected": inviting link has to include both A and B's public key. inviting link generation. 
+- "inviting" -> "connected": inviting link has to include both A and B's public key. inviting link generation with a new salt defining the chatting group. salts will be communication channel.  ????
   - when peer A add peer B's public key into contact list, status of B will show "inviting"; and A will publish "signaling B" on own zero salt #msg channel; A will try to ask B to add A's public key into B's contact list as well through inviting link. 
     - if A and B belong to same community, the status will turn "connected" on B
     - if A reads B's zero salt #msg channel "signaling A", the status will turn "connected" on B
