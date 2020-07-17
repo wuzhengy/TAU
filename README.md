@@ -86,7 +86,7 @@ Core UI experienses
     - if A reads B's zero salt #msg channel "signaling A", the status will turn "connected" on B
     - A will give B through 3rd party channel A's public key for adding. 
     - "connecting" is used to setup private chat.
-- onchain message, group public chat, connected private chat(upgrade to blockchain after 500 people, wechat idea).
+- onchain message, group public chat, connected private chat(upgrade to blockchain after 100 people, wechat idea).
 - p2p messaging via logN strategy. 
    - each p2p message include a hash pointing to another public key recently messaging the same receiver. it is like "salt in the zero salt channel" 
   - in each TAU message either immtuable or mutable, there are hash point in content to make search N complexity to log(N). this is a type of DQ algorithm.
