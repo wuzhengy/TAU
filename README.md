@@ -80,11 +80,13 @@ Core UI experienses
   - Send off-chain invite messages to member via community routing. 
 - One secrete key per device, not recommend to copy secrete key between devices. 
 - power/balance(0/0) = read only. 
-- "inviting" -> "connected": inviting link has to include both A and B's public key. inviting link generation with a new salt defining the chatting group. salts will be communication channel.  ????
-  - when peer A add peer B's public key into contact list, status of B will show "inviting"; and A will publish "signaling B" on own zero salt #msg channel; A will try to ask B to add A's public key into B's contact list as well through inviting link. 
-    - if A and B belong to same community, the status will turn "connected" on B
+- "disconnected"-> "connecting" -> "connected": inviting link has to include both A and B's public key. inviting link generation with a new salt defining the chatting group. salts will be communication channel for both chain and chat group. 
+  - when peer A add peer B's public key into contact list, status of B will show "connecting"; and A will publish "signaling B" on own zero salt #msg channel; A will try to ask B to add A's public key into B's contact list as well through inviting link. 
+    - if A and B belong to same community, the status will turn "disconnected" on B
     - if A reads B's zero salt #msg channel "signaling A", the status will turn "connected" on B
     - A will give B through 3rd party channel A's public key for adding. 
+    - "connecting" is used to setup private chat.
+- onchain message, group public chat, connected private chat(upgrade to blockchain after 500 people, wechat idea).
 - p2p messaging via logN strategy. 
    - each p2p message include a hash pointing to another public key recently messaging the same receiver. it is like "salt in the zero salt channel" 
   - in each TAU message either immtuable or mutable, there are hash point in content to make search N complexity to log(N). this is a type of DQ algorithm.
