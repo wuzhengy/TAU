@@ -7,8 +7,12 @@ Innovation:
 * in Immutable item: implement repub of a history block
 
 ## Mutable item put
-Each mutalble item, such as A, value will refer another public key, B. The B is the lastest changed public key in A's knowledge under the same salt. this helps use the latest knowledge of each peer to search in DHT. 
-No republish scheme in mutable item.
+* in the case of chat function: 
+Each mutalble item, such as A, value will refer another public key, B. The B is the lastest time changed public key in A's knowledge under the same salt. this helps use the latest knowledge of each peer to search in DHT. 
+* in the case of block generation: 
+  - when block self generation, put own block
+  - when not self gen, put other best block, republish scheme in mutable item.
+ 
 ## Immutable item put
 Implement republish/reannouce of a random history blocks on the same chain(salt). any block include a hash link to parent block. 
 
