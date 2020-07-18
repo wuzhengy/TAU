@@ -61,11 +61,14 @@ Core UI experienses
 - Voting process: for a new peer coming on-line, the peer uses a voting process to chose the right fork to follow. Voting is collecting a specific block, which is the "immutable point block" from block producers within the mutable range. Mutable range is the range of blocks from the current tip to a specific history block. 
    - voting position: The ImmutablePointBlock, the voting peers are the peers in the mutable range.
    - select the highest voted ImmutablePointBlock hash
-      - 新节点上线，快速启动随机相信一个能够覆盖到mutable range的链，获得数据，设置链的（顶端- `MutableRange` ）为ImmutablePointBlock。
+      - 新节点上线，随机相信一个TAU URL里面bs节点时间戳在当前mutable range内的链，获得最新区块从mutable range到tip数据，设置链的（顶端- `MutableRange` ）为ImmutablePointBlock。就是锚定点。如果tip/best blocknumber小于 mutable range，use genesis block as anchor 锚定
+        - URL TAUchain:?bs=`pk1`&bs=`pk2`&dn=`chainID`  // maybe 10 bs provided
+        - 获取链数据失败，如何处理？如何定义失败?
       - 如果投票出的新ImmutablePointBlock，root在同一链上mutable range内，说明是链的正常发展
         - 继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易。
       - 如果投出来的新ImmutablePointBlock, 这个block is within 1x - 3x out of mutable range，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the member of potential attack。  
         - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
+
 - **libtorrent dht as cache and communication**
   * salt = chainID + `#` + `channel` ; blk is a channel for blocks, such as `shanghaichain#blk`
   * immutable item's value is the block content
@@ -73,7 +76,6 @@ Core UI experienses
   * mutable item's key is hash(public key + salt), value is the hash/key of immutable item 
 - immutable_item_dhtTAUget: 1. get one immutable item; 2. put back a random immutable item from the same blockchain to keep blockchain data life. 
 - Provide opitional miner manual approval on transactions, expecially the negative value and problem content. 
-- URL: TAUchain:?bs=`hash(tau pk1 + salt)`&bs=`hash(tau pk1 + salt)`&dn=`chainID`  // maybe 10 bs provided
 - Mining and following a community: in TAU, there is no different for this two concept. After voting, POT requires reading to valid chain on its own knowlege.
 - Adding a new member into a communtity: 
   - Share the chain link to member via telegram or wechat, ...
@@ -91,8 +93,29 @@ Core UI experienses
    - each p2p message include a hash pointing to another public key recently messaging the same receiver. it is like "salt in the zero salt channel" 
   - in each TAU message either immtuable or mutable, there are hash point in content to make search N complexity to log(N). this is a type of DQ algorithm.
 - bootstrap ports 6881 is considered boostrap, software should remember these ips for future bootstrap and software release. 
+### Genesis 
+```
+// build genesis block
+blockJSON  = { 
+1. version;
+2. timestamp; 
+3. BlockNumber:=0; //创世区块号 0
+4. PreviousBlockRoot = null; // genesis is built from null.
+5. basetarget = 0x21D0369D036978;
+6. cummulative difficulty int64; // ???
+7. generation signature;
+9. msg; // {genesis state k-v 初始账户信息列表} 
+10. ChainID  
+11. `TsenderTAUpk`Noune = null
+12. `Tsender`Balance = null;
+13. `TminerTAUpk`Balance= null;
+14. `Treceiver`Balance = null;
+15. ED25519 public key as TAUaddress
+16. ED25519 signature
+}
 
-## Block content
+```
+## Normal Block content
 ```
 blockJSON  = { 
 1. version;
@@ -125,25 +148,7 @@ blockJSON  = {
 * TXtimeout: 12 Hours
 
 ## Blockchain structure and processes
-### Genesis 
-```
-// build genesis block
-blockJSON  = { 
-1. version;
-2. timestamp; 
-3. BlockNumber:=0; //创世区块号 0
-4. PreviousBlockRoot = null; // genesis is built from null.
-5. basetarget = 0x21D0369D036978;
-6. cummulative difficulty int64; // ???
-7. generation signature;
-9. msg; // {genesis state k-v 初始账户信息列表} 
-10. ChainID  
-// genesis 0号区块，没有矿工奖励，余额都在初始状态表
-11. ED25519 public key as TAUaddress
-12. ED25519 signature
-}
 
-```
 ---
 ## Mining Process sketch: Votings, chain choice and block generation.   
 ```
