@@ -7,14 +7,14 @@ Innovation:
 * in Immutable item: implement repub of a history block
 
 Mutable item key: publicKey + salt
-Mutable item value: immutable item key (the hash of the message or block content)
-Mutable item search optimization strategy:  while own pk generation content, the item key is own pk + salt; when not generate content, the item key is other pk + salt. 
-Republish function: disabled. 
+- Mutable item value: immutable item key (the hash of the message or block content)
+- Mutable item search optimization strategy:  while own pk generation content, the item key is own pk + salt; when not generate content, the item key is other pk + salt. 
+- Republish function: disabled. 
 
 Immutable item key: hash of content
-Immutable item value: chain block, chat message
-Republish function: when read an immutable item, the node will always put another immutable item under same salt. 
-Immutable item data type: plain content; picture schema
+- Immutable item value: chain block, chat message
+- Republish function: when read an immutable item, the node will always put another immutable item under same salt. 
+- Immutable item data type: plain content; picture schema
 
 ## Mutable item put
 * in the case of chat function: 
