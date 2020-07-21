@@ -1,1 +1,4 @@
-tau dev build 6881 known list and write into software apk. 
+TAU will build boostrap dht nodes to kick off the network independent from torrent network. 
+Nodes:
+1. dht.taucoin.io
+2. ...
