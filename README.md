@@ -89,6 +89,7 @@ Core UI experienses
     - A will give B through 3rd party channel A's public key for adding. 
     - "connecting" is used to setup private chat.
 - onchain message, group public chat, connected private chat(upgrade to blockchain after 100 people, wechat idea).
+- everything is blockchain include personal chat: peer to consensus, from p2p to p2c
 - p2p messaging via logN strategy. 
    - each p2p message include a hash pointing to another public key recently messaging the same receiver. it is like "salt in the zero salt channel" 
   - in each TAU message either immtuable or mutable, there are hash point in content to make search N complexity to log(N). this is a type of DQ algorithm.
@@ -154,13 +155,10 @@ blockJSON  = {
 ```
 1. get chain ID. 
 
-2. If the (current time -  local `ChainID` tip block time ) is bigger than DefaultMaxBlockTime and a valid transaction exist in own tx queue;
-   go to (9) to generate a new block 
-
 3. Choose a Peer from  TAUpeers[`ChainID`]
    If chainID+Peer is requested within DefaultBlockTime, go to (9) // do not revisit same peer within default block time
       
-4. DHT_get(`hash(TAUpk+chainID)`); get `ChainID` tip block from DHT;
+4. DHT_get(`hTAUpk+chainID`); get `ChainID` tip block from DHT;
    if not_found go to (9);
    TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
 
