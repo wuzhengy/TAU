@@ -1,12 +1,19 @@
 # TAU DHT extention to libtorrent/bittorrent mainline dht (bep 44)
 ## draft 0.01
 The purpose of the extention is to modify Mainline DHT to suitable for blockchain decentralized applications. <br>
-The current mainline DHT does not specify the strategy of republish and data schema for both mutable and immutable item. In order to operate a decentralized app, the data schema need to be define to represent things like blocks or images. To optimize seeking of a item, we need better searching protocol to fit massive complexity mobile network. <br>
-The global TAU DHT network is viewed as collabortive **"memory"** of the ultimate global computer, storage of each personal devices will exchange data between "memory" and local disk. However, a traverse of all community peers will incur O(N) level complexity, which is not ideal for decentralized apps. Through each peer's knowledge on community state changes, it is possible to reduce traversal complexity towards O(logN).  This idea inherits from Dynamic Programming course of MIT 6.006, Prof. Erik Demaine. <br>
+The current mainline DHT does not specify the strategy of republish and data schema for both mutable and immutable item. In order to operate a decentralized app, the data schema need to be define to represent things like blocks or images. Depending on the type of schema, multiple level of DHT "cache" will apply. <br>
+To optimize seeking of a item, we need better searching protocol to fit massive size of mobile network.  <br>
+
+The global TAU DHT network is viewed as collabortive **"memory"** of the ultimate global computer, storage of each personal devices will exchange data between "memory" and local disk. However, a traverse of all community peers will incur O(N) level complexity, which is not ideal for decentralized apps. Through each peer's knowledge on community state changes, it is possible to reduce traversal complexity towards O(logN).  This idea inherits from Dynamic Programming course of MIT 6.006, Prof. Erik Demaine.<br>
+In any modern computer, there are mulitple level of "memory" range from cpu member, cache, mainboard member, disk or storage warehouse. For TAU DHT, we adopts same principle, the level ONE "memeory" is to serve finding blockchains. This is Bittorrent BEP 44 protocol defined 1K size put/get API. 1K size fits nicely to blockchain discovery and transaction pool. Since instant chatting is also text based, it will use level ONE "memory" to communicate. 
+<br>
+Level TWO memory is potentially 100K for value size, which could deal with images. Level Three memory is potentiall 10M for value size, which is another 100 times bigger than level two to deal with video. Level TWO and THREE will be added into system gradually. 
+<br>
 
 ### Schema
-Schema is the data existing among the immutable keys linked value. For example, an image data schema can cover hundreds of immutable item. The hash of the first block is the root of such data schema. Please check IPLD for the same idea.
+Schema is the data existing among the immutable items linked. For example, an image data schema can cross over hundreds of immutable item. The hash of the first block is the root of such data schema. Please check IPLD for the same idea.
 Schema could be a blockchain, a multimedia or just a message. 
+Different scheme can operate on different level of "memory". Blockchain and messages, the texted based schema, will operate on level ONE, which is BEP 44 protocol. 
 ### Immutable item
 ```
 Immutable item key: hash of content or root of the data schema
@@ -26,7 +33,6 @@ Mutable item key: publicKey + salt
 - Republish strategy: when put other peer's hash, follow the chain block frequence
 ```
 
-### multiple cache for blocks and images
-
-invite link schema:  salt + sender PK + receiver PK
-salt schema: chainID#channel; chatgroupID#channel; 
+### URL format
+invite link schema:  salt + sender PK + receiver PK(optional) + boostrap PKs ( as much as necessary)
+salt schema: chainID#channel
