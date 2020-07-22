@@ -17,9 +17,10 @@ Different scheme can operate on different level of "memory". Blockchain and mess
 ### Immutable item
 ```
 Immutable item key: hash of content or root of the data schema
-- Immutable item value: data schema - blockchain, chat message, multimedia data schema such as IPLD
+- Immutable item value: data schema - blockchain, chat message chain, multimedia data schema such as IPLD
 - Republish strtegy: when read an immutable item, the node will always put another immutable item under same schema. 
 ```
+* chat message under a chainID is also a time series linked list
 ### Mutable Item
 Mutable item is a pair of key and value. The key follows the format of "publisher's public key + salt". Salt is used to specify the subject of the value. More importantly, in TAU, we view mutable item is a "knowledge pointer", which is a root of the data schema. 
 In the case of blockchain, each peer publish its tip block hash through mutable item put. The entire blockchain is a growing data schema using hash link form a chain. In the case of a group chatting, each peer publish its recent message hash. If the content is a picture, the mutable item will be the root of "picture schema". The "root" is similar to IPLD root idea. 
