@@ -49,6 +49,7 @@ Core UI experienses
   - 5 minutes average to generate a block. It can be upgraded when network infrastructure upgrading. 
   - One block has one transaction, which fits both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
 - blockchain and hash-chain: blockchain reflects to community consensus, hash-chain stores personal instant chat messages on one blockchain. The format looks like, community ID: Shanghai#600#hash; hash chain salt: Shanghai#600#hash`#`
+- p2c 
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
   - Coin volumen is 10 million
@@ -82,6 +83,9 @@ Core UI experienses
   - Send off-chain invite messages to member via community routing. 
 - One secrete key per device, not recommend to copy secrete key between devices. 
 - power/balance(0/0) = read only. 
+- inviting
+  - inviting to a new chat, setup blockchain, send coins, send link, observing the blockchain
+  - inviting to a group, send coins, send link, observing the blockchain. 
 - "disconnected"-> "connecting" -> "connected": inviting link has to include both A and B's public key. inviting link generation with a new salt defining the chatting group. salts will be communication channel for both chain and chat group. 
   - when peer A add peer B's public key into contact list, status of B will show "connecting"; and A will publish "signaling B" on own zero salt #msg channel; A will try to ask B to add A's public key into B's contact list as well through inviting link. 
     - if A and B belong to same community, the status will turn "disconnected" on B
