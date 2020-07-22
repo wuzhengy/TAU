@@ -26,6 +26,7 @@ Mutable item key: publicKey + salt
 - Republish strategy: when put other peer's hash, follow the chain block frequence
 ```
 
+### multiple cache for blocks and images
 
 invite link schema:  salt + sender PK + receiver PK
 salt schema: chainID#channel; chatgroupID#channel; 
