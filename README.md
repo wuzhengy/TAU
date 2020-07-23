@@ -44,18 +44,18 @@ Core UI experienses
     - `blockdb` <--- `libtorrent get` <--- `DHT`
     - `statedb` <--> `blockdb`
   - myth: p2p IP level communication is not possible to implement, given firewalls and personal device security restrictions. DHT is adopted to be the overlay p2p communication substrate. When peer is not off-line, the content is still available in DHT cache for exchange. 
-## Design Concepts
+## Key Concepts
 - Version 1 default parameters: 
   - 5 minutes average to generate a block. It can be upgraded when network infrastructure upgrading. 
   - One block has one transaction, which fits both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
 - blockchain and hash-chain: blockchain reflects to community consensus, hash-chain stores personal instant chat messages on one blockchain. The format looks like, community ID: Shanghai#600#hash; hash chain salt: Shanghai#600#hash`#`
-- p2c 
+- p2c, peer to consensus
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
   - Coin volumen is 10 million
   - Default block time is 300 seconds
   - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 10 million coins and 600 seconds block time. 
-  - ChainID is the salt in DHT mutable put
+  - ChainID#channel is the salt in DHT mutable put
 - TAUpk is the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. In new TAU, we use "seed" to import and export account identifier. 
 - New POT defines power as square root of the nounce.
 - genesis block power: give one year power to genesis public key to make admin airdrop possible. 
@@ -69,34 +69,12 @@ Core UI experienses
         - 继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易。
       - 如果投出来的新ImmutablePointBlock, 这个block is within 1x - 3x out of mutable range，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the member of potential attack。  
         - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
-
-- **libtorrent dht as cache and communication**
+- dht as cache and communication**
   * salt = chainID + `#` + `channel` ; blk is a channel for blocks, such as `shanghaichain#blk`
-  * immutable item's value is the block content
-  * mutable item's signature public key = TAUpk public key
-  * mutable item's key is hash(public key + salt), value is the hash/key of immutable item 
-- immutable_item_dhtTAUget: 1. get one immutable item; 2. put back a random immutable item from the same blockchain to keep blockchain data life. 
 - Provide opitional miner manual approval on transactions, expecially the negative value and problem content. 
-- Mining and following a community: in TAU, there is no different for this two concept. After voting, POT requires reading to valid chain on its own knowlege.
-- Adding a new member into a communtity: 
-  - Share the chain link to member via telegram or wechat, ...
-  - Send off-chain invite messages to member via community routing. 
 - One secrete key per device, not recommend to copy secrete key between devices. 
-- power/balance(0/0) = read only. 
-- inviting
-  - inviting to a new chat, setup blockchain, send coins, send link, observing the blockchain
-  - inviting to a group, send coins, send link, observing the blockchain. 
-- "disconnected"-> "connecting" -> "connected": inviting link has to include both A and B's public key. inviting link generation with a new salt defining the chatting group. salts will be communication channel for both chain and chat group. 
-  - when peer A add peer B's public key into contact list, status of B will show "connecting"; and A will publish "signaling B" on own zero salt #msg channel; A will try to ask B to add A's public key into B's contact list as well through inviting link. 
-    - if A and B belong to same community, the status will turn "disconnected" on B
-    - if A reads B's zero salt #msg channel "signaling A", the status will turn "connected" on B
-    - A will give B through 3rd party channel A's public key for adding. 
-    - "connecting" is used to setup private chat.
-- onchain message, group public chat, connected private chat(upgrade to blockchain after 100 people, wechat idea).
+- member with power/balance(0/0) = read only. 
 - everything is blockchain include personal chat: peer to consensus, from p2p to p2c
-- p2p messaging via logN strategy. 
-   - each p2p message include a hash pointing to another public key recently messaging the same receiver. it is like "salt in the zero salt channel" 
-  - in each TAU message either immtuable or mutable, there are hash point in content to make search N complexity to log(N). this is a type of DQ algorithm.
 - bootstrap ports 6881 is considered boostrap, software should remember these ips for future bootstrap and software release. 
 ### Genesis 
 ```
