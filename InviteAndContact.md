@@ -15,7 +15,8 @@ Peer can `share` the chain URL to another peer without airdrop to:
 Create a chat will require user: 
 1. ask user to input chain/chat name
 2. invite members with airdrop: contact list and arbitrary key
-### `chain` is the only form of communication for two people chatting, group chatting, community blockchain.
+3. share the URL
+`chain is the only form of communication for two people chatting, multiple people group chatting, community blockchain.`
 
 ## Create a chat from Contact List view
 1. ask user to input chat name, or use both members first letter of name(or public key) to create a chain
