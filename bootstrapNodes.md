@@ -2,7 +2,7 @@
 ## Level ONE cache boostrap nodes to use:
 - official torrent bootstrap nodes such as router.utorrent.com and router.bittorrent.com 
 - nodes with 6881 port open on public network. TAU will collect these information from network and put these into software to help bootstrap clents. 
-### The current list of bootstrap nodes
+### The current list of bootstrap nodes on 6881
 ```
 221.148.11.131
 163.172.214.231
