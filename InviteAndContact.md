@@ -6,7 +6,8 @@ Each peer has a contact list with the peers under certain chains. For the peers 
 ## Inviting and sharing
 Peer can `invite` another peer to join a community(chain) with airdrop from: 
   * contact list members
-  * arbitrary public key input, then send through 3rd party communication tool  <br><br>
+  * arbitrary public key input, then send through 3rd party communication tool  <br> <br>
+
 Peer can `share` the chain URL to another peer without airdrop to:  
   * contact list member
   * any one through 3rd party communication tool
