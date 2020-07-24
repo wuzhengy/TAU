@@ -1,31 +1,21 @@
 # TAU - Decentralized communication with high-scaling blockchain economy.
 Core UI experienses
-- decentralized community social hub with crypto-coins circulation
-- **"(+)"** floating button on home page
-   * Create a Community 
+- decentralized community social chat with crypto-coins circulation
+   * Create a Chat 
       * Give a name to new blockchain and its coin
       * Creation of a blockchain with 10 million coins on 5 minutes per block generation rate
-- **"(+)"** floating button on community page
    * Transactions on community blockchain - DHT mutable key: hash(public key + `chainID#blk`)
       * Regular forum note and comments
       * New community annoucement
       * Wiring Transaction (logN as pool upper limit)
       * Personal Identity annoucement
       * Future: Community name and configuration change by majority stake vote. - phase 2
-   * Off-chain Peek Messages - DHT mutable key: hash(public key + `chainID#msg`)
-      * Messages are coded as key(mutable item key) to value(crypto-graphic addressed message)
-        - key: includes sender(public key), target hub(community or chainID)
-        - value: includes recevier(public key), signed and encrypted messages depends on specific application
-      * Peers can display peek messages and hope other peers to find it
-      * Type of messages
-        - invitation for chatting, phase 1 ??? what is invitation.
-        - tx candidates, phase 1, each account will provide tx candidates through this channel, and pointer to a recent changed address/pk. (n+1 approach is removed)
-        - secure p2p message, phase 1
-        - transaction pool light update channel, phase 2
-   * Decentralized blacklist - easy to blacklist an address from client
+   * Instant Chat Messages - DHT mutable key: public key + `chainID#msg`
+      * Peers can pub chat messages and hope other peers to find it through subscription
+   * Decentralized blacklist - easy to blacklist an address or exit a community
 - Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s; DHT nodesinfo
-- Chains prebuilt: TAUcoin chain: provides place to publish news and ads. App will read TAUcoin chain for app operation config such as bootstrap DHT node.
-- Find engine: app internal search for name and content
+- Chains prebuilt: TAUcoin chain: a sample chain and a place to publish annoucements.
+- Find engine, explorer: app internal search for name and content
 --- 
 ## Persistence
 1.  Chains  map[ChainID] config; 
@@ -39,55 +29,53 @@ Core UI experienses
   - statedb is the local database holding account power and balance
   - blockdb is the local database holding the blocks content that will be put and get through DHT
   - DHT is the network key-value cache
-  - Data flow: memory <-> storage <-> cache
-    - `blockdb` ---> `libtorrent put` ---> `DHT`
-    - `blockdb` <--- `libtorrent get` <--- `DHT`
+  - Data flow
+    - `blockdb` ---> `tauDHT put` ---> `DHT`
+    - `blockdb` <--- `tauDHT get` <--- `DHT`
     - `statedb` <--> `blockdb`
-  - myth: p2p IP level communication is not possible to implement, given firewalls and personal device security restrictions. DHT is adopted to be the overlay p2p communication substrate. When peer is not off-line, the content is still available in DHT cache for exchange. 
+  - myth: p2p IP level communication is not possible to implement, given firewalls and personal device security restrictions. DHT is the overlay p2p communication. When peer is not off-line, the content is still available in DHT cache for exchange. 
 ## Key Concepts
 - Version 1 default parameters: 
   - 5 minutes average to generate a block. It can be upgraded when network infrastructure upgrading. 
-  - One block has one transaction, which fits both DHT easy lookup and account state update. Lookup block is the same as transaction. This keeps DHT key value table simple. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
-- blockchain and hash-chain: blockchain reflects to community consensus, hash-chain stores personal instant chat messages on one blockchain. The format looks like, community ID: Shanghai#600#hash; hash chain salt: Shanghai#600#hash`#`
-- p2c, peer to consensus
+  - One block has one transaction, which fits both DHT easy lookup and account state update. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
+- blockchain and hash-chain: blockchain reflects to community consensus, hash-chain stores personal instant chat messages on one blockchain. The format looks like, community ID: Shanghai#600#hash(pK+timestamp); hash chain salt: Shanghai#600#hash(pk+timestamp)`#msg`. All the data in TAU is an entry to a chain either blockchain or hash chain. 
+- p2c, peer to consensus for reducing the DHT sybil attack by relying on membership information on chain. 
+- channels: BLK - blockchain; TX - transaction candidates; MSG - instant chat
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
   - Coin volumen is 10 million
   - Default block time is 300 seconds
   - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 10 million coins and 600 seconds block time. 
-  - ChainID#channel is the salt in DHT mutable put
-- TAUpk is the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. In new TAU, we use "seed" to import and export account identifier. 
-- New POT defines power as square root of the nounce.
+  - ChainID#channel is the salt
+- Public key is used as the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. In new TAU, we use "seed" to import and export the account identifier. 
+- POT defines power as square root of the nounce.
 - genesis block power: give one year power to genesis public key to make admin airdrop possible. 
-- Voting process: for a new peer coming on-line, the peer uses a voting process to chose the right fork to follow. Voting is collecting a specific block, which is the "immutable point block" from block producers within the mutable range. Mutable range is the range of blocks from the current tip to a specific history block. 
+- POT Voting process: for a new peer coming on-line, the peer uses a voting process to chose the right fork to follow. Voting is collecting a specific block, which is the "immutable point block" from random block producers within the mutable range. Mutable range is the range of blocks from the current tip to a specific history block. 
    - voting position: The ImmutablePointBlock, the voting peers are the peers in the mutable range.
    - select the highest voted ImmutablePointBlock hash
-      - 新节点上线，随机相信一个TAU URL里面bs节点时间戳在当前mutable range内的链，获得最新区块从mutable range到tip数据，设置链的（顶端- `MutableRange` ）为ImmutablePointBlock。就是锚定点。如果tip/best blocknumber小于 mutable range，use genesis block as anchor 锚定
+      - 新节点上线，随机相信一个TAU URL里面bs节点时间戳在当前mutable range内的链，获得最新区块从mutable range到tip数据，设置链的（顶端- `MutableRange` ）为ImmutablePointBlock。如果tip/best blocknumber 小于 mutable range，use genesis block as voting position. 
         - URL TAUchain:?bs=`pk1`&bs=`pk2`&dn=`chainID`  // maybe 10 bs provided
-        - 获取链数据失败，如何处理？如何定义失败?
       - 如果投票出的新ImmutablePointBlock，root在同一链上mutable range内，说明是链的正常发展
-        - 继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池，交易池要维护自己地址交易。
-      - 如果投出来的新ImmutablePointBlock, 这个block is within 1x - 3x out of mutable range，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the member of potential attack。  
+        - 继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池
+      - 如果投出来的新ImmutablePointBlock, 这个block is within 1x - 3x out of mutable range，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the user of a potential attack。  
         - for a most difficult chain, folking within: 1x range, winner; 1x-3x, voting; 3x, alert.
-- dht as cache and communication**
-  * salt = chainID + `#` + `channel` ; blk is a channel for blocks, such as `shanghaichain#blk`
 - Provide opitional miner manual approval on transactions, expecially the negative value and problem content. 
 - One secrete key per device, not recommend to copy secrete key between devices. 
-- member with power/balance(0/0) = read only. 
-- everything is blockchain include personal chat: peer to consensus, from p2p to p2c
-- bootstrap ports 6881 is considered boostrap, software should remember these ips for future bootstrap and software release. 
+- member with power/balance(0/0) in a chain = read only. 
+- everything is a blockchain include personal chat or group chat
+- bootstrap ports 6881 is considered level ONE cache boostrap, software should remember these ips for future bootstrap and software release. 
 ### Genesis 
 ```
 // build genesis block
 blockJSON  = { 
 1. version;
 2. timestamp; 
-3. BlockNumber:=0; //创世区块号 0
+3. BlockNumber:=0;
 4. PreviousBlockRoot = null; // genesis is built from null.
 5. basetarget = 0x21D0369D036978;
-6. cummulative difficulty int64; // ???
+6. cummulative difficulty int64; 
 7. generation signature;
-9. msg; // {genesis state k-v 初始账户信息列表} 
+9. msg; // {genesis state k-v} 
 10. ChainID  
 11. `TsenderTAUpk`Noune = null
 12. `Tsender`Balance = null;
@@ -124,13 +112,11 @@ blockJSON  = {
 * WarningRange: 3 x MutableRange
 * WakeUpTime: sleeping mode wake up random range 10 minutes
 * GenesisCoins: default coins 10,000,000. 
-* GenesisBasetarget:  0x21D0369D036978; 仿真100万个地址，平均出块时间60s
+* GenesisBasetarget:  0x21D0369D036978; simulated 1 million blocks with average 60 seconds.
 * DefaultMinBlockTime:  60 seconds, this is fixed block time. do not let user choose as for now.
 * DefaultMaxBlockTime:  540 seconds, when no body mining, you have to generate blocks.
 * DefaultBlockTime: 300 seconds
 * TXtimeout: 12 Hours
-
-## Blockchain structure and processes
 
 ---
 ## Mining Process sketch: Votings, chain choice and block generation.   
@@ -184,10 +170,8 @@ blockJSON  = {
   Android platform is a great decentral and light OS, given the open-source community support on many components such as leveldb, dht, libtorrent for java, libretorrent and many google UI components. 
   
 # To do and other notes
-- [ ] resource management process
-- [ ] multi-platform
-- [ ] peer to peer secure private messages, community DHT becomes a router for peer to peer to send and confirm secure messages.  
-- [ ] TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
-- transaction collection strategy of a miner: as soon as getting a transaction with fee higher than median fee, capture it with a new block generation. 
+- resource management process
+- multi-platform 
+- TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
+- transaction collection strategy of a miner: as soon as getting a transaction with fee higher than median fee, capture it
 - off-chain message collection: active users having higher change to be displayed off-chain messages. 
-- transaction pool light update channel
