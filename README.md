@@ -8,9 +8,7 @@ Core UI experienses
    * Transactions on community blockchain - DHT mutable key: hash(public key + `chainID#blk`)
       * Regular forum note and comments
       * New community annoucement
-      * Wiring Transaction (logN as pool upper limit)
-      * Personal Identity annoucement
-      * Future: Community name and configuration change by majority stake vote. - phase 2
+      * Wiring Transaction 
    * Instant Chat Messages - DHT mutable key: public key + `chainID#msg`
       * Peers can pub chat messages and hope other peers to find it through subscription
    * Decentralized blacklist - easy to blacklist an address or exit a community
