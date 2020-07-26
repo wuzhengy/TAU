@@ -1,5 +1,5 @@
 # TAU - Decentralized communication with high-scaling blockchain economy.
-### this is design notes recording key concepts in TAU
+### Design notes recording key concepts in TAU
 Core UI experienses
 - decentralized community social chat with crypto-coins circulation
    * Create a Chat 
