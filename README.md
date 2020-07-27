@@ -13,8 +13,7 @@ Core UI experienses
       * Peers can pub chat messages and hope other peers to find it through subscription
    * Decentralized blacklist - easy to blacklist an address or exit a community
 - Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s; DHT nodesinfo
-- Chains prebuilt: TAUcoin chain: a sample chain and a place to publish annoucements.
-- Find engine, explorer: app internal search for name and content
+- TAUcoin chain prebuilt: a place to publish annoucements.
 --- 
 ## Persistence
 1.  Chains  map[ChainID] config; 
