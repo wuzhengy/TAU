@@ -1,4 +1,4 @@
-Mutable item republish.
+Mutable item republish of public domain.
 * According to block frequency, e.g 5 minutes, nodes republish data under a certain salt. 
   - The `content` of item is the key of an immutable item that is latest knowledge learned in public domain by the node in past block time. 
     * In `blk` channel, it is a block at the tip of the believed blockchain. 
@@ -7,7 +7,7 @@ Mutable item republish.
   - The `hash link` of the data is the public key of another peer with potential new messages. 
 * Mutable item does not prioritize on republishing own information. Nodes own information falls into controlled publish schedule. 
 
-Immutable item republish. 
+Immutable item republish of private domain. 
 * According to block frequency, nodes republish one random immutable item in the channel. 
   - In `blk` channel, a item is in consensus
   - In `msg` channel, a item is within own message history
