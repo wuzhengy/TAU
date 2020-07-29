@@ -158,12 +158,12 @@ blockJSON  = {
 # System config
   - Wifi Only: ON, when turn off, it will ask for time to allow telecom data operating
   - Charging ON: wake lock ON. 
-  - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to check status 
-  - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to check status
+  - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
+  - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Server mode: default OFF; when turn ON, it will turn on wake lock, when phone reboot, tau will auto start. 
 
-# database: leveldb andriod
-# muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
+# Database: leveldb andriod
+# Muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
   Since `secrete key` is supposed to be on only on device for operation, we focus on use android as core platform. Other platform will use browser to connect andoid TAU app to run TAU functions. As long as other devices can access the android phone via IP network, they can operate a TAU node. 
   Linux dht command line interfact will be provided to interact with TAU. 
   Android platform is a great decentral and light OS, given the open-source community support on many components such as leveldb, dht, libtorrent for java, libretorrent and many google UI components. 
