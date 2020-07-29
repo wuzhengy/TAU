@@ -89,7 +89,7 @@ blockJSON  = {
 ## Normal Block content
 ```
 blockJSON  = { 
-1. version;  // string
+1. version;  // java compact string
 2. timestamp;  // list[long]
 3. BlockNumber; // list[long]
 4. PreviousBlockHash; // for verification // list[long]
@@ -97,8 +97,8 @@ blockJSON  = {
 6. basetarget; // list[long]
 7. cummulative difficulty; // list[long]
 8. generation signature; // list[long]
-9. msg; // transaction content with ChainID, txType, content. // List[long/string/list[long]]
-10. ChainID // string
+9. msg; // transaction content with ChainID, txType, content. // List[long/// java compact string/list[long]]
+10. ChainID // java compact string
 11. `TsenderTAUpk`Noune  // long
 12. `Tsender`Balance; // long
 13. `TminerTAUpk`Balance; // long 
