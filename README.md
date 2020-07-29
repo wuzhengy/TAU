@@ -156,12 +156,11 @@ blockJSON  = {
 ---
 
 # System config
-  - Auto start when device start: ON
   - Wifi Only: ON, when turn off, it will ask for time to allow telecom data operating
   - Charging ON: wake lock ON. 
   - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to check status 
   - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to check status
-  - Server mode: OFF, when turn ON, it will turn on wake lock. 
+  - Server mode: default OFF; when turn ON, it will turn on wake lock, when phone reboot, tau will auto start. 
 
 # database: leveldb andriod
 # muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
