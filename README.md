@@ -89,22 +89,22 @@ blockJSON  = {
 ## Normal Block content
 ```
 blockJSON  = { 
-1. version;
-2. timestamp; 
-3. BlockNumber;
-4. PreviousBlockHash; // for verification
-5. ImmutablePointBlockHash; // for voting, simple skip list
-6. basetarget;
-7. cummulative difficulty;
-8. generation signature;
-9. msg; // transaction content with ChainID, txType, content. 
-10. ChainID
-11. `TsenderTAUpk`Noune
-12. `Tsender`Balance;
-13. `TminerTAUpk`Balance;
-14. `Treceiver`Balance;
-15. ED25519 public key as TAUaddress
-16. ED25519 signature
+1. version;  // string
+2. timestamp;  // list[long]
+3. BlockNumber; // list[long]
+4. PreviousBlockHash; // for verification // list[long]
+5. ImmutablePointBlockHash; // for voting, simple skip list // list[long]
+6. basetarget; // list[long]
+7. cummulative difficulty; // list[long]
+8. generation signature; // list[long]
+9. msg; // transaction content with ChainID, txType, content. // List[long/string/list[long]]
+10. ChainID // string
+11. `TsenderTAUpk`Noune  // long
+12. `Tsender`Balance; // long
+13. `TminerTAUpk`Balance; // long 
+14. `Treceiver`Balance; // long
+15. ED25519 public key as TAUaddress // list[long]
+16. ED25519 signature // list[long]
 }
 ```
 ## Constants
