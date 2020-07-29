@@ -89,7 +89,7 @@ blockJSON  = {
 ## Normal Block content
 ```
 blockJSON  = { 
-1. version;  // java compact string
+1. version;  // long
 2. timestamp;  // list[long]
 3. BlockNumber; // list[long]
 4. PreviousBlockHash; // for verification // list[long]
