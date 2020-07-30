@@ -64,7 +64,7 @@ for a new peer coming on-line, the peer uses a voting process to chose the right
 - One secrete key per device, not recommend to copy secrete key between devices. 
 - member with power/balance(0/0) in a chain = read only. 
 - bootstrap ports 6881 is considered level ONE cache boostrap, software should remember these ips for future bootstrap and software release. 
-- new nodes on chain sequence in chat app: when full meta data not sync, trust peers in the parital meta data for new messages. 
+
 ### Genesis 
 ```
 // build genesis block
