@@ -33,3 +33,8 @@ Create a chat will require user:
 1. ask user to input the target public key and chat name, or the chat name could be two first letter of name(or public key) to create a chain
 2. automatic airdrop coins to the public key
 3. share the URL (optional)
+
+# News peer joining
+* A new peer join the group, it will take a while to collect blockchain data. During the mean time, it will rely on other peer's hash link to process the mining, messaging and tx pool. New peer will trust the hash linked public key for the content. 
+* When new peer join, it will allow to send messages, however, until it is confirmed onchain by others or peer-self, its message will be loaded to other app.
+* There is a phase called "checking own status on chain" to confirm whether a peer can send messages or blk/tx pool candidates. 
