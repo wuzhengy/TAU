@@ -41,10 +41,10 @@ Core UI experienses
 - channels: BLK - blockchain; TX - transaction candidates; MSG - instant chat
 - Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
   - Community chain will choose its own name. 
-  - Coin volumen is 10 million
+  - Coin volumn is 10 million
   - Default block time is 300 seconds
   - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 10 million coins and 600 seconds block time. 
-  - ChainID#channel is the salt
+  - ChainID#channel is defined as libtorrent salt
 - Public key is used as the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. In new TAU, we use "seed" to import and export the account identifier. 
 - POT defines power as square root of the nounce.
 - genesis block power: give one year power to genesis public key to make admin airdrop possible. 
@@ -108,6 +108,7 @@ blockJSON  = {
 16. ED25519 signature                 // list[long]
 }
 ```
+list[long] replaces byte[] for arbitory data not require utf-8 or unicode encoding
 ## Constants
 * MutableRange:  864 blocks, 3 days, use block as unit since no censensus
 * WarningRange: 3 x MutableRange
