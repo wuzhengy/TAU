@@ -63,12 +63,12 @@ blockJSON  = {
 5. basetarget = 0x21D0369D036978;
 6. cummulative difficulty int64; 
 7. generation signature;
-9. msg; // {genesis state k-v} 
+9. msg; // {genesis state k-v, chainID} // here is the only place chainID displayed to prevent genesis attack
 10. `TsenderTAUpk`Noune = null
 11. `Tsender`Balance = null;
 12. `TminerTAUpk`Balance= null;
 13. `Treceiver`Balance = null;
-14. ED25519 public key as TAUaddress
+14. ED25519 public key
 15. ED25519 signature
 }
 
@@ -89,8 +89,8 @@ blockJSON  = {
 11. `Tsender`Balance;         // long
 12. `TminerTAUpk`Balance;     // long 
 13. `Treceiver`Balance;       // long
-14. ED25519 public key as TAUaddress  // list[long]
-15. ED25519 signature                 // list[long]
+14. ED25519 public key        // list[long]
+15. ED25519 signature         // list[long]
 }
 ```
 list[long] replaces byte[] for arbitory data not require utf-8 or unicode encoding
