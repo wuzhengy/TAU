@@ -1,17 +1,16 @@
 # TAU - Decentralized communication with high-scaling blockchain economy.
 ### Design notes recording key concepts in TAU
 Core UI experienses
-- decentralized community social chat with crypto-coins circulation
+- decentralized community chat with crypto-coins circulation
    * Create a Chat 
       * Give a name to new blockchain and its coin
       * Creation of a blockchain with 10 million coins on 5 minutes per block generation rate
-   * Transactions on community blockchain - DHT mutable key: hash(public key + `chainID#blk`)
+   * Transactions on community blockchain - DHT mutable key: public key + `chainID#blk`
       * Regular forum note and comments
-      * New community annoucement
       * Wiring Transaction 
    * Instant Chat Messages - DHT mutable key: public key + `chainID#msg`
-      * Peers can pub chat messages and hope other peers to find it through subscription
-   * Decentralized blacklist - easy to blacklist an address or exit a community
+      * Peers can pub chat messages and hope other peers to find it
+   * Rename/blacklist - easy to rename or blacklist an address
 - Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s; DHT nodesinfo
 - TAUcoin chain prebuilt: a place to publish annoucements.
 --- 
@@ -34,16 +33,16 @@ Core UI experienses
   - myth: p2p IP level communication is not possible to implement, given firewalls and personal device security restrictions. DHT is the overlay p2p communication. When peer is not off-line, the content is still available in DHT cache for exchange. 
 ## Key Concepts
 - Version 1 default parameters: 
-  - 5 minutes average to generate a block. It can be upgraded when network infrastructure upgrading. 
-  - One block has one transaction, which fits both DHT easy lookup and account state update. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
-- blockchain and hash-chain: blockchain reflects to community consensus, hash-chain stores personal instant chat messages on one blockchain. The format looks like, community ID: Shanghai#600#hash(pK+timestamp); hash chain salt: Shanghai#600#hash(pk+timestamp)`#msg`. All the data in TAU is an entry to a chain either blockchain or hash chain. 
+  - 5 minutes average to generate a block. It can be upgraded when network enhance. 
+  - One block has one transaction. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
+- blockchain and hash-chain: blockchain reflects to community consensus, hash-chain stores personal instant chat messages. The format looks like, community ID: Shanghai#hash(pK+timestamp); hash chain salt: Shanghai#hash(pk+timestamp)`#msg`. All the data in TAU is an entry to a chain either blockchain or hash chain. 
 - p2c, peer to consensus for reducing the DHT sybil attack by relying on membership information on chain. 
 - channels: BLK - blockchain; TX - transaction candidates; MSG - instant chat
-- Community ChainID := `community name`#`optional block time interval in seconds`#`hash(GenesisMInerPubkey + timestamp)` 
-  - Community chain will choose its own name. 
+- Community ChainID := `community name`#`hash(GenesisMinerPubkey + timestamp)` 
+  - Community will choose its own name. 
   - Coin volumn is 10 million
   - Default block time is 300 seconds
-  - example: TAUcoin ID is TAUcoin##hash; community ID: Shanghai#600#hash, which is a chain name Shanghai with 10 million coins and 600 seconds block time. 
+  - example: TAUcoin ID is TAUcoin#hash 
   - ChainID#channel is defined as libtorrent salt
 - Public key is used as the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. In new TAU, we use "seed" to import and export the account identifier. 
 - POT defines power as square root of the nounce.
@@ -52,7 +51,6 @@ Core UI experienses
 - One secrete key per device, not recommend to copy secrete key between devices. 
 - member with power/balance(0/0) in a chain = read only. 
 - bootstrap ports 6881 is considered level ONE cache boostrap, software should remember these ips for future bootstrap and software release. 
-- voting process: please check seperate doc voting.md
 
 ### Genesis 
 ```
@@ -145,15 +143,15 @@ list[long] replaces byte[] for arbitory data not require utf-8 or unicode encodi
 ```
 ---
 # System config
-  - Wifi Only: ON, when turn off, it will ask for time to allow telecom data operating
+  - Wifi Only: ON, when turn off, it will ask for time length to allow telecom data to operate
   - Charging ON: wake lock ON. 
   - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Server mode: default OFF; when turn ON, it will turn on wake lock, when phone reboot, tau will auto start. 
 # Database: leveldb andriod
 # Muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
-  Since `secrete key` is supposed to be on only on device for operation, we focus on use android as core platform. Other platform will use browser to connect andoid TAU app. As long as other devices can access the android phone via IP network, they can operate a TAU node. <br>
-  Linux dht command line interfact will be provided to interact with TAU. <br>
+Since `secrete key` is supposed to be on one device for operation, we focus on use android as core platform. Other OS platforms will use browser to connect andoid TAU through local wifi lan. As long as other devices can access the android phone via IP network, they can operate a TAU node. <br>
+Linux dht command line interfact will be provided to interact with TAU. 
 # To do and other notes
 - resource management process
 - TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
