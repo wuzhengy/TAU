@@ -66,13 +66,12 @@ blockJSON  = {
 6. cummulative difficulty int64; 
 7. generation signature;
 9. msg; // {genesis state k-v} 
-10. ChainID  
-11. `TsenderTAUpk`Noune = null
-12. `Tsender`Balance = null;
-13. `TminerTAUpk`Balance= null;
-14. `Treceiver`Balance = null;
-15. ED25519 public key as TAUaddress
-16. ED25519 signature
+10. `TsenderTAUpk`Noune = null
+11. `Tsender`Balance = null;
+12. `TminerTAUpk`Balance= null;
+13. `Treceiver`Balance = null;
+14. ED25519 public key as TAUaddress
+15. ED25519 signature
 }
 
 ```
@@ -87,17 +86,17 @@ blockJSON  = {
 6. basetarget;                // long
 7. cummulative difficulty;    // long
 8. generation signature;      // list[long]
-9. msg; // transaction content with ChainID, txType, content. // List[long/java compact string/list[long]]
-10. ChainID                   // java compact string
-11. `TsenderTAUpk`Noune       // long
-12. `Tsender`Balance;         // long
-13. `TminerTAUpk`Balance;     // long 
-14. `Treceiver`Balance;       // long
-15. ED25519 public key as TAUaddress  // list[long]
-16. ED25519 signature                 // list[long]
+9. msg; // transaction content with txType, content. // List[long/java compact string/list[long]]
+10. `TsenderTAUpk`Noune       // long
+11. `Tsender`Balance;         // long
+12. `TminerTAUpk`Balance;     // long 
+13. `Treceiver`Balance;       // long
+14. ED25519 public key as TAUaddress  // list[long]
+15. ED25519 signature                 // list[long]
 }
 ```
 list[long] replaces byte[] for arbitory data not require utf-8 or unicode encoding
+
 ## Constants
 * MutableRange:  864 blocks, 3 days, use block as unit since no censensus
 * WarningRange: 3 x MutableRange
@@ -145,23 +144,16 @@ list[long] replaces byte[] for arbitory data not require utf-8 or unicode encodi
 
 ```
 ---
-
 # System config
   - Wifi Only: ON, when turn off, it will ask for time to allow telecom data operating
   - Charging ON: wake lock ON. 
   - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Server mode: default OFF; when turn ON, it will turn on wake lock, when phone reboot, tau will auto start. 
-
 # Database: leveldb andriod
 # Muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
-  Since `secrete key` is supposed to be on only on device for operation, we focus on use android as core platform. Other platform will use browser to connect andoid TAU app to run TAU functions. As long as other devices can access the android phone via IP network, they can operate a TAU node. 
-  Linux dht command line interfact will be provided to interact with TAU. 
-  Android platform is a great decentral and light OS, given the open-source community support on many components such as leveldb, dht, libtorrent for java, libretorrent and many google UI components. 
-  
+  Since `secrete key` is supposed to be on only on device for operation, we focus on use android as core platform. Other platform will use browser to connect andoid TAU app. As long as other devices can access the android phone via IP network, they can operate a TAU node. <br>
+  Linux dht command line interfact will be provided to interact with TAU. <br>
 # To do and other notes
 - resource management process
-- multi-platform 
 - TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
-- transaction collection strategy of a miner: as soon as getting a transaction with fee higher than median fee, capture it
-- off-chain message collection: active users having higher change to be displayed off-chain messages. 
