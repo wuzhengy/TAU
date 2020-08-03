@@ -113,9 +113,10 @@ list[long] replaces byte[] for arbitory data not require utf-8 or unicode encodi
 1. get chain ID. 
 
 3. Choose a Peer from  TAUpeers[`ChainID`]
-   If chainID+Peer is requested within DefaultBlockTime, go to (9) // do not revisit same peer within default block time
+   If chainID+Peer is requested within DefaultBlockTime, go to (9) 
+   // do not revisit same peer within default block time
       
-4. DHT_get(`hTAUpk+chainID`); get `ChainID` tip block from DHT;
+4. DHT_get(`TAUpk+chainID`); get `ChainID` tip block from DHT;
    if not_found go to (9);
    TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
 
@@ -128,13 +129,12 @@ list[long] replaces byte[] for arbitory data not require utf-8 or unicode encodi
     }
    go to (9) 
    
-7. collecting all peers from mutable range for voting. 
-   DHT_get(ImmutablePointBlockHash);
+7. collecting logN peers from mutable range for voting. 
 
 8. new ImmutablePointBlock voted.
    goto (1)
 
-9. if TAUpk not qualifies POT requirment; go to (1) 
+9. if TAUpk not qualifies POT block producing requirments; go to (1) 
    generate new block
    put into DHT
    populate leveldb database. 
@@ -145,7 +145,7 @@ list[long] replaces byte[] for arbitory data not require utf-8 or unicode encodi
 ---
 # System config
   - Wifi Only: ON, when turn off, it will ask for time length to allow telecom data to operate
-  - Charging ON: wake lock ON. 
+  - Charging ON:  wake lock ON. 
   - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Server mode: default OFF; when turn ON, it will turn on wake lock, when phone reboot, tau will auto start. 
