@@ -6,8 +6,8 @@ Core UI experienses
       * Give a name to new blockchain and its coin
       * Creation of a blockchain with 10 million coins on 5 minutes per block generation rate
    * Transactions on community blockchain - DHT mutable key: public key + `chainID#blk`
-      * Regular forum note and comments
-      * Wiring Transaction 
+      * Forum Note
+      * Wiring Transaction
    * Instant Chat Messages - DHT mutable key: public key + `chainID#msg`
       * Peers can pub chat messages and hope other peers to find it
    * Rename/blacklist - easy to rename or blacklist an address
