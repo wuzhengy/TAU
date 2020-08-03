@@ -8,6 +8,7 @@ Core UI experienses
    * Transactions on community blockchain - DHT mutable key: public key + `chainID#blk`
       * Forum Note
       * Wiring Transaction
+      * Genesis
    * Instant Chat Messages - DHT mutable key: public key + `chainID#msg`
       * Peers can pub chat messages and hope other peers to find it
    * Rename/blacklist - easy to rename or blacklist an address
