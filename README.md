@@ -109,9 +109,12 @@ list[long] replaces byte[] for arbitory data not require utf-8 or unicode encodi
 * TXtimeout: 12 Hours
 
 ---
-## Mining Process sketch: Votings, chain choice and block generation.   
+## Mining Thread sketch: Votings, chain choice and block generation.   
 ```
-1. get chain ID. 
+1. set chain ID for a mining threads pool. mining threads pool is managed by chainManager. 
+   If pool resources is up, a mining thread has to wait. 
+   Each mining effort is a thread in Java. Each thread will get mining DHT connection from 
+   ChainManager threads pool. ??? to be discussed.
 
 3. Choose a Peer from  TAUpeers[`ChainID`]
    If chainID+Peer is requested within DefaultBlockTime, go to (9) 
