@@ -85,7 +85,7 @@ blockJSON  = {
 6. basetarget;                // long
 7. cummulative difficulty;    // long
 8. generation signature;      // list[long]
-9. msg; // transaction content with txType, content. // List[long/java compact string/list[long]]
+9. msg; // include ChainID, transaction content with txType, content. // List[long/java compact string/list[long]]
 10. `TsenderTAUpk`Noune       // long
 11. `Tsender`Balance;         // long
 12. `TminerTAUpk`Balance;     // long 
