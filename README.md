@@ -78,7 +78,7 @@ blockJSON  = {
 ## Normal Block content
 ```
 blockJSON  = { 
-1. version;               // long
+1. version; // process configuration of chain // long
 2. timestamp;             // long
 3. BlockNumber;           // long
 4. PreviousBlockHash; // for verification                   // list[long]
