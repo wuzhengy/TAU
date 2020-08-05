@@ -76,6 +76,9 @@ blockJSON  = {
 
 ```
 ## Normal Block content
+TAU uses Java list interface to decribe data schema. List is a recursive structure similar to IPLD node concept. 
+In the list, we use `long integer` and `string/java compact string` to describe content. `Long list[]` replaces `byte[]` for binary data representation due to frost wire libtorrent engine implementation. <br>
+After all, we thing List/long/string are good enough to represent most of basic data structure and still kept simple. 
 ```
 blockJSON  = { 
 1. version; // process configuration of chain // long
@@ -95,7 +98,7 @@ blockJSON  = {
 15. ED25519 signature         // list[long]
 }
 ```
-list[long] replaces byte[] for arbitory data not require utf-8 or unicode encoding
+
 
 ## Constants
 * MutableRange:  864 blocks, 3 days, use block as unit since no censensus
