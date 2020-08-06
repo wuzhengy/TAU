@@ -137,7 +137,7 @@ blockJSON  = {
     }
    go to (9) 
    
-7. collecting logN peers from mutable range for voting. 
+7. collecting logN number of peers from all address space for voting. 
 
 8. new ImmutablePointBlock voted.
    goto (1)
