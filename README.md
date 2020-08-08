@@ -66,7 +66,7 @@ blockJSON  = {
 5. basetarget = 0x21D0369D036978;
 6. cummulative difficulty int64; 
 7. generation signature;
-9. msg; // {genesis state k-v, chainID} // here is the only place chainID displayed to prevent genesis attack
+9. msg; // {genesis state k-v, String chainID} // here is the only place chainID displayed to prevent genesis attack
 10. `TsenderTAUpk`Noune = null
 11. `Tsender`Balance = null;
 12. `TminerTAUpk`Balance= null;
