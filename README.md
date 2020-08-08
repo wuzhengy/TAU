@@ -61,8 +61,8 @@ Core UI experienses
 blockJSON  = { 
 1. version;
 2. timestamp; 
-3. BlockNumber:=0;
-4. PreviousBlockRoot = null; // genesis is built from null.
+3. blockNumber:=0;
+4. previousBlockRoot = null; // genesis is built from null.
 5. basetarget = 0x21D0369D036978;
 6. cummulative difficulty int64; 
 7. generation signature;
@@ -84,9 +84,9 @@ After all, we thing List/long/string are good enough to represent most of basic 
 blockJSON  = { 
 1. version; // process configuration of chain // long
 2. timestamp;             // long
-3. BlockNumber;           // long
-4. PreviousBlockHash; // for verification                   // list[long]
-5. ImmutablePointBlockHash; // for voting, simple skip list // list[long]
+3. blockNumber;           // long
+4. previousBlockHash; // for verification                   // list[long]
+5. immutablePointBlockHash; // for voting, simple skip list // list[long]
 6. basetarget;                // long
 7. cummulative difficulty;    // long
 8. generation signature;      // list[long]
