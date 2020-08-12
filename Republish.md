@@ -11,5 +11,5 @@ Immutable item republish of private domain.
 * According to block frequency, nodes republish one random immutable item in the channel. 
   - In `blk` channel, a item is in consensus
   - In `msg` channel, a item is within own message history
-  - In `tx` channel, a item is with own transaction pool
+  - In `tx` channel, two item is within own transaction pool: latest tx to put, a random history tx. 
 * Immutable item does not republish other nodes message or tx. Republish in immutable schedule is about own history or concensus.
