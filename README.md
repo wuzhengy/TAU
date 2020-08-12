@@ -143,7 +143,8 @@ blockJSON  = {
 8. new ImmutablePointBlock voted.
    goto (1)
 
-9. if TAUpk not qualifies POT block producing requirments; go to (1) 
+9. if TAUpk not qualifies POT block producing requirments; or no peers or own has new information
+      go to (1) 
    generate new block
    put into DHT
    populate leveldb database. 
