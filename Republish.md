@@ -3,7 +3,9 @@ Nodes re-publish immutable item: according to the reading of `mutable item reque
 ## Mutable data item include two data parts:
 * a hash link: the target content
 * a referral public key: important for msg channel to speed up searching new messages
-``` Mutable date does not follow re-publish protocol```
+``` 
+Mutable date does not follow re-publish protocol
+```
 ## Salt channels
 * Tip channel: hash link is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block hash into mutable ite, then publish both mutable and immutable item. 
 * Reqeuset channel: hash link is the content on demand. When A requests a block, A put a hash into the channel mutable data, then publish it and wait a time out constant to get it.
