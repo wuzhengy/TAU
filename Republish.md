@@ -1,11 +1,11 @@
-Nodes re-publish immutable item:  according to the reading of `mutable item request channel`, all nodes re-publish the immutable item if owned. If not owned, all nodes will request the same item.  
+Nodes re-publish immutable item: according to the reading of `mutable item request channel`, all nodes re-publish the immutable item if owned locally. If not owned, nodes will request the same immutable item through `request channel`.  
 
 ## Mutable data item include two data parts:
-* a hash link
-* a referral public key
+* a hash link: the target content
+* a referral public key: important for msg channel to speed up searching new messages
 ## Salt channels
-* Salt tip channel: hash link is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block hash into mutable ite, then publish both mutable and immutable item. 
-* Salt reqeuset channel: hash link is the content on demand. When A requests a block, A put a hash into the channel mutable data, then publish it and wait a time out constant to get it.
+* Tip channel: hash link is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block hash into mutable ite, then publish both mutable and immutable item. 
+* Reqeuset channel: hash link is the content on demand. When A requests a block, A put a hash into the channel mutable data, then publish it and wait a time out constant to get it.
 * The `content` of mutable item in different channels: 
     * `blkTip` channel, the tip block 
     * `blkRequest`, the block hash on demand
