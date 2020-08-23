@@ -54,6 +54,8 @@ Core UI experienses
 - bootstrap ports 6881 is considered level ONE cache boostrap, software should remember these ips for future bootstrap and software release. 
 - URL TAUchain:?bs=pk1&bs=pk2&dn=chainID // maybe 10 bootstrap publickeys provided
 - community discovery: allow user to annouce community and discovery
+- mutable item: "request immutable item" and "referral peers"
+- immutable item republish based mutable item request. 
 
 ### Genesis 
 ```
