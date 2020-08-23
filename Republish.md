@@ -1,8 +1,8 @@
 Nodes re-publish immutable item:  according to the reading of `mutable item request channel`, all nodes re-publish the immutable item if owned. If not owned, all nodes will request the same item.  
 
 Mutable data item include two data parts:
-1. a hash link
-2. a referral public key <br> <br>
+* a hash link
+* a referral public key <br> <br>
 Channel 1: tip channel: hash link is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block hash into mutable ite, then publish both mutable and immutable item.  <br>
 Channel 2: reqeuset channel: hash link is the content on demand. When A requests a block, A put a hash into the channel mutable data, then publish it and wait a time out constant to get it. <br><br>
 The request life cycle: 
