@@ -1,6 +1,6 @@
 Nodes re-publish immutable item: according to the reading of `mutable item request channel`, all nodes re-publish the immutable item if owned locally. If not owned, nodes will request the same immutable item through `request channel`.  
 ``` 
-Mutable date does not follow re-publish protocol
+Mutable data item does not follow re-publish protocol
 ```
 ## Salt channels
 * Tip channel: hash link is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block hash into mutable ite, then publish both mutable and immutable item. 
