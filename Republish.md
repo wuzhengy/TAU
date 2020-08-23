@@ -1,8 +1,4 @@
 Nodes re-publish immutable item: according to the reading of `mutable item request channel`, all nodes re-publish the immutable item if owned locally. If not owned, nodes will request the same immutable item through `request channel`.  
-
-## Mutable data item include two data parts:
-* a hash link: the target content
-* a referral public key: important for msg channel to speed up searching new messages
 ``` 
 Mutable date does not follow re-publish protocol
 ```
@@ -18,4 +14,6 @@ Mutable date does not follow re-publish protocol
 ## The request life cycle: 
 * When nodes A want to request a history data, A will put the hash into mutable data item and publish the mutable data and DHT get the immutable item after a timeout.
 * When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will publish the immutable content; if not, B will make same request and DHT get the immutable item after a timeout. <br><br>
-
+## Mutable data item include two data parts:
+* a hash link: the target content
+* a referral public key: important for msg channel to speed up searching new messages
