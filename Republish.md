@@ -21,3 +21,6 @@ Mutable data item does not follow re-publish protocol
 * When nodes A want to request a history data, A will put the hash into mutable data item and publish the mutable data.
 * When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will re-publish the immutable content; if not, B will put public-key of requesting node A into own request mutable date item referral, the hash link part is nil. <br><br>
 
+## Nature of data
+* mutable item is new data: tight coupling controled by main thread. 
+* immutable item is old data follow this life cycle:  when get an immutable data, do a local memory search, put query request, (dht engine will do get and load into memory work). 
