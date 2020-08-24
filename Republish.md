@@ -19,5 +19,5 @@ Mutable data item does not follow re-publish protocol
     * `txRequest` channel, the tx data schema hash on demand
 ## The request life cycle: 
 * When nodes A want to request a history data, A will put the hash into mutable data item and publish the mutable data.
-* When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will re-publish the immutable content; if not, B will put public-key of requesting node into own request mutable date item referral, the hash link part is nil. <br><br>
+* When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will re-publish the immutable content; if not, B will put public-key of requesting node A into own request mutable date item referral, the hash link part is nil. <br><br>
 
