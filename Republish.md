@@ -7,7 +7,7 @@ Mutable data item does not follow re-publish protocol
 ```
 ## Salt channels
 * Tip channel: hash link is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block hash into mutable item, then publish both mutable and immutable item. 
-* Reqeuset channel: hash link is the content on demand. When A requests a block, A put a hash into the channel mutable data, then publish it and wait a time out constant to get it.
+* Reqeuset channel: hash link is the content on demand. When A requests a block, A put a hash into the channel mutable data, then publish it.
 * The `content` of mutable item in different channels: 
     * `blkTip` channel, the tip block 
     * `blkRequest`, the block hash on demand
@@ -15,6 +15,6 @@ Mutable data item does not follow re-publish protocol
     * `msgRequest` channel, the msg hash on demand
     * `txTip` pool channel, it the highest tx fee transaction. 
 ## The request life cycle: 
-* When nodes A want to request a history data, A will put the hash into mutable data item and publish the mutable data and DHT get the immutable item after a timeout constant.
+* When nodes A want to request a history data, A will put the hash into mutable data item and publish the mutable data.
 * When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will re-publish the immutable content; if not, B will put public-key of requesting node into own request mutable date item referral, the hash link part is nil. <br><br>
 
