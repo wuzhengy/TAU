@@ -7,15 +7,15 @@ According to the reading of `mutable request channel`, all nodes re-publish the 
 Mutable data item does not follow re-publish protocol
 ```
 ## Salt channels
-* Tip channel: hash link is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block hash into mutable item, then publish both mutable and immutable item. 
-* Requset channel: hash link is the content on demand. When A requests a block, A put a hash into the channel mutable data, then publish it.
+* Tip channel: content is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block key into mutable item, then publish both mutable and immutable item. 
+* Requset channel: when A requests a block, A put a key into the channel mutable data, then publish it.
 * The `content` of mutable item in different channels: 
     * `blkTip` channel, the tip block 
     * `blkRequest`, the block hash on demand
-    *
+    <br><br>
     * `msgTip` channel, the latest own message hash and lastest community msg pubkey
     * `msgRequest` channel, the msg hash on demand
-    *
+    <br><br>
     * `txTip` pool channel, it the highest tx fee transaction. 
     * `txRequest` channel, the tx data schema hash on demand
     
