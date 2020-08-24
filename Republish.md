@@ -1,7 +1,8 @@
-## Mutable data item include two data parts:
-* a hash link: the target content
-* a referral public key: important for msg channel to speed up searching new messages
-## Nodes re-publish immutable item: according to the reading of `mutable item request channel`, all nodes re-publish the immutable item if owned locally. If not owned, nodes will put public-key of requesting node into own mutable date item referral and hash link is nil.  
+## Mutable data item includes two data components:
+* the target content: the immutable data item key
+* a referral public key: important for opitmizing the latest information searching
+## Nodes re-publish immutable item protocol
+According to the reading of `mutable request channel`, all nodes re-publish the immutable item if owned locally. If not owned, nodes will put public-key of the requesting node into own mutable referral public key and keep `target content` nil.  
 ``` 
 Mutable data item does not follow re-publish protocol
 ```
@@ -17,10 +18,16 @@ Mutable data item does not follow re-publish protocol
     *
     * `txTip` pool channel, it the highest tx fee transaction. 
     * `txRequest` channel, the tx data schema hash on demand
-## The request life cycle: 
-* When nodes A want to request a history data, A will put the hash into mutable data item and publish the mutable data.
-* When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will re-publish the immutable content; if not, B will put public-key of requesting node A into own request mutable date item referral, the hash link part is nil. <br><br>
+    
+## Mutable data sync mode
+A node will control mutable data DHT put and get directly, running as synchronized tight coupling mode. A node will rely on referral to get intelligence for searching. 
+## Immutable data a-sync life cycle: 
+* When nodes A want to get a immutable data with a key, A will always search local memory. If not found, A will put the key into mutable data item and publish the mutable request. A will then exit the life cycle to leave DHT engine to do DHT get and add into memory. 
+* When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will re-publish the immutable content; if not, B will put public-key of requesting node A into own mutable referral component, the content part is nil, then publish it. <br><br>
+```
+Everything relating to mutable data put/get and immutable data put is controled by application-self in sync mode; immutable get is controlled by TAU DHT middleware.
+```
 
 ## Nature of data
-* mutable item is new data: tight coupling controled by main thread. 
-* immutable item is old data follow this life cycle:  when get an immutable data, do a local memory search, put query request, (dht engine will do get and load into memory work). 
+* mutable item is new data: tight coupling controled by main app. 
+* immutable item is old data: TAU dht engine will do get and load into memory for app. 
