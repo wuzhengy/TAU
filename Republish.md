@@ -1,13 +1,14 @@
-## Mutable data item includes two data components:
-* the target content: the immutable data item key
-* a referral public key: important for opitmizing the latest information searching
-## Nodes re-publish immutable item protocol
-According to the reading of `mutable request channel`, all nodes re-publish the immutable item if owned locally. If not owned, nodes will put public-key of the requesting node into own mutable referral public key and keep `target content` nil.  
+## Mutable data item
+For optimizing community new data searching, mutable data item of DHT is used as both publishing and requesting immutable data item. Each mutable data item includes two components:
+* the target content: the key of the target immutable data item, which could be either a requesting or a publishing of tip block or new message
+* a referral public key: for opitmizing the latest information searching, the public key is at nodes best knowledge of the latest peer that communicates
+## Protocol of re-publish immutable item
+According to the reading of `mutable request channel`, all nodes re-publish the immutable item which is stored locally. If not stored locally, nodes will put public-key of the requesting node into mutable referral public key and keep `target content` nil, then publish the mutable item into request channel.  
 ``` 
 Mutable data item does not follow re-publish protocol
 ```
 ## Salt channels
-* Tip channel: content is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block key into mutable item, then publish both mutable and immutable item. 
+* Tip channel: content is the latest tip hash when blockchain grows, the tip could be own block or other miner's block. Node A publish a new block, A put block key into mutable item, then publish both mutable tip channel and immutable item. 
 * Requset channel: when A requests a block, A put a key into the channel mutable data, then publish it.
 * The `content` of mutable item in different channels: 
     * `blkTip` channel, the tip block 
