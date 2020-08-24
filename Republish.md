@@ -22,7 +22,7 @@ Mutable data item does not follow re-publish protocol
 ## Mutable data sync mode
 A node will control mutable data DHT put and get directly, running as synchronized tight coupling mode. A node will rely on referral to get intelligence for searching. 
 ## Immutable data a-sync life cycle: 
-* When nodes A want to get a immutable data with a key, A will always search local memory. If not found, A will put the key into mutable data item and publish the mutable request. A will then exit the life cycle to leave DHT engine to do DHT get and add into memory. 
+* When nodes A want to get a immutable data with a key, A will always search local memory. If not found, A will put the key into mutable data item and publish the mutable request. A will then exit the life cycle to leave DHT engine to do DHT get and add into local memory. 
 * When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will re-publish the immutable content; if not, B will put public-key of requesting node A into own mutable referral component, the content part is nil, then publish it. <br><br>
 ```
 Everything relating to mutable data put/get and immutable data put is controled by application-self in sync mode; immutable get is controlled by TAU DHT middleware.
