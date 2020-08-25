@@ -20,15 +20,11 @@ Mutable data item does not follow re-publish protocol
     * `txTip` pool channel, it the highest tx fee transaction. 
     * `txRequest` channel, the tx data schema hash on demand
     
-## Mutable data sync mode
-A node will control mutable data DHT put and get directly, running as synchronized tight coupling mode. A node will rely on referral to get intelligence for searching. 
-## Immutable data a-sync life cycle: 
-* When nodes A want to get a immutable data with a key, A will always search local memory. If not found, A will put the key into mutable data item and publish the mutable request. A will then exit the life cycle to leave DHT engine to do DHT get and add into local memory. 
+## `Put` and forget.
+When a node wants to put either mutable or immutable data, it will call DHT API directly and then move to next program steps. The `put` action does not cause waiting. 
+## `Get` through `requesting` TAU DHT middleware.
+* When nodes A want to get a data with either mutable or immutable key, A will always search local memory. If not found, A will put the key into mutable data item and publish in the `Request` channel. A will then exit the life cycle to leave DHT engine to do DHT get and add into local memory. 
 * When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will re-publish the immutable content; if not, B will put public-key of requesting node A into own mutable referral component, the content part is nil, then publish it. <br><br>
 ```
-Everything relating to mutable data put/get and immutable data put is controled by application-self in sync mode; immutable get is controlled by TAU DHT middleware.
+Everything relating to `put` is controled by application-self; `get` is controlled by TAU DHT middleware through `request`.
 ```
-
-## Nature of data
-* mutable item is new data: tight coupling controled by main app. 
-* immutable item is old data: TAU dht engine will do get and load into memory for app. 
