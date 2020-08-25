@@ -22,8 +22,8 @@ Mutable data item does not follow re-publish protocol
     
 ## `Put` and forget.
 When a node wants to put either mutable or immutable data, it will call DHT API directly and then move to next program steps. The `put` action does not cause waiting. 
-## `Get` through `requesting` TAU DHT middleware.
-* When nodes A want to get a data with either mutable or immutable key, A will always search local memory. If not found, A will put the key into mutable data item and publish in the `Request` channel. A will then exit the life cycle to leave DHT engine to do DHT get and add into local memory. 
+## `Get` through `put into request channel` and TAU engine.
+* When nodes A want to get a data with either a mutable or immutable key, A will always search local memory firstly. If not found, A will put the key into mutable item and publish in the `Request` channel. A will then exit the life cycle to leave DHT engine to do DHT get and add into local memory. 
 * When other peer B read a mutable item from request channel, if B has such hash immutable content locally, the B will re-publish the immutable content; if not, B will put public-key of requesting node A into own mutable referral component, the content part is nil, then publish it. <br><br>
 ```
 Everything relating to `put` is controled by application-self; `get` is controlled by TAU DHT middleware through `request`.
