@@ -14,16 +14,16 @@ For optimizing community new data searching, mutable data item of DHT is used as
 * a referral public key: for opitmizing the latest information searching, the public key is at nodes best knowledge of the latest peer that communicates
 
 ## Salt channels
-    * `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Uppon receive request, Node A publish a new block via immutable item, A put block key into mutable item, then publish both mutable tip channel. 
+    *  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Uppon receive request, Node A publish a new block via immutable item, A put block key into mutable item, then publish both mutable tip channel. 
     * `blkRequest` 
        * the history block with key of immutable
        * `tip` block with key of mutable:  e.g. peerXpubkey+chainID+blkTip
-    <br><br>
+  
     * `msgTip` channel, the mutable item pointing to latest own message hash and lastest community msg pubkey
     * `msgRequest` channel, the msg hash on demand
        * the history msg with key of immutable
        * `tip` msg with key of mutable:  e.g. peerXpubkey+chainID+msgTip
-    <br><br>
+
     * `txTip` pool channel, it the highest tx fee transaction. 
     * `txRequest` channel, the tx data schema hash on demand
        * the history tx data with key of immutable
