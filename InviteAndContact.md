@@ -1,5 +1,5 @@
 ## Contact List
-Each peer has a contact list with the peers under certain chains. For the peers in the contact list, the status will be:
+Each peer owns a contact list of the peers under certain chains. For the peers in the contact list, the status will be:
 - Last seen: date
 - Last direct communication: date
 
@@ -34,7 +34,7 @@ Create a chat will require user:
 2. automatic airdrop coins to the public key
 3. share the URL (optional)
 
-# News peer joining
-* A new peer join the group, it will take a while to collect blockchain data. During the mean time, it will rely on other peer's hash link to process the mining, messaging and tx pool. New peer will trust the hash linked public key for the content. 
-* When new peer join, it will allow to send messages, however, until it is confirmed onchain by others or peer-self, its message will be loaded to other app.
-* There is a phase called "checking own status on chain" to confirm whether a peer can send messages or blk/tx pool candidates. 
+# New peer joining
+* A new peer join the group, it will take a while to collect blockchain data. During the mean time, it will rely on other peer's referral link to process the mining, messaging and tx pool. New peer will trust the referral linked public key for the content. 
+* When new peer join, it will allow to send messages, however, until it is confirmed onchain by others or peer-self, its message will then be loaded to other app.
+* The App should process a phase called "checking own status on chain" to confirm whether a peer can send messages or blk/tx pool candidates. 
