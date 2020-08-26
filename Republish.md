@@ -3,7 +3,7 @@ For optimizing community new data searching, mutable data item of DHT is used as
 * the target content: the key of the target immutable data item, which could be either a requesting or a publishing of tip block or new message
 * a referral public key: for opitmizing the latest information searching, the public key is at nodes best knowledge of the latest peer that communicates
 ## Protocol 
-### re-publish immutable item
+### nodes reponse immutable/mutable item
 According to the reading of `mutable request channel`, all nodes re-publish the immutable item which is stored locally. If not stored locally, nodes will put public-key of the requesting node into mutable referral public key and keep `target content` nil, then publish the mutable item into request channel.  
 ``` 
 Mutable data item does not follow re-publish protocol
