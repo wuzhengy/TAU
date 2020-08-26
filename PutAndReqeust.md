@@ -24,7 +24,7 @@ Each topic of blk, msg, tx has two mutable channels for both request and respons
 * `msgRequest` channel, the msg hash on demand
   * the history msg with key of immutable
   * `tip` msg with key of mutable:  e.g. peerXpubkey+chainID+msgTip
- <br><be>
+ <br><br>
 * `txTip` pool channel, it the highest tx fee transaction. 
 * `txRequest` channel, the tx data schema hash on demand
   * the history tx data with key of immutable
