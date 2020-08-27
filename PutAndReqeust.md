@@ -12,7 +12,7 @@ We believe that request-based put is more fitting for DHT.
 ## Mutable item
 For optimizing community new data searching, mutable data item of DHT is used as both putting and requesting data item. Each mutable data item includes two components:
 * the target content: the key of the target data, which could be either a requesting or a publishing of tip block or new message
-* a referral public key: ???. 
+* a referral public key: for optimization to O(logN) searching new messages.  
 
 ## Salt channels
 Each topic of blk, msg, tx has two mutable channels for both request and response.<br>
