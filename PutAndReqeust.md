@@ -1,6 +1,6 @@
 # TAU app communication with DHT
 TAU application adopts a special "one way" communication to DHT engine. The business logic is implemented based on two  "one way non-waiting" methods:
-1. `Put` / `Put and Forget`: app can put data item (mutable/immutable) into DHT space. When a node wants to put either mutable or immutable item, it will call DHT API directly and then forget, which is moving to next steps. The `put` action does not cause waiting. 
+1. `Put` / `Put and Forget`: app can put data item (mutable/immutable) into DHT space. When a node wants to put either mutable or immutable item, it will call DHT Engine and then forget, which is moving to next steps. The `put` action does not cause waiting. 
 2. `Request` / `Request and Forget`: app can put request through `mutable item` through a certain `Salt channel`, then delegate TAU DHT engine to get data from DHT space. 
    * When a node, A, wants to get a data with either a mutable or immutable key, A will search local memory firstly. If not found locally, A will put the key into mutable item and publish in the `Request` channel. A will then move on, which is to leave DHT engine to do `DHT get` for loading into local memory. 
    * When aother node B reads a mutable item from request channel, if B has such data locally, the B will put the content; if not, B will put public-key of requesting node A into own mutable referral component, the content part is nil, then put. This helps broadcasting the original request. <br><br>
