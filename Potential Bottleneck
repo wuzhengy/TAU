@@ -1,0 +1,3 @@
+* May not fit for video streaming, which requires instant response of sources. 
+* May not fit for voice conference or video conference. 
+* May not fit for sub-second response required services such as autonomouse driving
