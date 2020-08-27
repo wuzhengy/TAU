@@ -100,7 +100,7 @@ blockJSON  = {
 
 
 ## Constants
-* MutableRange:  864 blocks, 3 days, use block as unit since no censensus
+* MutableRange:  288 blocks, 1 days, use block as unit since no censensus
 * WarningRange: 3 x MutableRange
 * WakeUpTime: sleeping mode wake up random range 10 minutes
 * GenesisCoins: default coins 10,000,000. 
