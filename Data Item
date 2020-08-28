@@ -1,0 +1,8 @@
+Mutable Item
+For optimizing community new data searching, mutable data item of DHT is used as both putting and requesting data item. 
+Each mutable data item includes two components:
+* the target content: the key of the target data, which could be either a requesting or a publishing of tip block or new message
+* a referral public key: for optimization to O(logN) searching messages channel.
+
+Immutable Item
+The content addressable data scheme such as IPLD
