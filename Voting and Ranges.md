@@ -1,3 +1,14 @@
+## Ranges
+* mutable range:  ... < 1x
+   * Mutable range is the range of blocks from the current blockchain frontier, tip, to a specific defined history block. 
+* voting range:   1x  < ...  < 3x 
+   * Voting range is the blocks between 1 x mutable range to 3x mutable range, the length of this range is twice as mutable range.
+* warning range:  3X  < ...
+   * the blocks prior to voting range
+```
+genesis ... warning range ... 3x ... voting range ... 1x ... mutable range ... tip
+```
+
 ## POT Voting process
 Voting process triggering: 
 * When a new peer coming on-line, the peer uses a voting process to chose the right fork to follow. 
@@ -11,7 +22,8 @@ Voting has two phase:
         - URL TAUchain:?bs=`pk1`&bs=`pk2`&dn=`chainID`  // maybe 10 bootstrap publickeys provided
       - 如果投票出的新ImmutablePointBlock，root在同一链上mutable range内，说明是链的正常发展
         - 继续发现最长链，在找到新的最长链的情况下，检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池
-      - 如果投出来的新ImmutablePointBlock, 这个block is within 1x - 3x out of mutable range，把自己当作新节点处理。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。如果分叉点在3x mutable range之外，Alert the user of a potential attack。
+      - 如果投出来的新ImmutablePointBlock within voting range, go to voting。检查下自己的历史交易是否在新链上，不在新链上的放回交易池。
+      - 如果分叉点 within warning range，alert the user of a potential attack。
 ```
 * Compute the data 
    - select the highest voted ImmutablePointBlock
@@ -20,7 +32,3 @@ Voting has two phase:
 * number of peers:  log(n)
 * stake weighted random selection. the higher stake, the hire chance to get selected for voting. 
 
-## Ranges
-* mutable range:  ... < 1x   Mutable range is the range of blocks from the current blocchain frontier, tip, to a specific defined history block. 
-* voting range:   1x  < ...  < 3x
-* warning range:  3X  < ...
