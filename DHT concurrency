@@ -1,0 +1,3 @@
+[TAU app] <--- single process --> [TAU DHT Engine]   -> frostwire DHT get/put thread1 -> libtorrent put/get
+                                                     -> frostwire DHT get/put thread1 -> libtorrent put/get
+                                                     -> frostwire DHT get/put thread1 -> libtorrent put/get
