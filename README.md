@@ -123,6 +123,7 @@ blockJSON  = {
 4. DHT_get(`TAUpk+chainID`); get `ChainID` tip block from DHT;
    if not_found go to (9);
    TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
+5. if not find longest chain in 2x block windows, then self mining ????
 
 6. if received block shows a valid higher difficulty than current difficulty  {
     if the fork happens prior to the ImmutablePointBlock and within the WarningRange, 
