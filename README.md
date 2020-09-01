@@ -109,7 +109,7 @@ blockJSON  = {
 * DefaultMaxBlockTime:  540 seconds, when no body mining, you have to generate blocks.
 * DefaultBlockTime: 300 seconds
 * TXtimeout: 12 Hours
-* ChannelVisitInterval: 1 second, this is to prevent program to collect data item too fast. 
+* ChannelVisitInterval: 0.1 second, this is to prevent program to collect data item too fast. 
 
 ---
 ## Mining Thread sketch: Votings, chain choice and block generation.   
