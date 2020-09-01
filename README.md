@@ -112,12 +112,9 @@ blockJSON  = {
 * ChannelVisitInterval: 0.1 second, this is to prevent program to collect data item too fast. 
 
 ---
-## Mining Thread sketch: Votings, chain choice and block generation.   
+## Mining Process sketch: Votings, chain choice and block generation.   
 ```
-1. set chain ID for a mining threads pool. mining threads pool is managed by chainManager. 
-   If pool resources is up, a mining thread has to wait. 
-   Each mining effort is a thread in Java. Each thread will get mining DHT connection from 
-   ChainManager threads pool. ??? to be discussed.
+1. Mining process is a single process and does not own any threads. It will talk to TAU DHT for requesting data and put data through a non-waiting call. 
 
 3. Choose a Peer from  TAUpeers[`ChainID`]
    If chainID+Peer is requested within DefaultBlockTime, go to (9) 
