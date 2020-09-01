@@ -17,7 +17,7 @@ Voting process triggering:
 Voting has two phase: 
 * Prepare data: collecting a certain block such as "immutable point block" from random block producers in the `mutable range`.
    - voting position: the ImmutablePointBlock, if the current tip block number less than mutable range，it means the blockchain is very young. It will use genesis block as voting position.
-   - participating peers: peers in the mutable range.
+   - participating peers: peers in the  range.
    - peers selection Strategy
       * number of peers:  log(n)
       * stake weighted random selection. the higher stake, the hire chance to get selected for voting.
