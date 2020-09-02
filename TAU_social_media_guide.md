@@ -4,3 +4,4 @@
 * Technical notes and whitepaper: `github`; https://github.com/wuzhengy/TAU
 * Source code: https://github.com/Tau-Coin/dhtTAU
 * Telegram: https://t.me/taucoin
+* Taucointalk https://taucointalk.org/index.php
