@@ -36,5 +36,5 @@ Create a chat will require user:
 
 # New peer joining
 * A new peer join the group, it will take a while to collect blockchain data. During the mean time, it will rely on other peer's referral link to process the mining, messaging and tx pool. New peer will trust the referral linked public key for the content. 
-* When new peer join, it will allow to send messages, however, until it is confirmed onchain by others or peer-self, its message will then be loaded to other app.
+* When new peer join, app will allow to send messages, however, until it is confirmed onchain by others or peer-self, its message will then be loaded to other app.
 * The App should process a phase called "checking own status on chain" to confirm whether a peer can send messages or blk/tx pool candidates. 
