@@ -32,5 +32,6 @@ Voting has two phase:
       - 如果分叉点 within warning range，alert the user of a potential attack。
 ```
 ## POT Mining process
- 
+A peer will seek the most difficult chain. If not be able to find within the DefaultMaxBlocktime, the peer will self generate block, even the block is empty. 
+If the peer has only empty data, it will keep on seeking until first block received. 
 
