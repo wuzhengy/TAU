@@ -5,15 +5,15 @@ Core UI experienses
    * Create a Chat 
       * Give a name to new blockchain and its coin
       * Creation of a blockchain with 10 million coins on 5 minutes per block generation rate
-   * Transactions on community blockchain - DHT mutable key: public key + `chainID#blk`
+   * Transactions on community blockchain - DHT mutable key: public key + `chainID#blk`/`chainID#tx`
       * Forum Note
       * Wiring Transaction
       * Genesis
    * Instant Chat Messages - DHT mutable key: public key + `chainID#msg`
-      * Peers can pub chat messages and hope other peers to find it
+      * Peers put chat messages and `hope` other peers to find it
    * Rename/blacklist - easy to rename or blacklist an address
 - Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s; DHT nodesinfo
-- TAUcoin chain prebuilt: a place to publish annoucements.
+- TAUcoin chain: a place to publish annoucements.
 --- 
 ## Persistence
 1.  Chains  map[ChainID] config; 
@@ -31,24 +31,24 @@ Core UI experienses
     - `blockdb` ---> `tauDHT put` ---> `DHT`
     - `blockdb` <--- `tauDHT get` <--- `DHT`
     - `statedb` <--> `blockdb`
-  - myth: p2p IP level communication is not possible to implement, given firewalls and personal device security restrictions. DHT is the overlay p2p communication. When peer is not off-line, the content is still available in DHT cache for exchange. 
+  - myth: p2p IP level communication is not possible to implement, given firewalls and personal device security restrictions. DHT is the overlay p2p communication. When peer is off-line, the content is still available in DHT cache for exchange. DHT dynamic routing table is a way to `hole punch` the firewall by dynamically remember the port numbers on firewall. 
 ## Key Concepts
 - Version 1 default parameters: 
   - 5 minutes average to generate a block. It can be upgraded when network enhance. 
   - One block has one transaction. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
-- blockchain and hash-chain: blockchain reflects to community consensus, hash-chain stores personal instant chat messages. The format looks like, community ID: Shanghai#hash(pK+timestamp); hash chain salt: Shanghai#hash(pk+timestamp)`#msg`. All the data in TAU is an entry to a chain either blockchain or hash chain. 
-- p2c, peer to consensus for reducing the DHT sybil attack by relying on membership information on chain. 
+- blockchain and hash-chain: blockchain reflects to community consensus, hash-chain stores personal instant chat messages. The format looks like, community ID: Shanghai#hash(pK+timestamp); hash chain salt: Shanghai#hash(pk+timestamp)`#msg`. All the data in TAU is an entry to either blockchain or hash chain. 
+- p2c, peer to consensus for reducing the DHT sybil attack by relying on the limited scope of membership participation on chain. 
 - channels: BLK - blockchain; TX - transaction candidates; MSG - instant chat
 - Community ChainID := `community name`#`hash(GenesisMinerPubkey + timestamp)` 
-  - Community will choose its own name. 
+  - Community will choose its own `community name`. 
   - Coin volumn is 10 million
   - Default block time is 300 seconds
   - example: TAUcoin ID is TAUcoin#hash 
-  - ChainID#channel is defined as libtorrent salt
-- Public key is used as the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. In new TAU, we use "seed" to import and export the account identifier. 
+  - ChainID#channel is defined as a `libtorrent salt`
+- Public key is used as the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. In new TAU, we use "seed" to import and export the account. 
 - POT defines power as square root of the nounce.
-- genesis block power: give one year power to genesis public key to make admin airdrop possible. 
-- Provide opitional miner manual approval on transactions, expecially the negative value and problem content. 
+- Genesis block power: give one year power to genesis public key to make admin airdrop possible. 
+- Provide opitional miner manual approval on transactions, expecially the negative value and problem content. This will be a future function.
 - One secrete key per device, not recommend to copy secrete key between devices. 
 - member with power/balance(0/0) in a chain = read only. 
 - URL TAUchain:?bs=pk1&bs=pk2&dn=chainID // maybe 10 bootstrap publickeys provided
@@ -113,16 +113,15 @@ blockJSON  = {
 ---
 ## Mining Process sketch: Votings, chain choice and block generation.   
 ```
-1. Mining process is a single process and does not own any threads. It will talk to TAU DHT for requesting data and put data through a non-waiting call. 
+1. Mining process is a single process and does not generate any threads. It will talk to TAU DHT for requesting data and put data through a non-waiting call. 
 
 3. Choose a Peer from  TAUpeers[`ChainID`]
    If chainID+Peer is requested within DefaultBlockTime, go to (9) 
-   // do not revisit same peer within default block time
+   // not revisit same peer within default block time
       
 4. DHT_get(`TAUpk+chainID`); get `ChainID` tip block from DHT;
    if not_found go to (9);
    TAUpeers[ChainID][Peer].update(timestamp) // for verifying the revisit time
-5. if not find longest chain in 2x block windows, then self mining ????
 
 6. if received block shows a valid higher difficulty than current difficulty  {
     if the fork happens in the voting range, 
