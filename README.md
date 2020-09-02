@@ -125,27 +125,26 @@ blockJSON  = {
 5. if not find longest chain in 2x block windows, then self mining ????
 
 6. if received block shows a valid higher difficulty than current difficulty  {
-    if the fork happens prior to the ImmutablePointBlock and within the WarningRange, 
+    if the fork happens in the voting range, 
     go to (7) for voting. 
-    if the fork happens piror to the WarningRange, throw warning to user, go to (9)
+    if the fork happens in the WarningRange, throw warning to user, 
+    go to (12)
+    if the fork happens in the mutable range,
     verify this chain's transactions from the ImmutablePointBlock;
-    if verification successful and populate new states, new longest block identified. 
+    if verification successful, new longest block identified. 
     }
    go to (9) 
    
 7. collecting logN number of peers from all address space for voting. 
 
 8. new ImmutablePointBlock voted.
-   goto (1)
+   goto (12)
 
-9. if TAUpk not qualifies POT block producing requirments; or no peers or own has new information
-      go to (1) 
-   generate new block
-   put into DHT
-   populate leveldb database. 
-
-10. go to step (1)
-
+9. if exceed DefaultMaxBlocktime, go to (10). 
+    if peer peer not qualifies POT block producing difficulty go to (12)
+    
+10. generate new block
+12. go to step (1)
 ```
 ---
 # System config
@@ -154,10 +153,11 @@ blockJSON  = {
   - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Server mode: default OFF; when turn ON, it will turn on wake lock, when phone reboot, tau will auto start. 
-# Database: leveldb andriod
-# Muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
-Since `secrete key` is supposed to be on one device for operation, we focus on use android as core platform. Other OS platforms will use browser to connect andoid TAU through local wifi lan. As long as other devices can access the android phone via IP network, they can operate a TAU node. <br>
+# Database: leveldb andriod https://github.com/hf/leveldb-android
+# Initial muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
+Since `secrete key` is supposed to be on one device for operation, we focus on use android as core platform. Other OS platforms will use browser to connect andoid TAU through local wifi. As long as other devices can access the android phone via IP network, they can operate a TAU node. <br>
 Linux dht command line interfact will be provided to interact with TAU. 
-# To do and other notes
-- resource management process
-- TAU dev might provide centralized DHT search engine: centralized engine to find new community and links.
+# Resource management architecture
+* Multiple chain mining is a single process task.
+* DHT connection is multi-threading
+* Mining process invoke DHT through non-waiting put/request callback interface. 
