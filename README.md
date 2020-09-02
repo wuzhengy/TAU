@@ -106,7 +106,7 @@ blockJSON  = {
 * GenesisCoins: default coins 10,000,000. 
 * GenesisBasetarget:  0x21D0369D036978; simulated 1 million blocks with average 60 seconds.
 * DefaultMinBlockTime:  60 seconds, this is fixed block time. do not let user choose as for now.
-* DefaultMaxBlockTime:  540 seconds, when no body mining, you have to generate blocks.
+* DefaultMaxBlockTime:  540 seconds, when no body mining, you have to generate blocks or exit voting.
 * DefaultBlockTime: 300 seconds
 * ChannelVisitInterval: 0.1 second, this is to prevent program to collect data item too fast. 
 
