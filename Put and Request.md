@@ -14,7 +14,7 @@ The Non-waiting design of `request` and `put` will allow messenger to communicat
 For optimizing community new data searching, mutable data item of DHT is used as both putting and requesting data item. Each mutable data item includes two components:
 * the target content: the key of the target data, which could be either a requesting or a publishing of tip block or new message
 * a referral public key: for optimization to O(logN) searching messages channel.  
-
+### When requesting mutable item, due to the same key nature, it will have to check seq number to make sure getting the new item rather than previous
 ## Salt channels
 Each topic of blk, msg, tx has two mutable channels for both request and response.<br>
 *  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Uppon receive request, Node A publish a new block via immutable item, A put block key into mutable item, then publish both mutable tip channel. 
