@@ -24,3 +24,10 @@ More specific definition:
 Mutable item key: publicKey + salt
 - Mutable item value: an immutable item key (the hash of a data block, which is the first block of a schema)
 ```
+## Multi-threads
+```
+[TAU app] <--- single process --> [TAU DHT Engine]   -> frostwire DHT get/put thread1 -> libtorrent put/get
+                                                     -> frostwire DHT get/put thread2 -> libtorrent put/get
+                                                     -> frostwire DHT get/put thread3 -> libtorrent put/get
+```
+TAU has 4 thread pools: mutable put, mutable get; immutable put, immutable get. The thread number in each pool starts from 2, and will be changed dynamically according to the response successful rate. The threads are working on a task queue, which is a hash based linked queue providing log(N) level of key uniqueness searching ability. 
