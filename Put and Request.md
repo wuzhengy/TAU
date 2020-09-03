@@ -1,20 +1,22 @@
 # TAU app communication with DHT
-TAU application adopts a special "one way" communication to DHT engine. The business logic is implemented based on two  "one way non-waiting" methods:
+TAU application adopts a special "one way" communication to DHT engine. This will give dAPP quick user response even the backend is very loose and random DHT space. The business logic is implemented based on two  "one way non-waiting" methods:
 1. `Put` / `Put and Forget`: app can put data item (mutable/immutable) into DHT space. When a node wants to put either mutable or immutable item, it will call DHT Engine and then forget, which is moving to next steps. The `put` action does not cause waiting. 
-2. `Request` / `Request and Forget`: app can put request through `mutable item` through a certain `Salt channel`, then delegate TAU DHT engine to get data from DHT space. 
-   * When a node, A, wants to get a data with either a mutable or immutable key, A will search local memory firstly. If not found locally, A will put the key into mutable item and publish in the `Request` channel. A will then move on, which is to leave DHT engine to do `DHT get` for loading into local memory. 
-   * When aother node B reads a mutable item from request channel, if B has such data locally, the B will put the content. This helps broadcasting the original request. <br><br>
-
-### Request based communication than constant `re-publishing`
+2. `Request` / `Request and Forget`: app can put request through `mutable item` through a certain `request channel`, then delegate TAU DHT engine to get data from DHT space. 
+   * When a node, A, wants to get a data 
+      - for immutable key, A will search local memory firstly. If not found locally, A will put the key in A's `Request` channel, then move on, which is to leave DHT engine to do `DHT get` for loading into local memory. 
+      - for mutable key, A will not search local. A will put the key such as `pubkeyChainIDblktip` in A's `request` channel, then DHT get will seek it and call back the A. 
+   * When aother node B reads from request channel, if B has such data locally, the B will put the content. <br><br>
+Therefore, the `get` method is replaced by request and callback. The TAU DHT engine will setup a get queue to ensure the key uniqueness, so the request will not flood the system. 
+### Request based communication than `constant re-publishing`
 Nodes routinely checking community members requests and response with putting data. In mainline DHT and IPFS, it requires nodes to republish content periodically to keep data live in the DHT space. For larger amount of data, it is impossible to achieve all data holding on DHT. DHT space is mostly for communication caching rather than archiving.
 ```
 The Non-waiting design of `request` and `put` will allow messenger to communicate to DHT freely without worrying the bandwidth and latency. 
 ```
-## Mutable item
-For optimizing community new data searching, mutable data item of DHT is used as both putting and requesting data item. Each mutable data item includes two components:
+## Mutable item components
+For optimizing community new data searching. Each mutable data item includes two components:
 * the target content: the key of the target data, which could be either a requesting or a publishing of tip block or new message
 * a referral public key: for optimization to O(logN) searching messages channel.  
-### When requesting mutable item, due to the same key nature, it will have to check seq number to make sure getting the new item rather than previous
+
 ## Salt channels
 Each topic of blk, msg, tx has two mutable channels for both request and response.<br>
 *  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Uppon receive request, Node A publish a new block via immutable item, A put block key into mutable item, then publish both mutable tip channel. 
