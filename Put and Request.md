@@ -21,21 +21,21 @@ For optimizing community new data searching. Each mutable data item includes two
 ## Salt channels
 Each topic of blk, msg, tx has two mutable channels for both request and response.<br>
 *  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Uppon receive request, Node A publish a new block via immutable item, A put block key into mutable item, then publish both mutable tip channel. 
-  * referral component is nil
-* `blkRequest` 
+   * referral component is nil
+* `blkDemand` 
   * the history block with key of immutable
   * `tip` block with key of mutable:  e.g. peerXpubkey+chainID+blkTip
   * referral component is nil
  <br><br>
 * `msgTip` channel, the mutable item pointing to latest own message hash and lastest community msg pubkey
-* `msgRequest` channel, the msg hash on demand
+* `msgDemand` channel, the msg hash on demand
   * the history msg with key of immutable
   * `tip` msg with key of mutable:  e.g. peerXpubkey+chainID+msgTip
   * referral component is the latest communicating peer.
  <br><br>
 * `txTip` pool channel, it the highest tx fee transaction in the pool or own tx
   * referral component is nil
-* `txRequest` channel, the tx data schema hash on demand
+* `txDemand` channel, the tx data schema hash on demand
   * the history tx data with key of immutable
   * the top tx with key of mutable:  e.g. peerXpubkey+chainID+txTip
   * referral component is nil
