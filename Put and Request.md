@@ -1,6 +1,6 @@
 # TAU app communication with DHT
 ### Mutable
-Each peer will assume other peers will publish mutable data according to certain protocol. Therefore, peer does not request for mutable data, and peer will just get those data directly. 
+Each peer will assume other peers will publish mutable data according to certain protocol. Therefore, peer does not request for mutable data, and peer will just get those data directly according to a time schedule or referral. 
 ### Immutable
 Immutable data is history. Peers will publish these data uppon request. Therefore, peer need to request those data before getting them. 
 
