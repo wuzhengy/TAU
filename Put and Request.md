@@ -39,3 +39,20 @@ Each topic of blk, msg, tx has two mutable channels for both request and respons
   * the history tx data with key of immutable
   * the top tx with key of mutable:  e.g. peerXpubkey+chainID+txTip
   * referral component is nil
+```
+Signal Types: 
+    TIP_BLOCK_FROM_PEER_FOR_MINING, // mutable block - randomly getting community members tip of blockchain
+
+    HISTORY_BLOCK_REQUEST_FOR_MINING, // immutable block - getting a history block by providing block hash
+    HISTORY_BLOCK_TX_REQUEST_FOR_MINING, // immutable tx - getting a transaction under above block
+
+    BLOCK_DEMAND_FROM_PEER, // mutable item: request block hash - receiving block hash under requesting by peers
+    BLOCK_TX_DEMAND_FROM_PEER, // mutable item: request tx hash
+
+   
+    TIP_BLOCK_FROM_PEER_FOR_VOTING, // mutable block for voting
+    HISTORY_BLOCK_REQUEST_FOR_VOTING, // immutable block for voting
+
+    TIP_TX_FOR_MINING, // mutable tx for mining
+    TX_FOR_MINING, // immutable tx for mining
+```
