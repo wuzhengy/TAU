@@ -54,5 +54,5 @@ Signal Types:
     HISTORY_BLOCK_REQUEST_FOR_VOTING, // immutable block for voting
 
     TIP_TX_FOR_MINING, // mutable tx for mining
-    TX_FOR_MINING, // immutable tx for mining
+    TX_REQUEST_FOR_MINING, // immutable tx for mining
 ```
