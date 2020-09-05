@@ -41,18 +41,30 @@ Each topic of blk, msg, tx has two mutable channels for both request and respons
   * referral component is nil
 ```
 Signal Types: 
-    TIP_BLOCK_FROM_PEER_FOR_MINING, // mutable block - randomly getting community members tip of blockchain
+    TIP_BLOCK_FROM_PEER_FOR_MINING, // get from tip channel, mutable, for randomly getting community members tip of blockchain
 
-    HISTORY_BLOCK_REQUEST_FOR_MINING, // immutable block - getting a history block by providing block hash
-    HISTORY_BLOCK_TX_REQUEST_FOR_MINING, // immutable tx - getting a transaction under above block
+    GET_HISTORY_BLOCK_FOR_MINING, // get from peers on immutable block - getting a history block by providing block hash
+    GET_HISTORY_BLOCK_TX_FOR_MINING, // get from peers on immutable tx - getting a transaction under above block
 
-    BLOCK_DEMAND_FROM_PEER, // mutable item: request block hash - receiving block hash under requesting by peers
+    BLOCK_DEMAND_FROM_PEER, // get demand from peers, mutable item: request block hash - receiving block hash under requesting by peers
     BLOCK_TX_DEMAND_FROM_PEER, // mutable item: request tx hash
+    
+    GET_HISTORY_BLOCK_FOR_SYNC, // get from peers immutable block for sync
+    GET_HISTORY_TX_FOR_SYNC, // get from peers immutable tx for sync
 
-   
+    TIP_BLOCK_FROM_PEER_FOR_VOTING, // mutable block for voting
+    GET_HISTORY_BLOCK_FOR_VOTING, // immutable block for voting
+
+    TIP_TX_FOR_MINING, // mutable tx for mining
+    GET_TX_FOR_MINING, // immutable tx for mining
+    
+  
     TIP_BLOCK_FROM_PEER_FOR_VOTING, // mutable block for voting
     HISTORY_BLOCK_REQUEST_FOR_VOTING, // immutable block for voting
 
-    TIP_TX_FOR_MINING, // mutable tx for mining
-    TX_REQUEST_FOR_MINING, // immutable tx for mining
+    TIP_TX_FOR_MINING, // mutable tx for pool
+    TX_FOR_MINING, // immutable tx for pool
+    
+    
+    
 ```
