@@ -31,3 +31,7 @@ Mutable item key: publicKey + salt
                                                      -> frostwire DHT get/put thread3 -> libtorrent put/get
 ```
 TAU has 4 thread pools: mutable put, mutable get; immutable put, immutable get. The thread number in each pool starts from 2, and will be changed dynamically according to the response successful rate. The threads are working on a task queue, which is a hash based linked queue providing log(N) level of key uniqueness searching ability. 
+
+## Expiry and pick_least_important to delete strategy
+The data hash table will be full sometime. When new items come in, the current libtorrent will pick_least_important item based on the distance and annoucers to erase. This will potentially cause hackers to generate data items and nodes to increase importance and occupy resources. 
+The request based data cache strategy will replace this delete strategy with shorter expiry time. Since in the TAU network, data service is request based, the data will not need to stay in cache for too long. In libtorrent, the protocol defines 2 hours as minimum. We will change this to an average blocktime, 5 minutes. This will increase the circulation of the cache. 
