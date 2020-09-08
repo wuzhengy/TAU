@@ -1,4 +1,4 @@
-* DAG - directed acyclic graph: every data item in TAU has both `content` and `link`. TAU content network can be viewed as a DAG. Any data connects another data for blocks, messages or images. 
+* DAG - directed acyclic graph: every data item in TAU has both `content` and `link`. TAU content network can be viewed as a DAG. Any data connects another data for representing blocks, messages or images. 
   * Mutable item `content` is a pointer to a DAG node,the key of an immutable item; and link is another public key. 
    - The public key with a salt can form a new pointer. The new pointer nature is much dependent on channels. 
      - For #blk channle, it is another miner. 
@@ -10,14 +10,14 @@
 * P2C - Peer to Consensus: every communication is under scope of a chain, which is a type of consensus. This is called `peer to consensus`.The consensus will regulate spam and make content searching efficient within limited nodes. 
 
 ## Knowledge building blocks
-Along the way of developing TAU, we have adopted many key ideas from other open-source community projects. 
+Along the way of developing TAU, we have adopted many key ideas from many open-source community projects. Following are the key components we are adopting. 
 #### Bitcoin
-Hash 
+Hash linked chain, central-less and permission-less concensus
 #### Ethereum
-State of accounts and nounce
+Account state transition of balance and nounce
 #### NXT
-Generation signature
+Generation signature for mining, proof of stake, chain accumulative difficulty
 #### IPLD/IPFS/LibP2P
-Data Schema
+Data Schema on blocks, content addressing
 #### Libtorrent
-Cache table
+Distributed cache table for data item, immutable data and mutable data, salt, ed25519 encryption
