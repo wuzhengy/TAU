@@ -8,3 +8,16 @@
   - Schema is series of immutable item together to present a data structure. IPLD protocol has built example of data schema. 
 <br><br>
 * P2C - Peer to Consensus: every communication is under scope of a chain, which is a type of consensus. This is called `peer to consensus`.The consensus will regulate spam and make content searching efficient within limited nodes. 
+
+## Knowledge building blocks
+Along the way of developing TAU, we have adopted many key ideas from other open-source community projects. 
+#### Bitcoin
+Hash 
+#### Ethereum
+State of accounts and nounce
+#### NXT
+Generation signature
+#### IPLD/IPFS/LibP2P
+Data Schema
+#### Libtorrent
+Cache table
