@@ -52,6 +52,7 @@ Core UI experienses
 - One secrete key per device, not recommend to copy secrete key between devices. 
 - member with power/balance(0/0) in a chain = read only. 
 - URL TAUchain:?bs=pk1&bs=pk2&dn=chainID // maybe 10 bootstrap publickeys provided
+- mutable range/ warning range time point:  1. time -> point . 2. point - block number. 3. tip and mutable point block might combine. tip time or block. 
 
 ### Genesis 
 ```
