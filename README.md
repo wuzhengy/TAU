@@ -53,6 +53,8 @@ Core UI experienses
 - member with power/balance(0/0) in a chain = read only. 
 - URL TAUchain:?bs=pk1&bs=pk2&dn=chainID // maybe 10 bootstrap publickeys provided
 - mutable range/ warning range time point:  1. time -> point . 2. point - block number. 3. tip and mutable point block might combine. tip time or block. 
+- traffice volumen big , so block fequencey increase. 
+- 
 
 ### Genesis 
 ```
