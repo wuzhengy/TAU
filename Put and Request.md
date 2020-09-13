@@ -68,3 +68,7 @@ Signal Types:
     
     
 ```
+## Data service strategy
+In order for community members to receive data needed for mining, peers will check the `demand` channel for providing data to the community as contribution.
+We use mutable range block number divided by active peers in a block cycle to decide how many data item to serve to the community demand for each peer. In the main loop, each iteration, peer will check whether the required put number fulfilled? If not, then keep on service, if fulfilled, then just skip the service. <br> 
+Nodes can opt to service more data if the notes holding big stake or power. 
