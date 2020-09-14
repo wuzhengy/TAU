@@ -35,3 +35,7 @@ TAU has 4 thread pools: mutable put, mutable get; immutable put, immutable get. 
 ## Expiry of data item and pick_least_important to erase strategy
 The data hash table will be full sometime. When new items come, the libtorrent will erase `pick_least_important` item based on the distance and annoucers. This will potentially cause hackers to generate fake important data items and nodes combination to occupy resources for long time. <br>
 The new request based data cache strategy will build on top of this erase strategy with shorter expiry time. Since in the TAU network, data service is request based, the data will not need to stay in cache for too long. Even important data will only stay in DHT for short time. In libtorrent, the protocol defines 2 hours as minimum. We will change this to the average blocktime, 5 minutes. This will increase the circulation of the DHT storage resources. 
+
+## Potential change on libtorrent dht config
+node.cpp:  1000 -> 10000
+date item expiry: 5 minutes. 
