@@ -1,5 +1,5 @@
 ## Ranges
-When a fork of blockchain is detected, depending on where the fork point locates, TAU uses ranges to decide miner actions. 
+When a fork of blockchain is detected, depending on where the fork point locates, TAU uses ranges to decide miner actions. Range relates to block number, not time. We have three point to decide ranges: tip, mutable point, warning point. Genesis to warning point block is warning range. Warning point to mutable point is voting range. Mutable point to tip is the mutable range. In some case, genesis, warning, mutable and tip point blocks are the same one, such as creation time of blockchain. 
 
 * mutable range:  ... <= 1x
    * Mutable range is the range of blocks from the current blockchain frontier, tip, to a specific defined history block, which is called mutable point. Mutable range includes the mutable point block. When fork happens in this range, it is natural longest chain discovery process.  
