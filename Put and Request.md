@@ -1,44 +1,37 @@
 # TAU app communication with DHT
 ### Mutable
-Each peer will assume other peers will publish mutable data according to certain protocol. Therefore, peer does not request for mutable data, and peer will just get those data directly according to a time schedule or referral. 
-### Immutable
-Immutable data is history. Peers will publish these data uppon request. Therefore, peer need to request those data before getting them. 
+Each peer will assume other peers will publish mutable data according to certain protocol and use `salt` to indicate the signal. Therefore, peer does not request for mutable data, and peer will just get those data according to a time schedule. This time schedule will related to how much bandwidth that a peer want to consume. 
+<br>
+Mutable data key includes public key and salt. In the salt, we put chainID, channel name, time slot(the valid time window for the message) and other protocol information. The goal is to increase the efficiency. For example, one peer publishs `demand for a range of blocks` and hope to get these data from the community. The peer needs to provide chainID, how many blocks needed and time slot. 
 
-TAU application adopts a special "one way" communication to DHT engine. This will give dAPP quick user response even the backend is very loose in a random DHT space. All app logical communication is implemented based on two  "one way non-waiting" methods:
+### Immutable
+Immutable data in nature is the history data. Peers will publish these data uppon seeing the request. Therefore, peer need to request those data before getting them. 
+
+TAU application adopts a loose-coupling communication to DHT engine with multiple nodes concurrency. This will give dAPP quick user response even the backend is unstable. All app logical communication is implemented based on two  "one way non-waiting" methods:
 1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT Engine and then move to next steps. The `put` action does not cause waiting. 
-    * mutable: app will put mutable data item such as blockchainTip according to mining blocktime or new longest chain identified. 
+    * mutable: app will put mutable data item such as blockchainTip, according to blocktime or new longest chain identified. 
     * immutable: app will put immutable data uppon other peers request. 
-2. `Request` / `Request and Forget`: app can put request immutable data through a certain `request channel`, then delegate TAU DHT engine to get data from DHT space. 
+2. `Demand` / `Demand and Forget`: app can put request immutable data through a certain `demand channel`, then delegate TAU DHT engine to get data from DHT space and put into memory. 
    * When a node, A, wants to get an immutable data. It will search local memory firstly. If not found locally, A will put the key in A's `Request` channel, then move on, which is to leave DHT engine to do `DHT get` for loading into local memory. 
    * When aother node B reads from request channel, if B has such data locally, the B will put the content. <br><br>
 Therefore, the `get` method is replaced by request and callback. The TAU DHT engine will setup a get queue to ensure the key uniqueness, so the request will not flood the system. 
 
-## Mutable item components
-For optimizing community new data searching. Each mutable data item includes two components:
-* the target content: the key of the target data, which could be either a requesting or a publishing of tip block or new message
-* a referral public key: for optimization to O(logN) searching messages channel.  
-
 ## Salt channels
-Each topic of blk, msg, tx has two mutable channels for both request and response.<br>
-*  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Uppon receive request, Node A publish a new block via immutable item, A put block key into mutable item, then publish both mutable tip channel. 
-   * referral component is nil
+Each topic of blk, msg, tx has two mutable channels for `demand` and `publish`.<br>
+*  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Node A publishs the new block via immutable item, A put block key into mutable item, then publish the mutable tip with timeslot. 
+   * example: peerXpubkey+chainID+blkTip+TimeSlot
 * `blkDemand` 
-  * the history block with key of immutable
-  * `tip` block with key of mutable:  e.g. peerXpubkey+chainID+blkTip
-  * referral component is nil
- <br><br>
-* `msgTip` channel, the mutable item pointing to latest own message hash and lastest community msg pubkey
+   * the history block with key of the immutable item
+<br><br>
+* `msgTip` channel, the mutable item pointing to latest own message hash
+   * example. peerXpubkey+chainID+msgTip+TimeSlot
 * `msgDemand` channel, the msg hash on demand
-  * the history msg with key of immutable
-  * `tip` msg with key of mutable:  e.g. peerXpubkey+chainID+msgTip
-  * referral component is the latest communicating peer.
+   * the history msg with key of immutable
  <br><br>
 * `txTip` pool channel, it the highest tx fee transaction in the pool or own tx
-  * referral component is nil
 * `txDemand` channel, the tx data schema hash on demand
-  * the history tx data with key of immutable
-  * the top tx with key of mutable:  e.g. peerXpubkey+chainID+txTip
-  * referral component is nil
+   * the history tx data with key of immutable
+
 ```
 Signal Types: 
     TIP_BLOCK_FROM_PEER_FOR_MINING, // get from tip channel, mutable, for randomly getting community members tip of blockchain
@@ -63,12 +56,9 @@ Signal Types:
     HISTORY_BLOCK_REQUEST_FOR_VOTING, // immutable block for voting
 
     TIP_TX_FOR_MINING, // mutable tx for pool
-    TX_FOR_MINING, // immutable tx for pool
-    
-    
-    
+    TX_FOR_MINING, // immutable tx for pool  
 ```
-## Data service strategy
+## Peer Data contribution strategy
 In order for community members to receive data needed for mining, peers will check the `demand` channel for providing data to the community as contribution.
 We use mutable range block number divided by active peers in a block cycle to decide how many data item to serve to the community demand for each peer. In the main loop, each iteration, peer will check whether the required put number fulfilled? If not, then keep on service, if fulfilled, then just skip the service. <br> 
 Nodes can opt to service more data if the notes holding big stake or power. 
