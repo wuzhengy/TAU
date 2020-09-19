@@ -13,6 +13,7 @@ TAU application adopts a loose-coupling communication to DHT engine with multipl
     * immutable: app will put immutable data uppon other peers request. 
 2. `Demand` / `Demand and Forget`: app can put request immutable data through a certain `demand channel`, then delegate TAU DHT engine to get data from DHT space and put into memory. 
    * When a node, A, wants to get an immutable data. It will search local memory firstly. If not found locally, A will get the key from DHT, if DHT reponse is nil, A will put the key in A's `Demand` channel, then move on, which is to leave DHT engine to publish and `get` for loading into local memory. 
+      * A 节点需要一个immutable item, 先从内存搜索，如果没有就从dht get, 如果返回nil, A 节点把这个需求放入demand频道，等待dht中间件寻找结果。
    * When aother node B reads from `demand` channel, if B has such data locally, then B will put the content. <br><br>
 Therefore, the `get` method is replaced by request and callback. The TAU DHT engine will setup a get queue to ensure the key uniqueness, so the request will not flood the system. 
 
