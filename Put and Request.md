@@ -22,6 +22,7 @@ Each topic of blk, msg, tx has two mutable channels for `demand` and `publish`.<
    * example: peerXpubkey+chainID+blkTip+TimeSlot
 * `blkDemand` 
    * the history block with key of the immutable item
+   * 每个服务节点会建立, unique queue, 来判断是否在5分钟，一个blocktime，内已经服务过这个immutable item，如果服务过，就不再重复向dht put这个数据。这个queue维持一个时间段内服务过的immutable item队列。 
 <br><br>
 * `msgTip` channel, the mutable item pointing to latest own message hash
    * example. peerXpubkey+chainID+msgTip+TimeSlot
