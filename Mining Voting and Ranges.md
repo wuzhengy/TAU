@@ -28,7 +28,7 @@ Voting has two phase:
         - URL TAUchain:?bs=`pk1`&bs=`pk2`&dn=`chainID`  // maybe 10 bootstrap publickeys provided
       - 如果投票出的新ImmutablePointBlock，root在mutable range内，说明是链的 normal mining
         - 检查下自己以前已经上链的交易是否在新链上，不在新链上的放回交易池
-      - 如果投出来的新ImmutablePointBlock within voting range, go to voting。
+      - 如果immutable point block within voting range, go to voting。
       - 如果分叉点 within warning range，alert the user of a potential attack。
 ```
 ## POT Mining process
