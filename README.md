@@ -158,9 +158,10 @@ blockJSON  = {
   - Data consumption control, allow users to setup how much mobile data to use. This information will be used to adjust the app mainloop sleeping time. 
 # Database: leveldb andriod 
 https://github.com/hf/leveldb-android
-# Initial muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
-Since `secrete key` is supposed to be on one device for operation, we focus on use android as core platform. Other OS platforms will use browser to connect andoid TAU through local wifi. As long as other devices can access the android phone via IP network, they can operate a TAU node. <br>
-Linux dht command line interfact will be provided to interact with TAU. 
+# Multi-platform
+android app and linux cli
+# `lib`lize
+libTAU: provide api for chain and message operations. 
 # Resource management architecture
 * Multiple chain mining is a single process task.
 * DHT connection is multi-threading
