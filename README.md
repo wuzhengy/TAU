@@ -155,6 +155,7 @@ blockJSON  = {
   - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Server mode: default OFF; when turn ON, it will turn on wake lock, when phone reboot, tau will auto start. 
+  - Data consumption control, allow users to setup how much mobile data to use. This information will be used to adjust the app mainloop sleeping time. 
 # Database: leveldb andriod 
 https://github.com/hf/leveldb-android
 # Initial muliple platform support on android, ios, pc, chromeOS, macOS, linux ...
