@@ -17,16 +17,21 @@ TAU application adopts a loose-coupling communication to DHT engine with multipl
    * When aother node B reads from `demand` channel, if B has such data locally, then B will put the content. <br><br>
 Therefore, the `get` method is replaced by request and callback. The TAU DHT engine will setup a get queue to ensure the key uniqueness, so the request will not flood the system. 
 
+## Time stamp
+For tip data time, TAU does not use timestamp in salt to ensure the availability of the data. 
+For demand, TAU adds timestamp to make sure demand will be forgetten soon. 
+
 ## Salt channels
 Each topic of blk, msg, tx has two mutable channels for `demand` and `publish`.<br>
 *  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Node A publishs the new block via immutable item, A put block key into mutable item, then publish the mutable tip with timeslot. 
-   * example: peerXpubkey+chainID+blkTip+TimeSlot
+   * example: peerXpubkey+chainID+blkTip
 * `blkDemand` 
    * the history block with key of the immutable item
+   * example: peerXpubkey+chainID+Demand+target+timestamp
    * 每个服务节点会在收到demand后，先get下这个hash，如果可以获得就不提供服务。如果无法获得，就提供1个range的服务。把dht理解成cache，需求节点和服务节点都先检查cache中的数据。 
 <br><br>
 * `msgTip` channel, the mutable item pointing to latest own message hash
-   * example. peerXpubkey+chainID+msgTip+TimeSlot
+   * example. peerXpubkey+chainID+msgTip
 * `msgDemand` channel, the msg hash on demand
    * the history msg with key of immutable
  <br><br>
