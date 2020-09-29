@@ -28,9 +28,10 @@ On chain peers communicate to each other for demand and request, therefore the v
 A requests data from B
 1. A put immutable key X into mutable demand item and send to B, via channel: pubkey A + chainID + pubkey B + blkDemand + timestamp ( immutable key X)
 2. B put 50 immutable key X1 .. X 50 into mutable response item and send A, via: pubkey B + chainID + pubkey A + blkResponse + timestamp ( key X1 .. X50)
-3. B put 50 immutbake data item into DHT space
+3. B put 50 immutbake data item into DHT space, before put always testing the data availability though get from dht
 4. A receive B's mutable response item (X1..X50)
 5. A get X1 .. X50
+* If provide more than 50 items, it can add set1, set2, set3 into mutable items. 
 ```
 ### Timestamp
 For tip data time, TAU does not use timestamp in salt to achieve higher availability of the data. 
