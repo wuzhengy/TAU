@@ -21,6 +21,7 @@ Therefore, the `get` method is replaced by request and callback. The TAU DHT eng
 Using DHT as loose coupling cache and blockchain as peer index, we are proposing new communication ways to implement pub/sub and p2p. 
 ### Pub/sub
 A peer publishes value through mutable item key to announce a new block. Pub-key + ChainID + Blk. The same idea applys chatting. 
+The new block publisher can also publish 50 immutable previous blocks into a mutable item. Pub-key+ChainID+blk+previous, X1 .. X50, for nodes to sync. 
 ### P2P
 On chain peers communicate to each other for demand and request, therefore the value is encrypted using receiver's pub-key. Key format: Pub-key(S) + ChainID + Pub-key(R) + Blk + Timestamp. 
 ```
