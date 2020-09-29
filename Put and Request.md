@@ -1,4 +1,4 @@
-# TAU app communication with DHT
+# TAU communication on DHT
 ### Mutable
 Each peer will assume other peers will publish mutable data according to certain protocol and use `salt` to indicate the signal. Therefore, peer does not request for mutable data, and peer will just get those data according to a time schedule. This time schedule will related to how much bandwidth that a peer want to consume. 
 <br>
@@ -17,8 +17,22 @@ TAU application adopts a loose-coupling communication to DHT engine with multipl
    * When aother node B reads from `demand` channel, if B has such data locally, then B will put the content. <br><br>
 Therefore, the `get` method is replaced by request and callback. The TAU DHT engine will setup a get queue to ensure the key uniqueness, so the request will not flood the system. 
 
-## Time stamp
-For tip data time, TAU does not use timestamp in salt to ensure the availability of the data. 
+## Pub/Sub and P2p
+Using DHT as loose coupling cache and blockchain as peer index, we are proposing new communication ways to implement pub/sub and p2p. 
+### Pub/sub
+A peer publishes value through mutable item key to announce a new block. Pub-key + ChainID + Blk. The same idea applys chatting. 
+### P2P
+On chain peers communicate to each other for demand and request, therefore the value is encrypted using receiver's pub-key. Key format: Pub-key(S) + ChainID + Pub-key(R) + Blk + Timestamp. 
+```
+A requests data from B
+1. A put immutable key X into mutable demand item and send to B, via channel: pubkey A + chainID + pubkey B + blkDemand + timestamp ( immutable key X)
+2. B put 50 immutable key X1 .. X 50 into mutable response item and send A, via: pubkey B + chainID + pubkey A + blkResponse + timestamp ( key X1 .. X50)
+3. B put 50 immutbake data item into DHT space
+4. A receive B's mutable response item (X1..X50)
+5. A get X1 .. X50
+```
+### Timestamp
+For tip data time, TAU does not use timestamp in salt to achieve higher availability of the data. 
 For demand, TAU adds timestamp to make sure demand will be forgetten soon. 
 
 ## Salt channels
