@@ -22,6 +22,8 @@ Using DHT as loose coupling cache and blockchain as peer index, we are proposing
 ### Pub/sub
 A peer publishes value through mutable item key to announce a new block. Pub-key + ChainID + Blk. The same idea applys chatting. 
 The new block publisher can also publish 50 immutable previous blocks into a mutable item. Pub-key+ChainID+blk+previous, X1 .. X50, for nodes to sync. 
+This helps peers not on chain be able to access chain data for readonly purpose. 
+Each put immutable item will always need get testing on dht to avoid flooding. 
 ### P2P
 On chain peers communicate to each other for demand and request, therefore the value is encrypted using receiver's pub-key. Key format: Pub-key(S) + ChainID + Pub-key(R) + Blk + Timestamp. 
 ```
