@@ -28,8 +28,8 @@ Each put immutable item will always need get testing on dht to avoid flooding.
 On chain peers communicate to each other for demand and request, therefore the value is encrypted using receiver's pub-key. Key format: Pub-key(S) + ChainID + Pub-key(R) + Blk + Timestamp. 
 ```
 A requests data from B
-1. A put immutable key X into mutable demand item via channel: pubkey A + chainID + blkDemand + timestamp ( immutable key X)
-2. B put 50 immutable key X1 .. X 50 into mutable response item and send A, via: pubkey B + chainID + blkResponse + key X ( key X2 .. X50)
+1. A put immutable key X into mutable demand item via channel: chainID + blkDemand + timestamp ( value: immutable key X)
+2. B put 50 immutable key X1 .. X 50 into mutable response item and send A, via: chainID + blkResponse + key X ( value: key X2 .. X50)
 3. B put 50 immutbake data item into DHT space, before put always testing the data availability though get from dht
 4. A receive B's mutable response item (X1..X50)
 5. A get X1 .. X50
