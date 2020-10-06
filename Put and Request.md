@@ -1,13 +1,5 @@
 # TAU communication on DHT
-### Mutable
-Each peer will assume other peers will publish mutable data according to certain protocol and use `salt` to indicate the signal. Therefore, peer does not request for mutable data, and peer will just get those data according to a time schedule. This time schedule will related to how much bandwidth that a peer want to consume. 
-<br>
-Mutable data key includes public key and salt. In the salt, we put chainID, channel name, time slot(the valid time window for the message) and other protocol information. The goal is to increase the efficiency. For example, one peer publishs `demand for a range of blocks` and hope to get these data from the community. The peer needs to provide chainID, how many blocks needed and time slot. 
-
-### Immutable
-Immutable data in nature is the history data. Peers will publish these data uppon seeing the request. Therefore, peer need to request those data before getting them. 
-
-TAU application adopts a loose-coupling communication to DHT engine with multiple nodes concurrency. This will give dAPP quick user response even the backend is unstable. All app logical communication is implemented based on two  "one way non-waiting" methods:
+TAU application adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. All app logical communication is implemented based on two  "one way non-waiting" methods:
 1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT Engine and then move to next steps. The `put` action does not cause waiting. 
     * mutable: app will put mutable data item such as blockchainTip, according to blocktime or new longest chain identified. 
     * immutable: app will put immutable data uppon other peers request. 
@@ -18,14 +10,18 @@ TAU application adopts a loose-coupling communication to DHT engine with multipl
 Therefore, the `get` method is replaced by request and callback. The TAU DHT engine will setup a get queue to ensure the key uniqueness, so the request will not flood the system. 
 
 ## Pub/Sub and P2p
-Using DHT as loose coupling cache and blockchain as peer index, we are proposing new communication ways to implement pub/sub and p2p. 
+Using DHT as loose coupling cache and blockchain as peer index, we are proposing new communication ways to implement pub/sub and p2p on top of pub/sub.
+The classical peer to peer direct communication or through relay has problems to deal with firewalls and proxies. It also fails when peers getting offline. 
+We change the model from "peer - (relay) - peer" to "peer - pub/sub - dht - pub/sub - peer ". Any communication is a pub/sub action with dht. The mutable key is used as channel to tell what type of data it is. At the same time, each data item is self-explain with type meta-info. 
+
 ### Pub/sub
 A peer publishes value through mutable item key to announce a new block. Pub-key + ChainID + Blk. The same idea applys chatting. 
 The new block publisher can also publish 50 immutable previous blocks into a mutable item. Pub-key+ChainID+blk+previous, X1 .. X50, for nodes to sync. 
 This helps peers not on chain be able to access chain data for readonly purpose. 
 Each put immutable item will always need get testing on dht to avoid flooding. 
-### P2P
-On chain peers communicate to each other for demand and request, therefore the value is encrypted using receiver's pub-key. Key format: Pub-key(S) + ChainID + Pub-key(R) + Blk + Timestamp. 
+* Since DHT does not garantee data availbility, different peers will see different things, some peers will get the data, some peers will not. Therefore, we use following way to establish "p2p over dht" communication. It uses batch data putting rather then one after one. It has potential to be hacked, but since key X is essentially a secrete, so third party will find hard to capture this request. 
+### P2P over DHT pub/sub
+On chain peers communicate to each other for demand and request, therefore the value is encrypted using receiver's pub-key. 
 ```
 A requests data from B
 1. A put immutable key X into mutable demand item via channel: chainID + blkDemand + timestamp ( value: immutable key X)
@@ -33,11 +29,17 @@ A requests data from B
 3. B put 50 immutbake data item into DHT space, before put always testing the data availability though get from dht
 4. A receive B's mutable response item (X1..X50)
 5. A get X1 .. X50
-* If provide more than 50 items, it can add set1, set2, set3 into mutable items. 
 ```
-### Timestamp
-For tip data time, TAU does not use timestamp in salt to achieve higher availability of the data. 
-For demand, TAU adds timestamp to make sure demand will be forgetten soon. 
+* If provide more than 50 items, it can add set1, set2, set3 into mutable items. 
+### Mutable
+Each peer will assume other peers will publish mutable data according to certain protocol and use `salt` to indicate the signal. Therefore, peer does not request for mutable data, and peer will just get those data according to a time schedule. This time schedule will related to how much bandwidth that a peer want to consume. 
+<br>
+Mutable data key includes public key and salt. In the salt, we put chainID, channel name, time slot(the valid time window for the message) and other protocol information. The goal is to increase the efficiency. For example, one peer publishs `demand for a range of blocks` and hope to get these data from the community. The peer needs to provide chainID, how many blocks needed and time slot. 
+
+### Immutable
+Immutable data in nature is the history data. Peers will publish these data uppon seeing the request. Therefore, peer need to request those data before getting them. 
+
+
 
 ## Salt channels
 Each topic of blk, msg, tx has two mutable channels for `demand` and `publish`.<br>
@@ -83,7 +85,11 @@ Signal Types:
     TIP_TX_FOR_MINING, // mutable tx for pool
     TX_FOR_MINING, // immutable tx for pool  
 ```
-## Peer Data contribution strategy
+### Timestamp
+For tip data time, TAU does not use timestamp in salt to achieve higher availability of the data. 
+For demand, TAU adds timestamp to make sure demand will be forgetten soon. 
+
+## Peer Data contribution plan
 In order for community members to receive data needed for mining, peers will check the `demand` channel for providing data to the community as contribution.
 We use mutable range block number divided by active peers in a block cycle to decide how many data item to serve to the community demand for each peer. In the main loop, each iteration, peer will check whether the required put number fulfilled? If not, then keep on service, if fulfilled, then just skip the service. <br> 
 Nodes can opt to service more data if the notes holding big stake or power. 
