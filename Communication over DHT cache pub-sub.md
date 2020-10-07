@@ -11,9 +11,12 @@ Therefore, the `get` method is replaced by request and callback. The TAU DHT eng
 
 ## Pub/Sub and P2p
 Using DHT as loose coupling cache and blockchain as peer index, we are proposing new communication ways to implement pub/sub and p2p on top of pub/sub.
-The classical peer to peer direct communication or through relay has problems to deal with firewalls and proxies. It also fails when peers getting offline. 
-We change the model from "peer - (relay) - peer" to "peer - pub/sub - dht - pub/sub - peer ". Any communication is a pub/sub action with dht. The mutable key is used as channel to tell what type of data it is. At the same time, each data item is self-explain with type meta-info. 
-
+The classical peer to peer direct communication or through relay has problems to deal with firewalls and proxies. It also fails when peers getting offline. TAU uses community consensus as base for communication between peers or among group members. 
+In each data item such as in a block, we will add two hash: vertical links and horizontal links. 
+* vertical links: provide next 50 blocks immutable hash
+* horizontal links: provide current time 50 messages immutable hash. 
+At the same time, each data item is self-explain with type meta-info. 
+The vertial and horizontal links serves as DAG with redundant connections on both depth or width.
 ### Pub/sub
 A peer publishes value through mutable item key to announce a new block. Pub-key + ChainID + Blk. The same idea applys chatting. 
 The new block publisher can also publish 50 immutable previous blocks into a mutable item. Pub-key+ChainID+blk+previous, X1 .. X50, for nodes to sync. 
