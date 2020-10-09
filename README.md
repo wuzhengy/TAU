@@ -160,9 +160,3 @@ blockJSON  = {
 https://github.com/hf/leveldb-android
 # Multi-platform
 android app and linux cli
-# `lib`lize
-libTAU: provide api for chain and message operations. 
-# Resource management architecture
-* Multiple chain mining is a single process task.
-* DHT connection is multi-threading
-* Mining process invoke DHT through non-waiting put/request callback interface. 
