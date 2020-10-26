@@ -15,6 +15,7 @@ Core UI experienses
 - Dashboard:  Wifi Data * Kb/s; Telecom Date * Kb/s; DHT nodesinfo
 - TAUcoin chain: a place to publish annoucements.
 --- 
+
 ## Persistence
 1.  Chains  map[ChainID] config; 
 2.  CurrentBlockRoot    map[ChainID]; // the map holding the recent blocks
