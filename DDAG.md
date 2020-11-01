@@ -1,0 +1,5 @@
+## DDAG - Distributed Directed Acycli Graph
+Entire TAU data space stores in a conceptual DAG like data structure. Blockchains, messages, pictures, images or videos are all linked to form the graph. Any collection of content such as an image start with its first DAG item linking to the rest like a blockchain fashion. Video has two demension on both time links and frame links. 
+In order to get fast transmission, each DAG item is less than 1000 bytes, after libtorrent bencode it will become less than 1500, which conforms to ethernet ip package size. 
+Different from DAG used by other projects such as git, TAU DAG is distributed among different phones. There is no central place to get entire DAG. 
+In fact, POT consensus builds blockchain in DAG gets protection from user reading the messages. Any messages user reads become protection for the community, since messages links to other messages and blockchains. When history attack happens, it will be clear to decide which chain is real because of the read news history in the phone. 
