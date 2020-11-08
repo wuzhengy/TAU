@@ -2,6 +2,8 @@
 Each peer owns a contact list of the peers under certain chains. For the peers in the contact list, the status will be:
 - Last seen: date
 - Last direct communication: date
+- Exchange QR code to add friends to contact list. Add members to community, has to add contacts first. 
+- only after exchange, member show in contact list. contact list is on personal chain. 
 
 ## Inviting(airdrop) and sharing(non-airdrop)
 Peer can `invite/airdrop` another peer to join a community(chain) with airdrop to: 
