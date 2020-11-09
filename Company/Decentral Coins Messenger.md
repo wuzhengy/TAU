@@ -9,7 +9,7 @@ To achieve this, TAU engineers combine the world most advanced blockchain, torre
 * blockchain coins circulation: non-inflation, transparent and immutable
 * supporting a global community of millions and unlimted capacity
 ### Links
-* Github
+* Github - whitepaper, docs and code
 * Reddit
 * Medium
 * Twitter
