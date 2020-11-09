@@ -8,6 +8,7 @@
   - Schema is series of immutable item together to present a data structure. IPLD protocol has built example of data schema. 
 <br><br>
 * P2C - Peer to Consensus: every communication is under scope of a chain, which is a type of consensus. This is called `peer to consensus`.The consensus will regulate spam and make content searching efficient within limited nodes. 
+* Network session concurrency - TAU config each libtorrent session to minimum foot print, the first session is always ReadOnly to ensure basie communitcation, the 2nd session starts to support DHT read. Within the session, each request is spaced with 1 second to make sure the not causing ban. The current get is congestion-based get, will experiment non-congestion in the future. 
 * Avoiding constants - we want to use as little as constants as possible to let system to self adjust to the environment such as consumption of memory and bandwidth with performance results. For example, how many libtorrent nodes to initiate. 
 
 ## Knowledge building blocks
