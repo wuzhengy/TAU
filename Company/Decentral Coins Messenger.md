@@ -1,4 +1,4 @@
-### TAU - decentral coins messenger, enable women-owned small business to raise money and build community
+### TAU - decentral coins messenger, enable small business to raise money and build community
 Anna, a lovely Ghanaian rural lady, dreams of setting up a shop to produce and serve delicious garlic paste. But she needs 500 dollars of Cedis to buy the raw materials, even though friends and neighbours are aware that Anna will make good paste and is dedicated. <br>
 TAU provides a pure free phone app for Anna to raise money, chat with community and promote the products. Without computer expertise, Anna will use the app to generate 10,000 digital coins and exchange some coins for Cedis to buy the raw materials. Customers can use Anna's blockchain coins to purchase the products at a very nice discount. <br>
 The coins serve as credit where customers can use these to buy products. This gives Anna access to cash. The transaction puts value onto coins. 
