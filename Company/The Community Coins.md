@@ -1,6 +1,6 @@
-### TAU - Coins Messenger
-#### Helping people finance business ideas and build community
-Anna’s dream is to set up a shop to produce and sell garlic paste. Like many women in Ghana and similar markets, she is struggling to raise finance to buy the raw materials. She is surrounded by a community that could support her, but needs a way to exchange her idea with her community, to raise enough money to produce the garlic paste.
+### TAU - The Community Coins
+#### Helping individual finance business ideas
+Anna’s dream is to set up a shop to produce and sell garlic paste. Like many women in Ghana, she is struggling to raise finance to buy the raw materials. She is surrounded by a community that could support her, but needs a way to raise enough money to produce the garlic paste.
 
 TAU is a free phone app that can enable Anna to generate blockchain coins, which she can then exchange with her community in return for Ghanaian Cedis, so she is able to buy raw materials and produce the paste. The coins can then be used by this community to buy the garlic paste from Anna at a competitive price.
 
