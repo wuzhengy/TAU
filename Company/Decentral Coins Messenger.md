@@ -1,4 +1,4 @@
-### TAU - decentral coins messenger
+### TAU - Coins Messenger
 #### Helping people micro-finance their business ideas and build community
 Anna’s dream is to set up a shop to produce and sell garlic paste. Like many women in Ghana and similar markets, she is struggling to raise finance to buy the raw materials. She is surrounded by a community that could support her, but needs a way to exchange her idea with her community, to raise enough money to produce the garlic paste.
 
