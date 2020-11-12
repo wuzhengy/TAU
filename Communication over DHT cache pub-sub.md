@@ -102,8 +102,8 @@ Nodes can opt to service more data if the notes holding big stake or power.
 * Salt = "Own Public Key"
    * mutable item: { userName; iconRoot; peerListRoot }
       * peerListRoot: { nextPeerListRoot; peer 1; peer 2; .. ; peer 2}
-   * Assume in A peerList, we have public key: A1, A2, A3, A4
-   * Assume in B peerList, we have public key: B1, B2, B3, B4
+   * Assume in A peerList, we have public key: A1, B,  B2, A2, A3
+   * Assume in B peerList, we have public key: A, B1, A2, B2, B3
 ### Msg Channel
 * Salt = "Receiver B Peer's Public Key"
    * mutable item: 
