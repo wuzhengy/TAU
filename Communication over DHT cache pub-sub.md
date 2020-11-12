@@ -97,5 +97,26 @@ In order for community members to receive data needed for mining, peers will che
 We use mutable range block number divided by active peers in a block cycle to decide how many data item to serve to the community demand for each peer. In the main loop, each iteration, peer will check whether the required put number fulfilled? If not, then keep on service, if fulfilled, then just skip the service. <br> 
 Nodes can opt to service more data if the notes holding big stake or power. 
 
+## Chat communication substrate
+### Personal Channel
+* Salt = "Own Public Key"
+   * mutable item: { userName; iconRoot; peerListRoot }
+      * peerListRoot: { nextPeerListRoot; peer 1; peer 2; .. ; peer 2}
+   * Assume in A peerList, we have public key: A1, A2, A3, A4
+   * Assume in B peerList, we have public key: B1, B2, B3, B4
+### Msg Channel
+* Salt = "Receiver B Peer's Public Key"
+   * mutable item: 
+   ```
+   { msgRoot; 
+   A -> B3, timestamp;
+   A2 -> B, timestamp;
+   A2 -> B2, timestamp;
+   ...
+   
+   ; }
+   
+   ```
+   * msgRoot= { msg of `A->B`; previousMsgRoot }
 ## Potential
 DHT cache services well in the torrent peers searching. Why not put entire data services include video into the cache service through pub and sub data. In each community, there will be peers willing to service data in order to keep community healthy and with value. 
