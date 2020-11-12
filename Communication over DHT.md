@@ -1,6 +1,6 @@
 # TAU communication on DHT
-TAU application adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. All app logical communication is implemented based on two  "one way non-waiting" methods:
-1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT Engine and then move to next steps. The `put` action does not cause waiting. 
+TAU application adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. DHT engine provides an access layer for D-DAG virtual space:
+1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT Engine and then move to next steps. The `put` action does not cause blocking and do not require response code, since it does not need to care about whether data is really put or not. 
     * mutable: app will put mutable data item such as blockchainTip, according to blocktime or new longest chain identified. 
     * immutable: app will put immutable data uppon other peers request. 
 2. `Demand` / `Demand and Forget`: app can put request immutable data through a certain `demand channel`, then delegate TAU DHT engine to get data from DHT space and put into memory. 
