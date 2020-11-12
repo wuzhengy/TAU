@@ -1,3 +1,4 @@
-# TAU will initially simulate 1000 mobile devices on AWS global network to bootstrap the TAU messenger network. 
-The nodes will allow each data item up to 100K. 
-We will use docker system to deploy an initial DHT network over AWS. This does not violate server-less principle, it is a simulation of mobile phones on server for initial launching. Once we have enough real phones connected, we will reduce the AWS deployment. 
+TAU will use torrent network to bootstrap the swarm. We basically merge ourself into torrent network DHT layer without participating seeding and downloading. 
+It is estimated around 100m nodes existing in torrent. This is a very robust and big network for bootstrap. 
+Our curent observation, in one minute, our app is able to discover about 10,000 torrent nodes with dht capability. 
+We will maitain some dynamic DNS records to point to some dev machines IP just for contributing to the torrent network. 
