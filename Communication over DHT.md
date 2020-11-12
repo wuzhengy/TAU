@@ -97,27 +97,27 @@ In order for community members to receive data needed for mining, peers will che
 We use mutable range block number divided by active peers in a block cycle to decide how many data item to serve to the community demand for each peer. In the main loop, each iteration, peer will check whether the required put number fulfilled? If not, then keep on service, if fulfilled, then just skip the service. <br> 
 Nodes can opt to service more data if the notes holding big stake or power. 
 
-## Chat communication substrate
+## Chat communication
+Each public key peer will keep a personal channel with linked items, where it will keep contacts, user name, icon, joined communities. This is where each public key to keep its history.It is easier for user to move public key to another device and do sync-up cross different devices. 
 ### Personal Channel
 * Salt = "Own Public Key"
    * mutable item: { userName; iconRoot; peerListRoot }
-      * peerListRoot: { nextPeerListRoot; peer 1; peer 2; .. ; peer 2}
-   * Assume in A peerList, we have public key: A1, B,  B2, A2, A3
-   * Assume in B peerList, we have public key: A, B1, A2, B2, B3
+      * peerListRoot: { nextPeerListRoot; peer 1, peer1MsgRoot; peer 2, peer2MsgRoot; .. ; peer n, peernMsgRoot}
+* peer will publish data through "own public key" channel, other peers will read this channel to find out connected peers and user name, etc. 
+      
 ### Msg Channel
-* Salt = "Receiver B Peer's Public Key"
-   * mutable item: 
-   ```
+
+* Mutable item Salt = "Receiver B Peer's Public Key"
+
+```
+   * Assume in A peerList, we have public key: A1, A2, A3, B, B2
+   * Assume in B peerList, we have public key: A, A2, B1, B2, B3
+
    { msgRoot; 
    共同朋友的消息日志，common peers message log, A anb B are both considerred as common shared peer on two lists. 
    A -> B3, timestamp of A told other peers that A has sent info to B3; this is not the true observation of the message, it is a gossip to help traverse the channels. 
    A2 -> B, timestamp of A2 told other peers that A2 has sent info to B;
-   A2 -> B2, timestamp;
-   ...
-   
-   ; }
+   A2 -> B2, timestamp; }
    
    ```
    * msgRoot= { msg of `A->B`; previousMsgRoot }
-## Potential
-DHT cache services well in the torrent peers searching. Why not put entire data services include video into the cache service through pub and sub data. In each community, there will be peers willing to service data in order to keep community healthy and with value. 
