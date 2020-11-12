@@ -109,6 +109,7 @@ Nodes can opt to service more data if the notes holding big stake or power.
    * mutable item: 
    ```
    { msgRoot; 
+   共同朋友的消息日志，common peers message log, A anb B are both considerred as common shared peer on two lists. 
    A -> B3, timestamp of A told other peers that A has sent info to B3; this is not the true observation of the message, it is a gossip to help traverse the channels. 
    A2 -> B, timestamp of A2 told other peers that A2 has sent info to B;
    A2 -> B2, timestamp;
