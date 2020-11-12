@@ -150,17 +150,17 @@ blockJSON  = {
 12. go to step (1)
 ```
 ---
-# System config
+## System config
   - Wifi Only: ON, when turn off, it will ask for time length to allow telecom data to operate
   - Charging ON:  wake lock ON. 
   - Charging OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Internet OFF: wake lock OFF. random wake up between 1..WakeUpTime to restart service
   - Server mode: default OFF; when turn ON, it will turn on wake lock, when phone reboot, tau will auto start. 
   - Data consumption control, allow users to setup how much mobile data to use. This information will be used to adjust the app mainloop sleeping time. 
-# Database: leveldb andriod 
+## Database: leveldb andriod 
 https://github.com/hf/leveldb-android
-# Multi-platform
-android app and linux cli
+## Platform supported
+We intend to make mobile user in underserve market to use TAU, this gives us only one platform option: android. <br>
+We provide linux cli for programmer to play as well, but this will not include full life cycle control of traffic. 
 
-# TAU - The Coins Community
-
+## TAU - The Coins Community
