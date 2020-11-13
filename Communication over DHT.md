@@ -101,9 +101,9 @@ Nodes can opt to service more data if the notes holding big stake or power.
 Each public key peer will keep a personal channel with linked items, where it will keep contacts, user name, icon, joined communities. This is where each public key to keep its history.It is easier for user to move public key to another device and do sync-up cross different devices. 
 ### Personal Channel
 * Salt = "Own Public Key"
-   * mutable item: { userName; iconRoot; peerListRoot }
+   * mutable item: { userName; iconRoot; timestamp; peerListRoot }
       * immutable item: peerListRoot: { peer public key; previousPeerListRoot}
-* peer will publish data through "own public key" channel, other peers will read this channel to find out connected peers and user name, etc. 
+* peer will publish data through "own public key" channel, other peers will read this channel to find out connected peers and user name, etc. The channel also maintain the life beacon signal for the peer, so that other peers can find out whether this peer is online. The default publish schedule is 5 minutes, however if there is new information such as new connected peers added, it will publish instantly. 
       
 ### Msg Channel
 
