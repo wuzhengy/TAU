@@ -1,11 +1,10 @@
 # TAU communication on DHT
 TAU application adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. DHT engine provides an access layer for D-DAG virtual space:
-1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT Engine and then move to next steps. The `put` action does not cause blocking and do not require response code, since it does not need to care about whether data is really put or not. 
-    * mutable: app will put mutable data item such as blockchainTip, according to blocktime or new longest chain identified. 
-    * immutable: app will put immutable data uppon other peers request. 
-2. `Demand` / `Demand and Forget`: app can put request immutable data through a certain `demand channel`, then delegate TAU DHT engine to get data from DHT space and put into memory. 
-   * When a node, A, wants to get an immutable data. It will search local memory firstly. If not found locally, A will get the key from DHT, if DHT reponse is nil, A will put the key in A's `Demand` channel, then move on, which is to leave DHT engine to publish and `get` for loading into local memory. 
-      * A 节点需要一个immutable item, 先从内存搜索，如果没有就从dht get, 如果返回nil, A 节点把这个需求放入demand频道，等待dht中间件寻找结果。
+1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT Engine and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
+    * mutable: app will put mutable data item such as blockchainTip or txTip, according to blocktime or new longest chain identified. 
+    * immutable: app will put immutable data uppon other peers request or relative content updated. 
+2. `Demand` / `Demand and Forget`: app can put request mutable or immutable data through a certain `demand channel`, then delegate TAU DHT engine to get data from DHT space and put into memory after "demand" is servived hopefully by some peers. 
+   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will get the key from DHT, if DHT reponse is nil, A will put the key in A's `Demand` channel, then move on, which is to leave DHT engine to publish and `get` for loading into local memory. 
    * When aother node B reads from `demand` channel, if B has such data locally, then B will put the content. <br><br>
 Therefore, the `get` method is replaced by request and callback. The TAU DHT engine will setup a get queue to ensure the key uniqueness, so the request will not flood the system. 
 
@@ -14,28 +13,12 @@ Using DHT as loose coupling cache and blockchain as peer index, we are proposing
 The classical peer to peer direct communication or through relay has problems to deal with firewalls and proxies. It also fails when peers getting offline. TAU uses community consensus as base for communication between peers or among group members. 
 In each data item such as in a block, we will add two hash: vertical links and horizontal links. 
 * vertical links: provide next 50 blocks immutable hash
-* horizontal links: provide current time 50 messages immutable hash. 
+* horizontal links: provide current time 50 messages immutable hash for social auditing. 
 At the same time, each data item is self-explain with type meta-info. 
 The vertial and horizontal links serves as DAG with redundant connections on both depth or width.
-### Pub/sub
-A peer publishes value through mutable item key to announce a new block. Pub-key + ChainID + Blk. The same idea applys chatting. 
-The new block publisher can also publish 50 immutable previous blocks into a mutable item. Pub-key+ChainID+blk+previous, X1 .. X50, for nodes to sync. 
-This helps peers not on chain be able to access chain data for readonly purpose.  
-Each put immutable item will always need get testing on dht to avoid flooding. 
-* Since DHT does not garantee data availbility, different peers will see different things, some peers will get the data, some peers will not. Therefore, we use following way to establish "p2p over dht" communication. It uses batch data putting rather then one after one. It has potential to be hacked, but since key X is essentially a secrete, so third party will find hard to capture this request. 
-### P2P over DHT pub/sub
-On chain peers communicate to each other for demand and request, therefore the value is encrypted using receiver's pub-key. 
-```
-A requests data from B
-1. A put immutable key X into mutable demand item via channel: chainID + blkDemand + timestamp ( value: immutable key X)
-2. B put 50 immutable key X1 .. X 50 into mutable response item and send A, via: chainID + blkResponse + key X ( value: key X2 .. X50)
-3. B put 50 immutbake data item into DHT space, before put always testing the data availability though get from dht
-4. A receive B's mutable response item (X1..X50)
-5. A get X1 .. X50
-```
-* If provide more than 50 items, it can add set1, set2, set3 into mutable items. 
+
 ### Mutable
-Each peer will assume other peers will publish mutable data according to certain protocol and use `salt` to indicate the signal. Therefore, peer does not request for mutable data, and peer will just get those data according to a time schedule. This time schedule will related to how much bandwidth that a peer want to consume. 
+Each peer will assume other peers will publish mutable data according to certain protocol and use `salt` to indicate the signal. 
 <br>
 Mutable data key includes public key and salt. In the salt, we put chainID, channel name, time slot(the valid time window for the message) and other protocol information. The goal is to increase the efficiency. For example, one peer publishs `demand for a range of blocks` and hope to get these data from the community. The peer needs to provide chainID, how many blocks needed and time slot. 
 
