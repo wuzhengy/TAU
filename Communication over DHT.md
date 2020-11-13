@@ -28,6 +28,9 @@ Immutable data in nature is the history data. Peers will publish these data uppo
 
 
 ## Salt channels
+```
+Just list chat communcation, blockchain peers publish info according to update happends or request, not because of time interval. We do out best not use time interval to update info. 
+```
 Each topic of blk, msg, tx has two mutable channels for `demand` and `publish`.<br>
 *  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Node A publishs the new block via immutable item, A put block key into mutable item, then publish the mutable tip with timeslot. 
    * example: peerXpubkey+chainID+blkTip
