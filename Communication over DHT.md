@@ -110,17 +110,18 @@ Each public key peer will keep a personal channel with linked items, where it wi
 * A -> B, Mutable item Salt = "Receiver B Peer's Public Key"
 
 ```
-   * Assume in A peerList, public key peer list: A1, A2, A3, B, B2, C
-   * Assume in B peerList, we have public key: A, A2, B1, B2, B3
+   * Assume in A peerList, public key peer list: A as defualt, A1, A2, A3, B, B2, C
+   * Assume in B peerList, we have public key: B as defaulft, B1, B2, B3, A, A2
  Data item from A to B: 
    { 
    msgRoot; 
-   B peer list members related messages log, A anb B are both considerred as common shared peer on two lists. 
+   messages log with B's peer list as participant sender or receiver. 
       {
       A -> B3, timestamp of A told other peers that A has sent info to B3; this is not the true observation of the message, 
             it is a gossip to help traverse the channels. 
       A2 -> B, timestamp of A2 told other peers that A2 has sent info to B;
       A2 -> B2, timestamp; 
+      B3 -> A3, timestemp; A3 is not in B's peer list, but B3 is in B peer list.
       C -> B3, time stamp; C is not in B peer list, but C sent message to B3 which is in the B peer list, 
             this is the 2nd degree connection 
       }
