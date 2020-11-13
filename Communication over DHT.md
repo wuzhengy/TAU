@@ -25,19 +25,20 @@ Mutable data key includes public key and salt. In the salt, we put chainID, chan
 ### Immutable
 Immutable data in nature is the history data. Peers will publish these data uppon seeing the request. Therefore, peer need to request those data before getting them. 
 
-
+## Re-announcement or Re-provide issue and its fix
+In both IPFS and libtorrent, for certain data, the protocol will automatically ask peers to re-annouce or re-provide by put the data into dht space again. This is an awkward operation, firstly you do not know when data is required and what part of data is required, it engages some kind of constants to regualate such behavior, and it is hard to get right constants. <br>
+TAU DHT will never re-provide, all TAU peers will put data into DHT only at following two ocations
+* When new data is generated.
+* When some peer request the data, after the peer has exausted to get data from dht space. 
 
 ## Salt channels
-```
-Just list chat communcation, blockchain peers publish info according to update happends or request, not because of time interval. We do out best not use time interval to update info. 
-```
 Each topic of blk, msg, tx has two mutable channels for `demand` and `publish`.<br>
 *  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Node A publishs the new block via immutable item, A put block key into mutable item, then publish the mutable tip with timeslot. 
    * example: peerXpubkey+chainID+blkTip
 * `blkDemand` 
    * the history block with key of the immutable item
    * example: peerXpubkey+chainID+Demand+target+timestamp
-   * 每个服务节点会在收到demand后，先get下这个hash，如果可以获得就不提供服务。如果无法获得，就提供1个range的服务。把dht理解成cache，需求节点和服务节点都先检查cache中的数据。 
+   * When a node receive demand, it will provide the data.  
 <br><br>
 * `msgTip` channel, the mutable item pointing to latest own message hash
    * example. peerXpubkey+chainID+msgTip
