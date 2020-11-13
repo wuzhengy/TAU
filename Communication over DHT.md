@@ -98,21 +98,22 @@ We use mutable range block number divided by active peers in a block cycle to de
 Nodes can opt to service more data if the notes holding big stake or power. 
 
 ## Chat communication
-Each public key peer will check friend's list for demand and message. 
-### Personal Channel is not needed, replace by "demand"
-A and B
-After B scanned A's QR code, B will start to post "demand" to A, then read from A's response given A has B's QR code scanned as well. 
-1. B post mutable demand to A: A's friends; A will post mutable response according to B request, as following
+Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. 
+### Assume we have peer A and peer B
+After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned in peer list as well.
+1. B post immutable item demand to A; with `gossip`; in mutable item, we always put gossip info. 
+2. B post mutable demand to A; A will post mutable response to `public``; A will also publish these info automatically when update happens.
 ```
-* Salt = "friends"
+These info goes to public
+* Salt = "peers"
    * mutable item: {timestamp; friend 1; friend 2;.. N}
+   * gossip
 * Salt = "profile"
    * mutable item: { userName; iconRoot; timestamp}
-* peer will publish data through "own public key" channel, other peers will read this channel to find out connected peers and user name, etc. The channel also maintain the life beacon signal for the peer, so that other peers can find out whether this peer is online. The default publish schedule is 5 minutes, however if there is new information such as new connected peers added, it will publish instantly. 
+   * gossip
 ```     
-2. B post immutable item demand to A: 
-3. B post mutable demand of msg to A:
-### Msg Channel
+3. B post mutable demand of msg to A; A will post message back to `B`; A will also public when update happens
+* Msg Channel
 * A -> B, Mutable item Salt = "Receiver B Peer's Public Key"; A only publish when A has message for B. 
 
 ```
