@@ -99,10 +99,12 @@ Nodes can opt to service more data if the notes holding big stake or power.
 
 ## Chat communication
 Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. 
+### Gossip
+Each node will maintain a gossip pool in its own memory, about its friends' communication history. When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for making traversal decision.
 ### Assume we have peer A and peer B
-After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned in peer list as well.
+After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
 1. B post immutable item demand to A; with `gossip`; in mutable item, we always put gossip info. 
-2. B post mutable demand to A; A will post mutable response to `public``; A will also publish these info automatically when update happens.
+2. B post mutable demand to A; A will post mutable response to `public`; A will also publish these info automatically when update happens.
 ```
 These info goes to public
 * Salt = "peers"
@@ -112,11 +114,11 @@ These info goes to public
    * mutable item: { userName; iconRoot; timestamp}
    * gossip
 ```     
-3. B post mutable demand of msg to A; A will post message back to `B`; A will also public when update happens
-* Msg Channel
-* A -> B, Mutable item Salt = "Receiver B Peer's Public Key"; A only publish when A has message for B. 
-
+3. B post mutable demand of msg to A; A will post message back to `B`; A will also publish when update happens
 ```
+* Salt = "msg"
+* A -> B, Mutable item Salt = "Receiver B Peer's Public Key" + "msg" 
+
    * Assume in A peerList, public key peer list: A as defualt, A1, A2, A3, B, B2, C
    * Assume in B peerList, we have public key: B as defaulft, B1, B2, B3, A, A2
  Mutable Data item from A to B: 
@@ -134,5 +136,5 @@ These info goes to public
             this is the 2nd degree connection 
       }
    }
-   ```
    * immutable msgRoot= { verion; type(text,image); timestamp; contentLink; previousMsgDAGRoot}
+```
