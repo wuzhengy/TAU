@@ -114,7 +114,7 @@ Each public key peer will keep a personal channel with linked items, where it wi
    * Assume in B peerList, we have public key: B as defaulft, B1, B2, B3, A, A2
  Mutable Data item from A to B: 
    { 
-   immutable msgRoot of A to B history; 
+   immutable msgRoot of A and B DAG history; 
    gossip - messages log with B's peer list as participant sender or receiver. 
       {
       A -> B, timestamp;
@@ -128,4 +128,4 @@ Each public key peer will keep a personal channel with linked items, where it wi
       }
    }
    ```
-   * immutable msgRoot= { msg of `A->B`; timestamp; previousMsgRoot; contentLink(text, image) }
+   * immutable msgRoot= { verion; type(text,image); timestamp; contentLink; previousMsgDAGRoot}
