@@ -18,10 +18,7 @@ At the same time, each data item is self-explain with type meta-info.
 The vertial and horizontal links serves as DAG with redundant connections on both depth or width.
 
 ### Mutable
-Each peer will assume other peers will publish mutable data according to certain protocol and use `salt` to indicate the signal. 
-<br>
-Mutable data key includes public key and salt. In the salt, we put chainID, channel name, time slot(the valid time window for the message) and other protocol information. The goal is to increase the efficiency. For example, one peer publishs `demand for a range of blocks` and hope to get these data from the community. The peer needs to provide chainID, how many blocks needed and time slot. 
-
+Mutable data key includes public key and salt. In the salt, we put chainID, channel name, time slot(the valid time window for the message) and other protocol information. 
 ### Immutable
 Immutable data in nature is the history data. Peers will publish these data uppon seeing the request. Therefore, peer need to request those data before getting them. 
 
