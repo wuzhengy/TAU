@@ -102,7 +102,7 @@ Each public key peer will keep a personal channel with linked items, where it wi
 ### Personal Channel
 * Salt = "Own Public Key"
    * mutable item: { userName; iconRoot; peerListRoot }
-      * immutable item: peerListRoot: { peer, peerMsgRoot; peer 2, peer2MsgRoot; .. ; peer n, peernMsgRoot; previousPeerListRoot}
+      * immutable item: peerListRoot: { peer public key; previousPeerListRoot}
 * peer will publish data through "own public key" channel, other peers will read this channel to find out connected peers and user name, etc. 
       
 ### Msg Channel
