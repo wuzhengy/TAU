@@ -1,8 +1,8 @@
 # TAU communication on DHT
 TAU application adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. DHT engine provides an access layer for D-DAG virtual space:
 1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT Engine and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
-    * mutable: app will put mutable data item such as blockchainTip or txTip when demanded. 
-    * immutable: app will put immutable data uppon other peers request only. 
+    * mutable: app will put mutable data item such as blockchainTip or txTip when demanded or own updated. 
+    * immutable: app will put immutable data uppon other peers request or own updated. 
 2. `Demand` / `Demand and Forget`: app can put request mutable or immutable data through a certain `demand channel`, then delegate TAU DHT engine to get data from DHT space and put into memory after "demand" is servived hopefully by some peers. 
    * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will get the key from DHT, if DHT reponse is nil, A will put the key in A's `Demand` channel, then move on, which is to leave DHT engine to publish and `get` for loading into local memory. 
    * When aother node B reads from `demand` channel, if B has such data locally, then B will put the content. <br><br>
@@ -89,7 +89,7 @@ Gossip data format: { sender; receiver; timestamp }
 ### Assume we have peer A and peer B
 After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
 1. B post immutable item demand to A; with `gossip`; in mutable item, we always put gossip info. 
-2. B post mutable demand to A; A will post mutable response to `public`; A will **not** publish these info automatically when update happens.
+2. B post mutable demand to A; A will post mutable response to `public`; A will publish these info automatically when update happens.
 ```
 These info goes to public
 * Salt = "peers"
@@ -99,7 +99,7 @@ These info goes to public
    * mutable item: { userName; iconRoot; timestamp}
    * gossip
 ```     
-3. B post mutable demand of msg to A; A will post message back to `B`; A will **not** publish when update happens
+3. B post mutable demand of msg to A; A will post message back to `B`; A will publish when update happens
 ```
 * Salt = "msg"
 * A -> B, Mutable item Salt = "Receiver B Peer's Public Key" + "msg" 
