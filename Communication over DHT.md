@@ -112,7 +112,7 @@ Each public key peer will keep a personal channel with linked items, where it wi
 ```
    * Assume in A peerList, public key peer list: A as defualt, A1, A2, A3, B, B2, C
    * Assume in B peerList, we have public key: B as defaulft, B1, B2, B3, A, A2
- Data item from A to B: 
+ Mutable Data item from A to B: 
    { 
    immutable msgRoot; 
    gossip - messages log with B's peer list as participant sender or receiver. 
