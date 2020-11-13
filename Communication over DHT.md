@@ -20,7 +20,7 @@ The vertial and horizontal links serves as DAG with redundant connections on bot
 ### Pub/sub
 A peer publishes value through mutable item key to announce a new block. Pub-key + ChainID + Blk. The same idea applys chatting. 
 The new block publisher can also publish 50 immutable previous blocks into a mutable item. Pub-key+ChainID+blk+previous, X1 .. X50, for nodes to sync. 
-This helps peers not on chain be able to access chain data for readonly purpose. 
+This helps peers not on chain be able to access chain data for readonly purpose.  
 Each put immutable item will always need get testing on dht to avoid flooding. 
 * Since DHT does not garantee data availbility, different peers will see different things, some peers will get the data, some peers will not. Therefore, we use following way to establish "p2p over dht" communication. It uses batch data putting rather then one after one. It has potential to be hacked, but since key X is essentially a secrete, so third party will find hard to capture this request. 
 ### P2P over DHT pub/sub
@@ -100,7 +100,8 @@ Nodes can opt to service more data if the notes holding big stake or power.
 ## Chat communication
 Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. 
 ### Gossip
-Each node will maintain a gossip pool in its own memory, about its friends' communication history. When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for making traversal decision.
+Each node will maintain a gossip pool in its own memory, logging its friends' communication history. When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
+Gossip data format: { sender; receiver; timestamp }
 ### Assume we have peer A and peer B
 After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
 1. B post immutable item demand to A; with `gossip`; in mutable item, we always put gossip info. 
