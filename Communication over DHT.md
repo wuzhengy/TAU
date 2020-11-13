@@ -102,7 +102,7 @@ Each public key peer will check friend's list for demand and message.
 ### Personal Channel is not needed, replace by "demand"
 A and B
 After B scanned A's QR code, B will start to post "demand" to A, then read from A's response given A has B's QR code scanned as well. 
-1. B post mutable demand: A's friends; A will post mutable response, as following
+1. B post mutable demand to A: A's friends; A will post mutable response according to B request, as following
 ```
 * Salt = "friends"
    * mutable item: {timestamp; friend 1; friend 2;.. N}
@@ -110,8 +110,8 @@ After B scanned A's QR code, B will start to post "demand" to A, then read from 
    * mutable item: { userName; iconRoot; timestamp}
 * peer will publish data through "own public key" channel, other peers will read this channel to find out connected peers and user name, etc. The channel also maintain the life beacon signal for the peer, so that other peers can find out whether this peer is online. The default publish schedule is 5 minutes, however if there is new information such as new connected peers added, it will publish instantly. 
 ```     
-2. B post immutable demand: 
-3. B post mutable demand of msg
+2. B post immutable item demand to A: 
+3. B post mutable demand of msg to A:
 ### Msg Channel
 * A -> B, Mutable item Salt = "Receiver B Peer's Public Key"; A only publish when A has message for B. 
 
