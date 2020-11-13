@@ -102,7 +102,7 @@ Each public key peer will keep a personal channel with linked items, where it wi
 ### Personal Channel
 * Salt = "Own Public Key"
    * mutable item: { userName; iconRoot; peerListRoot }
-      * peerListRoot: { nextPeerListRoot; peer 1, peer1MsgRoot; peer 2, peer2MsgRoot; .. ; peer n, peernMsgRoot}
+      * immutable item: peerListRoot: { peer, peerMsgRoot; peer 2, peer2MsgRoot; .. ; peer n, peernMsgRoot; previousPeerListRoot}
 * peer will publish data through "own public key" channel, other peers will read this channel to find out connected peers and user name, etc. 
       
 ### Msg Channel
@@ -114,8 +114,8 @@ Each public key peer will keep a personal channel with linked items, where it wi
    * Assume in B peerList, we have public key: B as defaulft, B1, B2, B3, A, A2
  Data item from A to B: 
    { 
-   msgRoot; 
-   messages log with B's peer list as participant sender or receiver. 
+   immutable msgRoot; 
+   gossip - messages log with B's peer list as participant sender or receiver. 
       {
       A -> B3, timestamp of A told other peers that A has sent info to B3; this is not the true observation of the message, 
             it is a gossip to help traverse the channels. 
