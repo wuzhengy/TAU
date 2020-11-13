@@ -100,14 +100,14 @@ Nodes can opt to service more data if the notes holding big stake or power.
 ## Chat communication
 Each public key peer will keep a personal channel with linked items, where it will keep contacts, user name, icon, joined communities. This is where each public key to keep its history.It is easier for user to move public key to another device and do sync-up cross different devices. 
 ### Personal Channel
-* Salt = "Own Public Key"
+* Salt = "PersonalChannel"
    * mutable item: { userName; iconRoot; timestamp; peerListRoot }
       * immutable item: peerListRoot: { peer public key; previousPeerListRoot}
 * peer will publish data through "own public key" channel, other peers will read this channel to find out connected peers and user name, etc. The channel also maintain the life beacon signal for the peer, so that other peers can find out whether this peer is online. The default publish schedule is 5 minutes, however if there is new information such as new connected peers added, it will publish instantly. 
       
 ### Msg Channel
 
-* A -> B, Mutable item Salt = "Receiver B Peer's Public Key"
+* A -> B, Mutable item Salt = "Receiver B Peer's Public Key"; A only publish when A has message for B. 
 
 ```
    * Assume in A peerList, public key peer list: A as defualt, A1, A2, A3, B, B2, C
@@ -117,6 +117,7 @@ Each public key peer will keep a personal channel with linked items, where it wi
    immutable msgRoot of A to B history; 
    gossip - messages log with B's peer list as participant sender or receiver. 
       {
+      A -> B, timestamp;
       A -> B3, timestamp of A told other peers that A has sent info to B3; this is not the true observation of the message, 
             it is a gossip to help traverse the channels. 
       A2 -> B, timestamp of A2 told other peers that A2 has sent info to B;
@@ -127,4 +128,4 @@ Each public key peer will keep a personal channel with linked items, where it wi
       }
    }
    ```
-   * msgRoot= { msg of `A->B`; previousMsgRoot }
+   * immutable msgRoot= { msg of `A->B`; timestamp; previousMsgRoot; contentLink(text, image) }
