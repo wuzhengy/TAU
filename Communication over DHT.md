@@ -84,10 +84,12 @@ Nodes can opt to service more data if the notes holding big stake or power.
 ## Chat communication
 Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. For each peer, we have one `demand` channel for asking all kinds of information, we have peers, profile, msg channels to put information. A nil get will trigger demand put. 
 ### Demand mutable channel with gossip
+* We only put gossip into demand mutable item. <br><br>
 Demand channel is maintained by each peer for own chat peers and each chains particiapted. Whatever data is not found will be put into demand, as well as gossip information. 
 Each node will maintain a gossip pool in its own memory, logging its friends' communication history. <br>
 #### Demand Example in Chat:
-* mutable key:  pk + salt("demand" + "target pk"); value: "peerlists"/"profile"/"msg"; immutable hash; gossip of sending data to pk's friends.
+* mutable key:  pk + salt("demand"); value: target pk + "peerlists"/"profile"/"msg"; immutable hash; gossip of sending data to pk's friends.
+   * the reason we do not put target pk into salt is that we want gossiper to send this message quickly to target, rather than waiting target round robin.
 #### Demand Exmaple in community:
 * mutable key:  pk + salt("demand" + "chainID"); value: immutable hash1, hash2; gossip of missing data of mutable and latest sent data of blk/tx
 When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
@@ -112,14 +114,9 @@ After B scanned A's QR code(public key), B start to post "demand" to A, then exp
 1. Immutable data: B initiate get the immutable, if failed B will post immutable item `demand` to A with `gossip`; in mutable item, we always put gossip info. 
 2. B post mutable demand to A; A will post mutable response to `public`; A will publish these info automatically when update happens.
 ```
-These info goes to public
-* Salt = pk +"peers"
-   * mutable item: {timestamp; friend 1; friend 2;.. N}
-   * gossip option: fill in remaining space.
-* Salt = pk+ "profile"
+* Salt = "profile"
    * 1: B get mutable "pkA+ profile"; 2: if fail, post demand "pkA + prifile"; 3: go to 1.
-   * mutable item: { userName; iconRoot; timestamp}
-   * gossip
+   * mutable item: { userName; iconRoot; timestamp; peers}
 ```     
 3. B post mutable demand of msg to A; A will post message back to `B`; A will publish when update happens
 ```
