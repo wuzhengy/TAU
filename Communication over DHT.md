@@ -86,11 +86,10 @@ Each public key peer will check friend's mutable item for demand and publish acc
 ### Demand mutable channel with gossip
 Demand channel is maintained by each peer for own chat peers and each chains particiapted. Whatever data is not found will be put into demand, as well as gossip information. 
 Each node will maintain a gossip pool in its own memory, logging its friends' communication history. <br>
-Demand Example in Chat:
-* mutable item key:  pk + salt("demand" + "target pk"); value: "peerlists"/"profile"/"msg"; immutable hash; gossip of sending data to pk's friends.
-<br>
-Demand Exmaple in community:
-* mutable item:  pk + salt("demand" + "chainID"); value: immutable hash1, hash2; gossip of missing data of mutable and latest sent data of blk/tx
+#### Demand Example in Chat:
+* mutable key:  pk + salt("demand" + "target pk"); value: "peerlists"/"profile"/"msg"; immutable hash; gossip of sending data to pk's friends.
+#### Demand Exmaple in community:
+* mutable key:  pk + salt("demand" + "chainID"); value: immutable hash1, hash2; gossip of missing data of mutable and latest sent data of blk/tx
 When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
 Gossip data format: { sender; receiver; timestamp }
 * A -> B, Mutable item Salt = "Receiver B Peer's Public Key" + "msg" 
