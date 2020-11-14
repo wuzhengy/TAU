@@ -82,9 +82,15 @@ We use mutable range block number divided by active peers in a block cycle to de
 Nodes can opt to service more data if the notes holding big stake or power. 
 
 ## Chat communication
-Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. For each peer, we have one `demand` channel for asking all kinds of information, we have peers, profile, msg channels to put information
-### Gossip and Demand
-Each node will maintain a gossip pool in its own memory, logging its friends' communication history. When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
+Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. For each peer, we have one `demand` channel for asking all kinds of information, we have peers, profile, msg channels to put information. A nil get will trigger demand put. 
+### Demand mutable channel with gossip
+Demand channel is maintained by each peer for own chat peers and each chains particiapted. Whatever data is not found will be put into demand, as well as gossip information. 
+Each node will maintain a gossip pool in its own memory, logging its friends' communication history. <br>
+Demand Example in Chat:
+* mutable item key:  pk + salt("demand" + "target pk"); value: "peerlists"/"profile"/"msg"; immutable hash; gossip of sending data to pk's friends.
+Demand Exmaple in community:
+* mutable item:  pk + salt("demand" + "chainID"); value: immutable hash1, hash2; gossip of missing data of mutable and latest sent data of blk/tx
+When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
 Gossip data format: { sender; receiver; timestamp }
 * A -> B, Mutable item Salt = "Receiver B Peer's Public Key" + "msg" 
    * Assume in A peerList, public key peer list: A as defualt, A1, A2, A3, B, B2, C
