@@ -96,6 +96,7 @@ These info goes to public
    * mutable item: {timestamp; friend 1; friend 2;.. N}
    * gossip
 * Salt = pk+ "profile"
+   * 1: B get mutable "pkA+ profile"; 2: if fail, post demand "pkA + prifile"; 3: try get again.
    * mutable item: { userName; iconRoot; timestamp}
    * gossip
 ```     
