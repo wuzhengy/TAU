@@ -94,9 +94,9 @@ After B scanned A's QR code(public key), B start to post "demand" to A, then exp
 These info goes to public
 * Salt = pk +"peers"
    * mutable item: {timestamp; friend 1; friend 2;.. N}
-   * gossip
+   * gossip option: fill in remaining space.
 * Salt = pk+ "profile"
-   * 1: B get mutable "pkA+ profile"; 2: if fail, post demand "pkA + prifile"; 3: try get again.
+   * 1: B get mutable "pkA+ profile"; 2: if fail, post demand "pkA + prifile"; 3: go to 1.
    * mutable item: { userName; iconRoot; timestamp}
    * gossip
 ```     
