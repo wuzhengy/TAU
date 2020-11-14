@@ -88,6 +88,7 @@ Demand channel is maintained by each peer for own chat peers and each chains par
 Each node will maintain a gossip pool in its own memory, logging its friends' communication history. <br>
 Demand Example in Chat:
 * mutable item key:  pk + salt("demand" + "target pk"); value: "peerlists"/"profile"/"msg"; immutable hash; gossip of sending data to pk's friends.
+<br>
 Demand Exmaple in community:
 * mutable item:  pk + salt("demand" + "chainID"); value: immutable hash1, hash2; gossip of missing data of mutable and latest sent data of blk/tx
 When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
@@ -95,7 +96,7 @@ Gossip data format: { sender; receiver; timestamp }
 * A -> B, Mutable item Salt = "Receiver B Peer's Public Key" + "msg" 
    * Assume in A peerList, public key peer list: A as defualt, A1, A2, A3, B, B2, C
    * Assume in B peerList, we have public key: B as defaulft, B1, B2, B3, A, A2
-
+```
 gossip - messages log with B's peers as `receiver`. 
       {
       A -> B, timestamp;
@@ -106,6 +107,7 @@ gossip - messages log with B's peers as `receiver`.
       C -> B3, time stamp; C is not in B peer list, but C sent message to B3 which is in the B peer list, 
             this is the 2nd degree connection 
       }
+```
 ### Assume we have peer A and peer B
 After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
 1. Immutable data: B initiate get the immutable, if failed B will post immutable item `demand` to A with `gossip`; in mutable item, we always put gossip info. 
