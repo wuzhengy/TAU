@@ -101,7 +101,7 @@ These info goes to public
 ```     
 3. B post mutable demand of msg to A; A will post message back to `B`; A will publish when update happens
 ```
-* Salt = "msg"
+* Salt = pk + "msg"
 * A -> B, Mutable item Salt = "Receiver B Peer's Public Key" + "msg" 
 
    * Assume in A peerList, public key peer list: A as defualt, A1, A2, A3, B, B2, C
