@@ -92,10 +92,10 @@ After B scanned A's QR code(public key), B start to post "demand" to A, then exp
 2. B post mutable demand to A; A will post mutable response to `public`; A will publish these info automatically when update happens.
 ```
 These info goes to public
-* Salt = "peers"
+* Salt = pk +"peers"
    * mutable item: {timestamp; friend 1; friend 2;.. N}
    * gossip
-* Salt = "profile"
+* Salt = pk+ "profile"
    * mutable item: { userName; iconRoot; timestamp}
    * gossip
 ```     
