@@ -83,7 +83,7 @@ Nodes can opt to service more data if the notes holding big stake or power.
 
 ## Chat communication
 Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. For each peer, we have one `demand` channel for asking all kinds of information, we have peers, profile, msg channels to put information
-### Gossip
+### Gossip and Demand
 Each node will maintain a gossip pool in its own memory, logging its friends' communication history. When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
 Gossip data format: { sender; receiver; timestamp }
 * A -> B, Mutable item Salt = "Receiver B Peer's Public Key" + "msg" 
