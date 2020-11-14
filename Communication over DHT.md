@@ -82,13 +82,13 @@ We use mutable range block number divided by active peers in a block cycle to de
 Nodes can opt to service more data if the notes holding big stake or power. 
 
 ## Chat communication
-Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. 
+Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. For each peer, we have one `demand` channel for asking all kinds of information, we have peers, profile, msg channels to put information
 ### Gossip
 Each node will maintain a gossip pool in its own memory, logging its friends' communication history. When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
 Gossip data format: { sender; receiver; timestamp }
 ### Assume we have peer A and peer B
 After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
-1. B post immutable item demand to A; with `gossip`; in mutable item, we always put gossip info. 
+1. Immutable data: B initiate get the immutable, if failed B will post immutable item `demand` to A with `gossip`; in mutable item, we always put gossip info. 
 2. B post mutable demand to A; A will post mutable response to `public`; A will publish these info automatically when update happens.
 ```
 These info goes to public
