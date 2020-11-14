@@ -116,11 +116,12 @@ These info goes to public
 ```     
 3. B post mutable demand of msg to A; A will post message back to `B`; A will publish when update happens
 ```
-* Salt = pk + "msg"
+* msg demand: {msg; gossip}
+* msg mutable put actino: Salt = pk + "msg"
  Mutable Data item from A to B: 
    { 
    immutable msgRoot of A and B DAG history; 
-   
+   gossip
    }
    * immutable msgRoot= { verion; type(text,image); timestamp; contentLink; previousMsgDAGRoot}
 ```
