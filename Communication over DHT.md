@@ -18,7 +18,28 @@ At the same time, each data item is self-explain with type meta-info.
 The vertial and horizontal links serves as DAG with redundant connections on both depth or width.
 
 ### Mutable
-Mutable data key includes public key and salt. In the salt, we put chainID, channel name, time slot(the valid time window for the message) and other protocol information. 
+In the salt, we put friend pk_id, chainID, channel name, time slot(the valid time window for the message) and other protocol information. 
+### Mutable items format in chat
+After B scanned A's QR code(public key), B start to post mutable items(gossip or other type) to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
+1. gossip: see later discussion
+2. profile: A will post this mutable response to `public`; A will also publish these info automatically when update happens.
+```
+A publish: 
+* Salt = "profile"
+   * mutable item value: { userName; iconRoot; timestamp; peersRoot1; peersRoot2;...}
+A will also publish peersRoot1..N immutable data items
+```     
+3. message. A will post message back to `B`; A will publish when update happens
+```
+*  Salt = "msgRoots"
+ Mutable Data item from A to B: 
+   { 
+   immutable msgRoot .. n: include current message root and previous ones to help B get information faster.
+   contentRoot1..5
+   }
+   * immutable msgRoot= { verion; type(text,image); timestamp; contentRoot1..5; previousMsgDAGRoot}
+```
+
 ### Immutable
 Immutable data in nature is the history data. Peers will publish these data uppon seeing the request. Therefore, peer need to request those data before getting them. 
 
@@ -115,23 +136,3 @@ Each node will maintain a gossip pool in its own memory, logging its friends' co
 When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
 
 
-### Mutable items format
-After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
-
-1. profile: 2. B post mutable demand to A; A will post mutable response to `public`; A will publish these info automatically when update happens.
-```
-A publish: 
-* Salt = "profile"
-   * mutable item value: { userName; iconRoot; timestamp; peersRoot1; peersRoot2;...}
-```     
-2. message. B post mutable demand of msg to A; A will post message back to `B`; A will publish when update happens
-```
-* msg demand: {msg; gossip}
-* msg mutable put actino: Salt = pk + "msg"
- Mutable Data item from A to B: 
-   { 
-   immutable msgRoot of A and B DAG history; 
-   verticle roots
-   }
-   * immutable msgRoot= { verion; type(text,image); timestamp; contentRoot1..5; previousMsgDAGRoot}
-```
