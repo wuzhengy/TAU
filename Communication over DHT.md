@@ -83,6 +83,12 @@ Nodes can opt to service more data if the notes holding big stake or power.
 
 ## Gossip in the mutable data
 The communication through DHT is not stable. There is no garantee of delivery. Gossip is an idea that each peer will talk about
+### Gossip format
+#### Chat
+* mutable item key: pk + salt("gossip"); value: demand{ target pk + "profile"/"messageRoot" }; discussionLog { (target pk friend 1 pk ID + "sender pk ID" + timestamp in recent 5 minutes shortenned version) ; (target pk friend 2 pk ID + "sender pk ID" + timestamp in recent 5 minutes shortenned version) ... }
+
+
+
 * what they see regarding a target pk or chain
 * what they want from a target pk or chain, this is demand<br><br>
 in the network in its mutable data left-over space. For example, peer A put a mutable data item of its profile, in the remaining space, peer A will put into gossip info.<br>
