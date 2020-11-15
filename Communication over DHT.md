@@ -1,21 +1,17 @@
 # TAU communication on DHT
-TAU application adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. DHT engine provides an access layer for D-DAG virtual space:
-1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT Engine and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
-    * mutable: app will put mutable data item such as blockchainTip or txTip when demanded or own updated. when node not getting mutable item, it will demand mutable data item, due to peers does not follow time schedule to reannounce or reprovide. 
-    * immutable: app will put immutable data uppon other peers request or own updated. 
-2. `Demand` / `Demand and Forget`: app can put request mutable or immutable data through a certain `demand channel`, then delegate TAU DHT engine to get data from DHT space and put into memory after "demand" is servived hopefully by some peers. 
-   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will get the key from DHT, if DHT reponse is nil, A will put the key in A's `Demand` channel, then move on, which is to leave DHT engine to publish and `get` for loading into local memory. 
-   * When aother node B reads from `demand` channel, if B has such data locally, then B will put the content. <br><br>
-Therefore, the `get` method is replaced by request and callback. The TAU DHT engine will setup a get queue to ensure the key uniqueness, so the request will not flood the system. 
+TAU adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. DHT engine provides an access layer for D-DAG virtual space. However DHT in nature is only provide data integrity but not availability, we need to design protocol to enhance reliability. 
+The basic operations are put and get:
+1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
+    * mutable data put: app will put mutable data item such as messages, blockchainTip or txTip when demanded or own updated.
+    * immutable data put: app will put immutable data uppon other peers request or own updated. 
+2. `Get` / `Demand and Forget`: TAU will `get` data, if un-successful, app can put the request into `gossip`, then delegate TAU DHT engine to get data from DHT and put into memory after "request" is servived hopefully by some peers. 
+   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will get the key from DHT, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on, which is to leave DHT engine to publish. 
+   * When aother node B reads from `gossip` channel, if B has such data locally, then B will put the data. <br><br>
+The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, so the request will not flood the system. 
 
-## Pub/Sub and P2p
-Using DHT as loose coupling cache and blockchain as peer index, we are proposing new communication ways to implement pub/sub and p2p on top of pub/sub.
-The classical peer to peer direct communication or through relay has problems to deal with firewalls and proxies. It also fails when peers getting offline. TAU uses community consensus as base for communication between peers or among group members. 
-In each data item such as in a block, we will add two hash: vertical links and horizontal links. 
-* vertical links: provide next 50 blocks immutable hash
-* horizontal links: provide current time 50 messages immutable hash for social auditing. 
-At the same time, each data item is self-explain with type meta-info. 
-The vertial and horizontal links serves as DAG with redundant connections on both depth or width.
+## DHT and DDAG
+TAU data is permanently stored in the distributed dag, which is spread among many different phones and has noting to do with DHT. 
+DHT is an access and cache layer to operate DDAG data for blockchain and messenger to use. DHT temporarily load portion of dag data into cache for app to use and also serve as communication laywer among peers collectively storing DDAG. 
 
 ### Mutable
 In the salt, we put friend pk_id, chainID, channel name, time slot(the valid time window for the message) and other protocol information. 
