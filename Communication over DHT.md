@@ -93,8 +93,8 @@ In the chat function, each peer publish gossip to friend one by one when there i
    * pk_id is the last 4 bytes of a public key, to reduce the size of message. 4 bytes is good enough for each peer to find out peers. 
 * value: 
 ```
-sender X pk_id, receiver pk_id, "profile"/"msgRequest"/"msgRoot"/"other signal"/immutableItem hash; timestamp }; 
-sender Y pk_id, receiver's friend target pk2_id, "profile"/"msgReqeust"/"other signal"/immtutableItem hash; timestamp };
+sender X pk_id, receiver pk_id, "profile"/"msgRoot"/immutable hash/"demand of profile or msgRoot or immutable hash"; timestamp }; 
+sender Y pk_id, receiver's friend target pk2_id, "profile"/"msgRoot"/immutable hash/"demand of profile or msg or immutable hash"; timestamp  };
 ``` 
 * Example: A -> B, Mutable item Salt = "gossip" + "Receiver B Peer's Public Key"
    * Assume in A friend list, public key peer list: A as defualt, A1, A2, A3, B, B2, C
