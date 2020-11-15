@@ -95,6 +95,7 @@ In the chat function, each peer publish gossip to friend one by one when there i
 ```
 sender X pk_id, receiver pk_id, "profile"/"msgRoot"/"demand of profile or msgRoot or immutable hash"; timestamp }; 
 sender Y pk_id, receiver's friend target pk2_id, "p"/"m"/"dp,dm, d_hash"; timestamp  };
+??? put action might need called back to complete the life cycle for gossip. 
 ``` 
 * Example: A -> B, Mutable item Salt = "gossip" + "Receiver B Peer's Public Key"
    * Assume in A friend list, public key peer list: A as defualt, A1, A2, A3, B, B2, C
