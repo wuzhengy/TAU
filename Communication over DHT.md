@@ -87,8 +87,13 @@ In the chat function, each peer publish gossip to friend one by one when there i
    * pk_id is the last 4 bytes of a public key, to reduce the size of message. 4 bytes is good enough for each peer to find out peers. 
 * value: 
 ```
-sender X pk_id, receiver pk_id, "msg" or "demand of msg" or demand of immutable hash; timestamp }; 
+sender X pk_id, receiver pk_id, "msgReady" or "msgSent" or "demand of msg" or demand of immutable hash; timestamp }; 
 sender Y pk_id, receiver's friend target pk2_id, "m"/"dm", d_hash; timestamp  };
+
+* flow
+1. Gossip A:msgReady -> Gossip B:demand of msg -> A: put msg and root ->  Gossip A:msgSent -> B:get msg mutable item and immutable items. 
+2. Gossip B: demand of msg -> A: put msg -> Gossip A:msgSent -> B: get msg mutable....
+
 ``` 
 * Example: A -> B, Mutable item Salt = "gossip" + "Receiver B Peer's Public Key"
    * Assume in A friend list, public key peer list: A as defualt, A1, A2, A3, B, B2, C
