@@ -84,7 +84,7 @@ Nodes can opt to service more data if the notes holding big stake or power.
 ## Chat communication
 Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. For each peer, we have one `demand` channel for asking all kinds of information, we have peers, profile, msg channels to put information. A nil get will trigger demand put. 
 ### Demand mutable channel with gossip
-* We only put gossip into demand mutable item. <br><br>
+* We put gossip into mutable item remainning space as much as we can to enhance the communication. <br><br>
 Demand channel is maintained by each peer for own chat peers and each chains particiapted. Whatever data is not found will be put into demand, as well as gossip information. 
 Each node will maintain a gossip pool in its own memory, logging its friends' communication history. <br>
 #### Demand Example in Chat:
