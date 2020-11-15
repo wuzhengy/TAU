@@ -2,8 +2,8 @@
 TAU adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. DHT engine provides an access layer for D-DAG virtual space. However DHT in nature is only provide data integrity but not availability, we need to design protocol to enhance reliability. 
 The basic operations are put and get:
 1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
-    * mutable data put: app will put mutable data item such as messages, blockchainTip or txTip when demanded or own updated.
-    * immutable data put: app will put immutable data uppon other peers request or own updated. 
+    * mutable data put: app will put mutable data item such as messages, blockchainTip or txTip when demanded.
+    * immutable data put: app will put immutable data uppon other peers request. 
 2. `Get` / `Demand and Forget`: TAU will `get` data, if un-successful, app can put the request into `gossip`, then delegate TAU DHT engine to get data from DHT and put into memory after "request" is servived hopefully by some peers. 
    * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will get the key from DHT, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on, which is to leave DHT engine to publish. 
    * When aother node B reads from `gossip` channel, if B has such data locally, then B will put the data. <br><br>
@@ -16,7 +16,7 @@ DHT is an access and cache layer to operate DDAG data for blockchain and messeng
 ## Mutable
 In the salt, we put friend pk_id, chainID, channel name, time slot(the valid time window for the message) and other protocol information to form up mutable data item key, on which we will build many commication protocol support blockchain and chat.  
 ### Mutable items format in chat
-After B scanned A's QR code(public key), B start to post mutable items(gossip or other type) to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
+After B scanned A's QR code(public key), B start to post gossip to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
 1. gossip: see later discussion
 2. profile: A will post this mutable response to `public`; A will also publish these info automatically when update happens.
 ```
@@ -42,7 +42,7 @@ Immutable data in nature is the history data. Peers will publish these data uppo
 ## Re-announcement or Re-provide issue and its fix
 In both IPFS and libtorrent, for certain data, the protocol will automatically ask peers to re-annouce or re-provide by put the data into dht space again. This is an awkward operation, firstly you do not know when data is required and what part of data is required, it engages some kind of constants to regualate such behavior, and it is hard to get right constants. <br>
 TAU DHT will not do static re-provide, all TAU peers will put data into DHT only at following two ocations
-* When new data is generated.
+* When publish gossip
 * When some peer request the data through gossip
 
 ## Salt channels
