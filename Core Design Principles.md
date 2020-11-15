@@ -16,6 +16,7 @@
     - put/get time interval in sessions
     - alpha of the search branches
 * Avoiding constants - we want to use as little as constants as possible to let system to self adjust to the environment such as consumption of memory and bandwidth with performance results. For example, how many libtorrent nodes to initiate. 
+* Gossip protocol to relay signals and enhance the performance
 
 ## Knowledge building blocks
 Along the way of developing TAU, we have adopted many key ideas from many open-source community projects. Following are the key components we are adopting. 
