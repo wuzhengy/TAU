@@ -87,9 +87,9 @@ The communication through DHT is not stable. There is no garantee of delivery. G
 #### Chat
 * mutable item key: pk + salt("target pk"); value: 
 ```
-demand{ sender* pk id target pk id + "profile"/"messageRoot"; time stamp }; 
+demand{ sender* pk id target pk id + "profile"/"msg"/"immutableItem"; time stamp }; 
 messageLog { (target pk friend 1 pk ID + "sender pk ID" + timestamp) ; 
-demand{ sender* pk id target pk2 id + "profile/messageRoot" + timestamp) ... }
+demand{ sender* pk id target pk2 id + "profile/msg"/"immtutableItem" + timestamp) ... }
 ``` 
    * pk_id: 4 bytes shorter version of pk. 
 
@@ -101,7 +101,7 @@ In gossip, the pk key will be shortened to 4 bytes due to less critical than fun
 ## Chat communication
 Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. For each peer, we have one `demand` channel for asking all kinds of information, we have peers, profile, msg channels to put information. A nil get will trigger demand put. 
 ### Demand is a type of gossip
-* We put gossip into mutable item remainning space as much as we can to enhance the communication. Gossip information has relay nature among peers.<br><br>
+* We use gossip as an channel. . Gossip information has relay nature among peers.<br><br>
 Demand channel is maintained by each peer for own chat peers and each chains particiapted. Whatever data is not found will be put into demand, as well as gossip information. 
 Each node will maintain a gossip pool in its own memory, logging its friends' communication history. <br>
 #### Demand Example in Chat:
@@ -126,23 +126,23 @@ gossip - messages log with B's peers as `receiver`.
             this is the 2nd degree connection 
       }
 ```
-### Assume we have peer A and peer B
+### Mutable items format
 After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
-1. Immutable data: B initiate get the immutable, if failed B will post immutable item `demand` to A with `gossip`; in mutable item, we always put gossip info. 
-2. B post mutable demand to A; A will post mutable response to `public`; A will publish these info automatically when update happens.
+
+1. profile: 2. B post mutable demand to A; A will post mutable response to `public`; A will publish these info automatically when update happens.
 ```
+A publish: 
 * Salt = "profile"
-   * 1: B get mutable "pkA+ profile"; 2: if fail, post demand "pkA + prifile"; 3: go to 1.
-   * mutable item: { userName; iconRoot; timestamp; peers}
+   * mutable item value: { userName; iconRoot; timestamp; peersRoot1; peersRoot2;...}
 ```     
-3. B post mutable demand of msg to A; A will post message back to `B`; A will publish when update happens
+2. message. B post mutable demand of msg to A; A will post message back to `B`; A will publish when update happens
 ```
 * msg demand: {msg; gossip}
 * msg mutable put actino: Salt = pk + "msg"
  Mutable Data item from A to B: 
    { 
    immutable msgRoot of A and B DAG history; 
-   gossip
+   verticle roots
    }
-   * immutable msgRoot= { verion; type(text,image); timestamp; contentLink; previousMsgDAGRoot}
+   * immutable msgRoot= { verion; type(text,image); timestamp; contentRoot1..5; previousMsgDAGRoot}
 ```
