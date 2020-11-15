@@ -1,4 +1,4 @@
-## Connected Peer List
+## Connected Friend List
 Each peer owns a contact list of the peers under certain chains. For the peers in the contact list, the status will be:
 - Last seen: date
 - Last direct communication: date
