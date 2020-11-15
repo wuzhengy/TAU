@@ -13,8 +13,8 @@ The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, s
 TAU data is permanently stored in the distributed dag, which is spread among many different phones and has noting to do with DHT. 
 DHT is an access and cache layer to operate DDAG data for blockchain and messenger to use. DHT temporarily load portion of dag data into cache for app to use and also serve as communication laywer among peers collectively storing DDAG. 
 
-### Mutable
-In the salt, we put friend pk_id, chainID, channel name, time slot(the valid time window for the message) and other protocol information. 
+## Mutable
+In the salt, we put friend pk_id, chainID, channel name, time slot(the valid time window for the message) and other protocol information to form up mutable data item key, on which we will build many commication protocol support blockchain and chat.  
 ### Mutable items format in chat
 After B scanned A's QR code(public key), B start to post mutable items(gossip or other type) to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
 1. gossip: see later discussion
@@ -41,27 +41,17 @@ Immutable data in nature is the history data. Peers will publish these data uppo
 
 ## Re-announcement or Re-provide issue and its fix
 In both IPFS and libtorrent, for certain data, the protocol will automatically ask peers to re-annouce or re-provide by put the data into dht space again. This is an awkward operation, firstly you do not know when data is required and what part of data is required, it engages some kind of constants to regualate such behavior, and it is hard to get right constants. <br>
-TAU DHT will never re-provide, all TAU peers will put data into DHT only at following two ocations
+TAU DHT will not do static re-provide, all TAU peers will put data into DHT only at following two ocations
 * When new data is generated.
-* When some peer request the data, after the peer has exausted to get data from dht space. 
+* When some peer request the data through gossip
 
 ## Salt channels
-Each topic of blk, msg, tx has two mutable channels for `demand` and `publish`.<br>
-*  `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Node A publishs the new block via immutable item, A put block key into mutable item, then publish the mutable tip with timeslot. 
+Each topic of blk, msg, tx has mutable channels for publishing <br>
+* `blkTip` channel, the mutable item pointing to tip block. Content is the latest block hash when blockchain grows, the tip could be own block or other miner's block. Node A publishs the new block via immutable item, A put block key into mutable item, then publish the mutable tip with timeslot. 
    * example: peerXpubkey+chainID+blkTip
-* `blkDemand` 
-   * the history block with key of the immutable item
-   * example: peerXpubkey+chainID+Demand+target+timestamp
-   * When a node receive demand, it will provide the data.  
-<br><br>
 * `msgTip` channel, the mutable item pointing to latest own message hash
    * example. peerXpubkey+chainID+msgTip
-* `msgDemand` channel, the msg hash on demand
-   * the history msg with key of immutable
- <br><br>
 * `txTip` pool channel, it the highest tx fee transaction in the pool or own tx
-* `txDemand` channel, the tx data schema hash on demand
-   * the history tx data with key of immutable
 
 ```
 Signal Types: 
