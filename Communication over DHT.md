@@ -18,18 +18,12 @@ In the salt, we put friend pk_id, chainID, channel name, time slot(the valid tim
 ### Mutable items format in chat
 After B scanned A's QR code(public key), B start to post gossip to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
 1. gossip: see later discussion
-2. profile: A will post this mutable response to `public`; A will also publish these info automatically when update happens.
+2. message. A will post message back to `B`; A will publish when update happens
 ```
-A publish: 
-* Salt = "profile"
-   * mutable item value: { userName; iconRoot; timestamp; peersRoot1; peersRoot2;...}
-A will also publish peersRoot1..N immutable data items
-```     
-3. message. A will post message back to `B`; A will publish when update happens
-```
-*  Salt = "msgRoots"
+*  Salt = "msg"
  Mutable Data item from A to B: 
    { 
+   username: string; this is where user can change name.
    immutable msgRoot .. n: include current message root and previous ones to help B get information faster.
    contentRoot1..5
    }
@@ -93,9 +87,8 @@ In the chat function, each peer publish gossip to friend one by one when there i
    * pk_id is the last 4 bytes of a public key, to reduce the size of message. 4 bytes is good enough for each peer to find out peers. 
 * value: 
 ```
-sender X pk_id, receiver pk_id, "profile"/"msgRoot"/"demand of profile or msgRoot or immutable hash"; timestamp }; 
-sender Y pk_id, receiver's friend target pk2_id, "p"/"m"/"dp,dm, d_hash"; timestamp  };
-??? put action might need called back to complete the life cycle for gossip. 
+sender X pk_id, receiver pk_id, "msg" or "demand of msg" or demand of immutable hash; timestamp }; 
+sender Y pk_id, receiver's friend target pk2_id, "m"/"dm", d_hash; timestamp  };
 ``` 
 * Example: A -> B, Mutable item Salt = "gossip" + "Receiver B Peer's Public Key"
    * Assume in A friend list, public key peer list: A as defualt, A1, A2, A3, B, B2, C
