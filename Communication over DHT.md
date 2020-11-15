@@ -72,48 +72,26 @@ Signal Types:
     TIP_TX_FOR_MINING, // mutable tx for pool
     TX_FOR_MINING, // immutable tx for pool  
 ```
-### Timestamp
-For tip data time, TAU does not use timestamp in salt to achieve higher availability of the data. 
-For demand, TAU adds timestamp to make sure demand will be forgetten soon. 
+#### Timestamp in salt
+We use timestamp in salt to make sure peers getting latest mutable data. 
 
-### Peer Data contribution plan
-In order for community members to receive data needed for mining, peers will check the `demand` channel for providing data to the community as contribution.
-We use mutable range block number divided by active peers in a block cycle to decide how many data item to serve to the community demand for each peer. In the main loop, each iteration, peer will check whether the required put number fulfilled? If not, then keep on service, if fulfilled, then just skip the service. <br> 
-Nodes can opt to service more data if the notes holding big stake or power. 
-
-## Gossip in the mutable data
-The communication through DHT is not stable. There is no garantee of delivery. Gossip is an idea that each peer will talk about the observation, so that to relay the demand and message events. 
-### Gossip format
-#### Chat
-* mutable item key: pk + salt("target pk"); value: 
+## Gossip through the mutable data
+The communication on DHT is not stable. There is no garantee of delivery. 
+Gossip is an idea that each peer will talk about the observation and demand, so that to pass the demand and message events around to facilate re-publish. 
+## Gossip format
+### Chat
+In the chat function, each peer publish gossip to friend one by one when there is necessity. 
+* mutable item key: salt("gossip"+"receiver pk"); 
+   * receiver pk is the full public key of target friend
+   * pk_id is the last 4 bytes of a public key, to reduce the size of message. 4 bytes is good enough for each peer to find out peers. 
+* value: 
 ```
-demand{ sender* pk id target pk id + "profile"/"msg"/"immutableItem"; time stamp }; 
-messageLog { (target pk friend 1 pk ID + "sender pk ID" + timestamp) ; 
-demand{ sender* pk id target pk2 id + "profile/msg"/"immtutableItem" + timestamp) ... }
+sender X pk_id, receiver pk_id, "profile"/"msgRequest"/"msgRoot"/"other signal"/immutableItem hash; timestamp }; 
+sender Y pk_id, receiver's friend target pk2_id, "profile"/"msgReqeust"/"other signal"/immtutableItem hash; timestamp };
 ``` 
-   * pk_id: 4 bytes shorter version of pk. 
-
-* what they see regarding a target pk or chain
-* what they want from a target pk or chain, this is demand<br><br>
-in the network in its mutable data left-over space. For example, peer A put a mutable data item of its profile, in the remaining space, peer A will put into gossip info.<br>
-In gossip, the pk key will be shortened to 4 bytes due to less critical than funds wiring. 
-
-## Chat communication
-Each public key peer will check friend's mutable item for demand and publish according to round robin and gossip info. For each peer, we have one `demand` channel for asking all kinds of information, we have peers, profile, msg channels to put information. A nil get will trigger demand put. 
-### Demand is a type of gossip
-* We use gossip as an channel. . Gossip information has relay nature among peers.<br><br>
-Demand channel is maintained by each peer for own chat peers and each chains particiapted. Whatever data is not found will be put into demand, as well as gossip information. 
-Each node will maintain a gossip pool in its own memory, logging its friends' communication history. <br>
-#### Demand Example in Chat:
-* mutable key:  pk + salt("gossip"); value: target pk + "peerlists"/"profile"/"**msgroot**"; immutable hash; gossip of sending data to pk's friends.
-   * the reason we do not put target pk into salt is that we want gossiper to send this message quickly to target, rather than waiting target round robin.
-#### Demand Exmaple in community:
-* mutable key:  pk + salt("demand" + "chainID"); value: immutable hash1, hash2; gossip of missing data of mutable and latest sent data of blk/tx
-When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
-Gossip data format: { sender; receiver; timestamp }
-* A -> B, Mutable item Salt = "Receiver B Peer's Public Key" + "msg" 
-   * Assume in A peerList, public key peer list: A as defualt, A1, A2, A3, B, B2, C
-   * Assume in B peerList, we have public key: B as defaulft, B1, B2, B3, A, A2
+* Example: A -> B, Mutable item Salt = "gossip" + "Receiver B Peer's Public Key"
+   * Assume in A friend list, public key peer list: A as defualt, A1, A2, A3, B, B2, C
+   * Assume in B friend list, we have public key: B as defaulft, B1, B2, B3, A, A2
 ```
 gossip - messages log with B's peers as `receiver`. 
       {
@@ -126,6 +104,17 @@ gossip - messages log with B's peers as `receiver`.
             this is the 2nd degree connection 
       }
 ```
+## Chat communication
+Each public key peer will check friend's mutable item for gossip and publish according to round robin and gossip intelligence. 
+### Demand is a type of gossip
+* We use gossip to request sender to publish certain informaton, after we can not find any data value from get. One action data life cycle starts from get, then to demand if not found. 
+Each node will maintain a gossip pool in its own memory, logging its friends' communication history. <br>
+
+#### Demand Exmaple in community:  TBD
+* mutable key:  pk + salt("demand" + "chainID"); value: immutable hash1, hash2; gossip of missing data of mutable and latest sent data of blk/tx
+When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
+
+
 ### Mutable items format
 After B scanned A's QR code(public key), B start to post "demand" to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
 
