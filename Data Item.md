@@ -1,3 +1,8 @@
+* Image
+  * Image will be retrofit mobile phone display, the default is to fitting 1/3 of phone screen. We use progressive image CDT to present pictures in 5k data, which is 5 immutable data item linked list. If user want more clarity of the image, they can gossip more data from community. 
+  
+<br><br>
+
 Mutable Item has the immutable key of the target data, which could be either a demanding or a publishing of block, transaction or message
 Immutable Data type: 0 - block, 1 - transaction, 2 - text, 3 - image
 vertical links; horizontal links; pubkey; extention link; 
