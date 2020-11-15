@@ -85,11 +85,13 @@ Nodes can opt to service more data if the notes holding big stake or power.
 The communication through DHT is not stable. There is no garantee of delivery. Gossip is an idea that each peer will talk about the observation, so that to relay the demand and message events. 
 ### Gossip format
 #### Chat
-* mutable item key: pk + salt("gossip"); value: demand{ sender pk id target pk id + "profile"/"messageRoot"; time stamp }; discussionLog { (target pk friend 1 pk ID + "sender pk ID" + timestamp) ; (target pk friend 2 pk ID + "sender pk ID" + timestamp) ... }
-
+* mutable item key: pk + salt("target pk"); value: 
+```
+demand{ sender* pk id target pk id + "profile"/"messageRoot"; time stamp }; 
+messageLog { (target pk friend 1 pk ID + "sender pk ID" + timestamp) ; 
+demand{ sender* pk id target pk2 id + "profile/messageRoot" + timestamp) ... }
+``` 
    * pk_id: 4 bytes shorter version of pk. 
-
-
 
 * what they see regarding a target pk or chain
 * what they want from a target pk or chain, this is demand<br><br>
