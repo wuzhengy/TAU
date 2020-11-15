@@ -82,10 +82,12 @@ We use mutable range block number divided by active peers in a block cycle to de
 Nodes can opt to service more data if the notes holding big stake or power. 
 
 ## Gossip in the mutable data
-The communication through DHT is not stable. There is no garantee of delivery. Gossip is an idea that each peer will talk about
+The communication through DHT is not stable. There is no garantee of delivery. Gossip is an idea that each peer will talk about the observation, so that to relay the demand and message events. 
 ### Gossip format
 #### Chat
-* mutable item key: pk + salt("gossip"); value: demand{ target pk + "profile"/"messageRoot" }; discussionLog { (target pk friend 1 pk ID + "sender pk ID" + timestamp in recent 5 minutes shortenned version) ; (target pk friend 2 pk ID + "sender pk ID" + timestamp in recent 5 minutes shortenned version) ... }
+* mutable item key: pk + salt("gossip"); value: demand{ sender pk id target pk id + "profile"/"messageRoot"; time stamp }; discussionLog { (target pk friend 1 pk ID + "sender pk ID" + timestamp) ; (target pk friend 2 pk ID + "sender pk ID" + timestamp) ... }
+
+   * pk_id: 4 bytes shorter version of pk. 
 
 
 
