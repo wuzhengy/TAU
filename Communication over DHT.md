@@ -18,9 +18,9 @@ In the salt, we put friend pk_id, chainID, channel name, time slot(the valid tim
 ### Mutable items format in chat
 After B scanned A's QR code(public key), B start to post gossip to A, then expect read from A's response, given A has B's QR code scanned into A's peer list as well.
 1. gossip: see later discussion
-2. message. A will post message back to `B`; A will publish when update happens
+2. message. A post message back to B, A will also publish related immtuable data such as msg and contentRoot1..5
 ```
-*  Salt = "msg"
+*  Salt = "msg" + "receiver pk"
  Mutable Data item from A to B: 
    { 
    username: string; this is where user can change name.
