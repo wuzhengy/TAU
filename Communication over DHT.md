@@ -1,11 +1,13 @@
 # TAU communication on DHT
 TAU adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. DHT engine provides an access layer for D-DAG virtual space. However DHT in nature is only provide data integrity but not availability, we need to design protocol to enhance reliability. 
-The basic operations are put and get:
+The gossip concept is created to make each peer constantly in gossip state by exchange they observation of the swarm in terms of message transfer and demand state. Only when nodes see the gossip signal satisfy, they will put/get messages. 
+The basic operations are put and get: these are for mining, **TBD**
+
 1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
     * mutable data put: app will put mutable data item such as messages, blockchainTip or txTip when demanded.
     * immutable data put: app will put immutable data uppon other peers request. 
 2. `Get` / `Demand and Forget`: TAU will `get` data, if un-successful, app can put the request into `gossip`, then delegate TAU DHT engine to get data from DHT and put into memory after "request" is servived hopefully by some peers. 
-   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will get the key from DHT, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on, which is to leave DHT engine to publish. 
+   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will post demand in gossip, get the key from DHT, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on, which is to leave DHT engine to publish. 
    * When aother node B reads from `gossip` channel, if B has such data locally, then B will put the data. <br><br>
 The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, so the request will not flood the system. 
 
@@ -48,7 +50,7 @@ Each topic of blk, msg, tx has mutable channels for publishing <br>
 * `txTip` pool channel, it the highest tx fee transaction in the pool or own tx
 
 ```
-Signal Types: 
+Signal Types for mining: 
     TIP_BLOCK_FROM_PEER_FOR_MINING, // get from tip channel, mutable, for randomly getting community members tip of blockchain
 
     GET_HISTORY_BLOCK_FOR_MINING, // get from peers on immutable block - getting a history block by providing block hash
@@ -90,7 +92,7 @@ In the chat function, each peer publish gossip to friend one by one when there i
 sender X pk_id, receiver pk_id, "msgAvailble" or "msgSent" or "demand of msg" or "msg Received" or demand of immutable hash; timestamp }; 
 sender Y pk_id, receiver's friend target pk2_id, "ma"/"ms"/"dm"/"mr", d_hash;  timestamp in minutes  }; e.g { y67b, a6g8, "dm", timestemp in minutes }
 
-* flow
+* flow of messages
 1. step 1: Gossip A -> (C): A>B,msgReady -> 
    step 2: Gossip B:demand of msg -> 
    step 3: A: put msg and root ->  DHT call back
@@ -116,14 +118,7 @@ gossip - messages log with B's peers as `receiver`.
             this is the 2nd degree connection 
       } 
 ```
-## Chat communication
-Each public key peer will check friend's mutable item for gossip and publish according to round robin and gossip intelligence. 
-### Demand is a type of gossip
-* We use gossip to request sender to publish certain informaton, after we can not find any data value from get. One action data life cycle starts from get, then to demand if not found. 
-Each node will maintain a gossip pool in its own memory, logging its friends' communication history. <br>
-
-#### Demand Exmaple in community:  TBD
-* mutable key:  pk + salt("demand" + "chainID"); value: immutable hash1, hash2; gossip of missing data of mutable and latest sent data of blk/tx
-When a node X send Y some mutable item, we will fill in gossip info to remaining space to help update Y's gossip pool for future making traversal decision. Therefore, a mutable item shall always be full <br>
-
+## Chat communication routine by peer main loop
+Each public key peer will check friend's mutable item for gossip according to round robin.
+Each public key also generate gossip when state update. 
 
