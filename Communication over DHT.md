@@ -20,7 +20,7 @@ After B scanned A's QR code(public key), B start to post gossip to A, then expec
 1. gossip: see later discussion
 2. message. A post message back to B, A will also publish related immtuable data such as msg and contentRoot1..5
 ```
-*  Salt = "msg" + "receiver pk"
+*  Salt = "msg" + "receiver pk" + timestamp in 10 minutes
  Mutable Data item from A to B: 
    { 
    username: string; this is where user can change name.
@@ -82,16 +82,22 @@ Gossip is an idea that each peer will talk about the observation and demand, so 
 ## Gossip format
 ### Chat
 In the chat function, each peer publish gossip to friend one by one when there is necessity. 
-* mutable item key: salt("gossip"+"receiver pk"); 
+* mutable item key: salt("gossip"+"receiver pk", timestamp in 10 minutes); 
    * receiver pk is the full public key of target friend
    * pk_id is the last 4 bytes of a public key, to reduce the size of message. 4 bytes is good enough for each peer to find out peers. 
 * value: 
 ```
-sender X pk_id, receiver pk_id, "msgReady" or "msgSent" or "demand of msg" or "msg Received" or demand of immutable hash; timestamp }; 
-sender Y pk_id, receiver's friend target pk2_id, "m"/"dm", d_hash; timestamp  };
+sender X pk_id, receiver pk_id, "msgAvailble" or "msgSent" or "demand of msg" or "msg Received" or demand of immutable hash; timestamp }; 
+sender Y pk_id, receiver's friend target pk2_id, "ma"/"ms"/"dm"/"mr", d_hash;  timestamp in minutes  }; e.g { y67b, a6g8, "dm", timestemp in minutes }
 
 * flow
-1. Gossip A:msgReady -> Gossip B:demand of msg -> A: put msg and root ->  Gossip A:msgSent -> B:get msg mutable item and immutable items. -> Gossip B: msg received with root info.
+1. step 1: Gossip A -> (C): A>B,msgReady -> 
+   step 2: Gossip B:demand of msg -> 
+   step 3: A: put msg and root ->  DHT call back
+   step 4: Gossip A:msgSent -> 
+   step 5: B: hear gossip from A:msgSent; get msg mutable item and immutable items. -> 
+   step 6: Gossip B: msg received with root info.
+   
 2. Gossip B:demand of msg -> A: put msg -> Gossip A:msgSent -> B: get msg mutable. -> Gossip B: msg received with root info. 
 
 ``` 
@@ -108,7 +114,7 @@ gossip - messages log with B's peers as `receiver`.
       A2 -> B2, timestamp; 
       C -> B3, time stamp; C is not in B peer list, but C sent message to B3 which is in the B peer list, 
             this is the 2nd degree connection 
-      }
+      } 
 ```
 ## Chat communication
 Each public key peer will check friend's mutable item for gossip and publish according to round robin and gossip intelligence. 
