@@ -1,4 +1,4 @@
-### TAU - Coins Community
+### TAU - Coins Community, Funding your business
 #### Funding your business
 Anna’s dream is to set up a shop to produce and sell garlic paste. Like many women in Ghana, she is struggling to raise finance to buy the raw materials. She is surrounded by a community that could support her, but needs a way to raise enough money to produce the garlic paste.
 
