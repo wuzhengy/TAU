@@ -100,6 +100,15 @@ sender Y pk_id, receiver's friend target pk2_id, "ma"/"ms"/"dm"/"mr", d_hash;  t
    step 5: B: hear gossip from A:msgSent; get msg mutable item and immutable items. -> 
    step 6: Gossip B: msg received with root info.
    Step 7: A: rec
+   
+* flow of chain
+Both A and B are friends to each other, and A maintain a hash chain of messages A>B; B maintain a hash chain of messages B>A. For example, on A>B chain,
+A will hash link B>A chain immutable as response to B's message "read" status. Therefore, A>B and B>A forms up a dual chain DAG. 
+1. A gossip to B the latest A>B_Chain_Root and timestamp
+2. B discover A gossip, then gossip to A the demand of A>B_chain_Root and gossip to A the B>A_Chain_Root and timestamp. One gossip data item can contain several demand
+3. A received the demand, then put A>B chain data items
+4. B sync up A>B chain data items. when B generate new data items, always link A>B chain's root. 
+   
 ``` 
 * Example: A -> B, Mutable item Salt = "gossip" + "Receiver B Peer's Public Key"
    * Assume in A friend list, public key peer list: A as defualt, A1, A2, A3, B, B2, C
