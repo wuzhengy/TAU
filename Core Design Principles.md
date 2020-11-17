@@ -4,6 +4,8 @@
      - For #blk channle, it is another miner. 
      - For #msg, it is a latest message sending address. This pointer is used to make searching more efficient by every peers contributing knowledge.
   * Immutable item is a DAG node. The item `content` is the part of data schema, and `link` is pointing to another immutable item. Each immutable item also include a skip list pointer such as in block structure to point into a history item for speed up searching. 
+* DHT - a search engine on D-DAG
+* Peer's gossip channel - a place peers to gossip publishing and demand for own and friends. A blockchain community technically can be viewed as a friend in the gossip channel. 
 * Data Schema - every mutable item's content is the root of a `data schema` or the first immutable item starting the schema.
   - Schema is series of immutable item together to present a data structure. IPLD protocol has built example of data schema. 
 <br><br>
