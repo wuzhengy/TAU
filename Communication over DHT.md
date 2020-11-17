@@ -93,15 +93,12 @@ sender X pk_id, receiver pk_id, "msgAvailble" or "msgSent" or "demand of msg" or
 sender Y pk_id, receiver's friend target pk2_id, "ma"/"ms"/"dm"/"mr", d_hash;  timestamp in minutes  }; e.g { y67b, a6g8, "dm", timestemp in minutes }
 
 * flow of messages
-1. step 1: Gossip A -> (C): A>B,msgReady -> 
-   step 2: Gossip B:demand of msg -> 
-   step 3: A: put msg and root ->  DHT call back
-   step 4: Gossip A:msgSent -> 
+   step 1: A Gossip to B: msgReady with timestamp  ; // A will keep on gossip until received msgReceived with root info match
+   step 2: B Gossip to A; demand of msg with root info;
+   step 3: A put msgRoot and send B msg mutable data with salt (root info) ->  DHT call back
+   step 4: Gossip A:msgSent with root info-> 
    step 5: B: hear gossip from A:msgSent; get msg mutable item and immutable items. -> 
    step 6: Gossip B: msg received with root info.
-   
-2. Gossip B:demand of msg -> A: put msg -> Gossip A:msgSent -> B: get msg mutable. -> Gossip B: msg received with root info. 
-
 ``` 
 * Example: A -> B, Mutable item Salt = "gossip" + "Receiver B Peer's Public Key"
    * Assume in A friend list, public key peer list: A as defualt, A1, A2, A3, B, B2, C
