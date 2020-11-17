@@ -89,17 +89,8 @@ In the chat function, each peer publish gossip to friend one by one when there i
    * pk_id is the last 4 bytes of a public key, to reduce the size of message. 4 bytes is good enough for each peer to find out peers. 
 * value: 
 ```
-sender X pk_id, receiver pk_id, "msgAvailble" or "msgSent" or "demand of msg" or "msg Received" or demand of immutable hash; timestamp }; 
-sender Y pk_id, receiver's friend target pk2_id, "ma"/"ms"/"dm"/"mr", d_hash;  timestamp in minutes  }; e.g { y67b, a6g8, "dm", timestemp in minutes }
-
-* flow of msgRoot
-   step 1: A Gossip to B: msgReady with root and timestamp  ; // A will keep on gossip until received msgReceived with root info match
-   step 2: B Gossip to A; demand of msg with root info;
-   step 3: A put msgRoot and send B msg mutable data with salt (root info) ->  DHT call back
-   step 4: Gossip A:msgSent with root info-> 
-   step 5: B: hear gossip from A:msgSent; get msg mutable item and immutable items. -> 
-   step 6: Gossip B: msg received with root info.
-   Step 7: A: rec
+sender X pk_id, receiver pk_id, "chainHash" or demand of immutable hash; timestamp }; 
+sender Y pk_id, receiver's friend target pk2_id, "c" or d_hash;  timestamp in minutes  }; e.g { y67b, a6g8, "dm", timestemp in minutes }
    
 * flow of chain
 Both A and B are friends to each other, and A maintain a hash chain of messages A>B; B maintain a hash chain of messages B>A. For example, on A>B chain,
