@@ -2,7 +2,8 @@
 * mobile phones behind telecom cell tower can not establish direct peer to peer IP connection, due to firewalls restricting incoming unknown IP
 * mobile device availability is random and quality of network is unpredictable due to the location moving
 * no incentive for server to provide free relay services 
-* assume P2P idea is wrong... the world is not supposed to communicate with peer to peer in tight instant format ... but loose coupling pub/sub fashion. It will waste lots of traffic data, but data cost follows moore's law. 
+* assume P2P idea is wrong... the phones is not supposed to communicate with peer to peer in reciprocal tight format ... but loose coupling pub/sub fashion. It will waste lots of traffic data, but data cost follows moore's law. The classical telecom theory is about connection. What if the connection is not the way to solve serveless problem.
+* when relay become essential, the centralization of data is inevitable. The big data centralization cause over-taxing on individual accounts. 
 
 ### tech components to solve key problems
 * DAG - directed acyclic graph: every data item in TAU has both `content` and `link`. TAU content network can be viewed as a DAG. Any data connects another data for representing blocks, messages or images. 
