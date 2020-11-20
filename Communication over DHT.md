@@ -120,3 +120,7 @@ gossip - messages log with B's peers as `receiver`.
 Each public key peer will check friend's mutable item for gossip according to round robin.
 Each public key also generate gossip when state update. 
 
+A_pk_id, chainID, 1
+A, pk_id, 3
+A, pk_id 1, pk_id 2, 2
+B, pk_id4, 4
