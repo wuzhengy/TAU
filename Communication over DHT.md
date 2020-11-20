@@ -105,22 +105,23 @@ A will hash link B>A chain immutable as response to B's message "read" status. T
    * Assume in A friend list, public key peer list: A as defualt, A1, A2, A3, B, B2, C
    * Assume in B friend list, we have public key: B as defaulft, B1, B2, B3, A, A2
 ```
-gossip - messages log with B's peers as `receiver`. 
+gossip - messages log with A's peers as `receiver`. 
       {
       A -> B, timestamp;
-      A -> B3, timestamp of A told other peers that A has sent info to B3; this is not the true observation of the message, 
-            it is a gossip to help traverse the channels. 
       A2 -> B, timestamp of A2 told other peers that A2 has sent info to B;
       A2 -> B2, timestamp; 
-      C -> B3, time stamp; C is not in B peer list, but C sent message to B3 which is in the B peer list, 
-            this is the 2nd degree connection 
-      } 
+      D -> B, 
+       } 
 ```
 ## Chat communication routine by peer main loop
 Each public key peer will check friend's mutable item for gossip according to round robin.
 Each public key also generate gossip when state update. 
 
-A_pk_id, chainID, 1
-A, pk_id, 3
+A gossip#0
+4bytes, 4 bytes, 20 bytes
+A_pk_id, chainID, root
+A, pk_id, 
 A, pk_id 1, pk_id 2, 2
 B, pk_id4, 4
+
+29 x 33 =990
