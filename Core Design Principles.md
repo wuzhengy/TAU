@@ -1,3 +1,10 @@
+### key problems and assumption
+* mobile phones behind telecom cell tower can not establish direct peer to peer IP connection, due to firewalls restricting incoming unknown IP
+* mobile device availability is random and quality of network is unpredictable due to the location moving
+* no incentive for server to provide free relay services 
+* assume P2P idea is wrong... the world is not supposed to communicate with peer to peer in tight instant format ... but loose coupling pub/sub fashion. It will waste lots of traffic data, but data cost follows moore's law. 
+
+### tech components to solve key problems
 * DAG - directed acyclic graph: every data item in TAU has both `content` and `link`. TAU content network can be viewed as a DAG. Any data connects another data for representing blocks, messages or images. 
   * Mutable item `content` is a pointer to a DAG node,the key of an immutable item; and link is another public key. 
    - The public key with a salt can form a new pointer. The new pointer nature is much dependent on channels. 
