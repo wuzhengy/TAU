@@ -7,14 +7,14 @@ As the community demand grows and the volume of transactions increases, the valu
 
 ### About the technology
 
-TAU is combining the world’s most advanced blockchain, torrent and mobile technologies to create 100% open source software, in particular:
-* Sever-less communication: no hosting is needed, everything is on the phone’s swarm network
-* Transparent and immutable blockchain coins incentivate people to join and are not affected by inflation
+TAU is combining advanced blockchain, torrent and mobile technologies to create open source software, in particular:
+* Sever-less communication protocol: no hosting is needed, everything is on the phone’s swarm network; communication through IP to IP is repalced by public-key to public-key 
+* Transparent and immutable blockchain coins incentivate people to contribute and are not affected by currency inflation
 
 ### Links
 * Github - whitepaper, docs and code
-* Reddit
-* Medium
+* Reddit - weekly progress
+* Medium - ideas
 * Twitter
-* Telegram Groups
+* Telegram - regional groups and trading
 * Coins conversion and airdrop
