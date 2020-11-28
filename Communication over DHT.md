@@ -1,5 +1,12 @@
 # TAU communication on DHT
 TAU adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. DHT engine provides an access layer for D-DAG virtual space. However DHT in nature is only provide data integrity but not availability, we need to design protocol to enhance reliability. 
+## Key to Key 
+The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol. 
+We devide TAU server-less communicaiton to be an application layer protocol to faciliate peer to peer connection in following simple command:
+* Gossip: own public key, data demand and message records (sender, receiver, type, hash, timestamp)
+* Get: retrieve content from remote public key and exchange gossip information ( remote public key, type, hash, gossip vector)
+User shall have no idea about 
+
 The gossip concept is created to make each peer constantly in gossip state by exchange they observation of the swarm in terms of message transfer and demand state. Only when nodes see the gossip signal satisfy, they will put/get messages. 
 The basic operations are put and get: these are for mining, **TBD**
 
