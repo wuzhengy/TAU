@@ -1,20 +1,22 @@
 # TAU communication on DHT
-TAU adopts a loose-coupling communication to DHT engine with multiple sessions concurrency. This will give quick user response even the backend is unstable. DHT engine provides an access layer for D-DAG virtual space. However DHT in nature is only provide data integrity but not availability, we need to design protocol to enhance reliability. 
-## Key to Key 
+TAU server-less communicaiton is an application level protocol based on libtorrent DHT. Libtorrent DHT built a network of node_id based decentral communcation. TAU adds public_key based communication. Public key rides on nodes to make communication. 
+TAU adopts a loose-coupling communication to DHT engine with multiple sessions concurrency.
+In each session, we use both dht_direct and dht_recursive. We start with direct udp bencode get the data from remote public key's node, if the response does not come back in 1 second, we will start the dht recursive mode, which takes longer time and more data. This will give quick user response even the backend is unstable. DHT cloud become both STUN and TURN services without dedicated servers.  
+DHT engine provides an access channel for D-DAG virtual space. However D-DAG in nature is only provide data integrity but not availability.
+## Public Key to Public Key 
 The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol. 
 We devide TAU server-less communicaiton to be an application layer protocol to faciliate peer to peer connection in following simple command:
-* Gossip: own public key, data demand and message records (sender, receiver, type, hash, timestamp)
-* Get: retrieve content from remote public key and exchange gossip information ( remote public key, type, hash, gossip vector)
-User shall have no idea about 
-
-The gossip concept is created to make each peer constantly in gossip state by exchange they observation of the swarm in terms of message transfer and demand state. Only when nodes see the gossip signal satisfy, they will put/get messages. 
-The basic operations are put and get: these are for mining, **TBD**
-
-1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
+* Get: both dht_direct and dht_recursive retrieve content from remote public key and exchange gossip information ( remote public key, type, hash, gossip vector)
+* Put: only DHT_recursive with no targat public key
+   * Gossip mutable data: through mutable item or dht_direct get/response, gossip will annouce own public key and IP, data demand and message records (sender, receiver, type, hash, timestamp)
+   * Immutable data in demand
+<br>
+The gossip concept is created to make each peer constantly in gossip state by exchange they observation of the swarm in terms of message transfer and demand state. 
+1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
     * mutable data put: app will put mutable data item such as messages, blockchainTip or txTip when demanded.
-    * immutable data put: app will put immutable data uppon other peers request. 
-2. `Get` / `Demand and Forget`: TAU will `get` data, if un-successful, app can put the request into `gossip`, then delegate TAU DHT engine to get data from DHT and put into memory after "request" is servived hopefully by some peers. 
-   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will post demand in gossip, get the key from DHT, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on, which is to leave DHT engine to publish. 
+    * immutable data put: app will put immutable data uppon demand. 
+2. `Get`: TAU will `get` data directly then recursively, if un-successful, app can put the request into `gossip` servived hopefully by some peers. 
+   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will do the `get`, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on. 
    * When aother node B reads from `gossip` channel, if B has such data locally, then B will put the data. <br><br>
 The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, so the request will not flood the system. 
 
