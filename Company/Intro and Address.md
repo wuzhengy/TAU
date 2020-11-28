@@ -3,8 +3,23 @@ It enables phones to form up independent blockchains for coins circulation and p
 
 In the core, we develop a server-less communication protocol with Java and C++ source open. The only cost for user is the data transmission. We pay particular attention to save data consumption and tailor it to be useful in expensive data region such as Africa and ASEAN.
 
+
 Company Address:
 The Bradfield Centre, UNIT 184, Cambridge Science Park, CB4 0GA
 Tel: +44 07312 026 892
 Email: wuzhengy@hotmail.com
 “TAU Coins Community - funding your business”
+
+### About the technology
+
+TAU is combining advanced blockchain, torrent and mobile technologies to create open source software, in particular:
+* Sever-less communication protocol: no hosting is needed, everything is on the phone’s swarm network; communication through IP to IP is repalced by public-key to public-key 
+* Transparent and immutable blockchain coins incentivate people to contribute and are not affected by currency inflation
+
+### Links
+* Github - whitepaper, docs and code
+* Reddit - weekly progress
+* Medium - ideas
+* Twitter
+* Telegram - regional groups and trading
+* Coins conversion and airdrop
