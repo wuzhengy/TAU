@@ -10,7 +10,7 @@ We devide TAU server-less communicaiton to be an application layer protocol to f
 * Put: only DHT_recursive with no targat public key
    * Gossip mutable data: through mutable item or dht_direct get/response, gossip will annouce own public key and IP, data demand and message records (sender, receiver, type, hash, timestamp)
    * Immutable data in demand
-<br>
+<br><br>
 The gossip concept is created to make each peer constantly in gossip state by exchange they observation of the swarm in terms of message transfer and demand state. 
 * `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
     * mutable data put: app will put mutable data item such as messages, blockchainTip or txTip when demanded.
