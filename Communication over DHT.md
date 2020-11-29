@@ -12,10 +12,10 @@ We devide TAU server-less communicaiton to be an application layer protocol to f
    * Immutable data in demand
 <br>
 The gossip concept is created to make each peer constantly in gossip state by exchange they observation of the swarm in terms of message transfer and demand state. 
-1. `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
+* `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
     * mutable data put: app will put mutable data item such as messages, blockchainTip or txTip when demanded.
     * immutable data put: app will put immutable data uppon demand. 
-2. `Get`: TAU will `get` data directly then recursively, if un-successful, app can put the request into `gossip` servived hopefully by some peers. 
+* `Get`: TAU will `get` data directly then recursively, if un-successful, app can put the request into `gossip` servived hopefully by some peers. 
    * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will do the `get`, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on. 
    * When aother node B reads from `gossip` channel, if B has such data locally, then B will put the data. <br><br>
 The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, so the request will not flood the system. 
