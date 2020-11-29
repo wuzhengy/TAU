@@ -1,7 +1,7 @@
 # TAU communication on DHT
 TAU server-less communicaiton is an application level protocol based on libtorrent DHT. Libtorrent DHT built a network of node_id based decentral communcation. TAU adds public_key based communication. Public key rides on nodes to make communication. 
 TAU adopts a loose-coupling communication to DHT engine with multiple sessions concurrency.
-In each session, we use both dht_direct and dht_recursive. We start with direct udp bencode get the data from remote public key's node, if the response does not come back in 1 second, we will start the dht recursive mode, which takes longer time and more data. This will give quick user response even the backend is unstable. DHT cloud become both STUN and TURN services without dedicated servers.  
+In each session, we use both dht_direct and dht_recursive. We start with direct udp bencode get the data from remote public key's node, if the response does not come back in 1 second, we will start the dht recursive mode, which takes longer time and more data. This will give quick user response even the backend is unstable. DHT cloud become relay services without dedicated servers. The DHT relay service provide external IP and port discovery to all peers.   
 DHT engine provides an access channel for D-DAG virtual space. However D-DAG in nature is only provide data integrity but not availability.
 ## Public Key to Public Key 
 The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol. 
@@ -127,3 +127,4 @@ Each public key will check friends gossip according to round robin.
 Each public key also generate gossip if state changes. 
 ## DHT middle tier
 annouce own public key each sessions CIDR and seek other public key's CIDR for dht direct.  middle tier need to build own channel for CIDR info discovery.
+For a public key's own NAT or connected other public key, either one of them will be non-symetric, because symetic can not connect to symetric.
