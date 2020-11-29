@@ -3,8 +3,7 @@ It enables phones to form up independent blockchains for coins circulation and p
 
 In the core, we develop a server-less communication protocol with all source open. The only cost for user is the data transmission. We pay particular attention to save data consumption and tailor it to be useful in expensive data region such as Africa and Asean.
 
-
-Company Address:
+#### Company Address
 The Bradfield Centre, UNIT 184, Cambridge Science Park, CB4 0GA
 Tel: +44 07312 026 892
 Email: wuzhengy@hotmail.com
