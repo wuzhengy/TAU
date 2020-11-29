@@ -12,7 +12,7 @@ We devide TAU server-less communicaiton to be an application layer protocol to f
 The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, so the request will not flood the system. 
 * Put: only DHT_recursive
   * Immutable data in demand
-  * Mutable data channel with salt 'Gossip' : through mutable item or dht_direct get/response, gossip will annouce own public key and IP, data demand and message records 
+  * Mutable data channel with salt 'Gossip' : through mutable item or dht_direct get/response, gossip will annouce own nickName, data demand and message records 
       * The gossip concept is created to make each peer constantly in gossip state by exchange their observation of the swarm in terms of message and demand. This will increase the network efficiency. 
   * `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache Non-blocking, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not.
 
@@ -125,3 +125,5 @@ gossip - B's friends as receiver
 ## Chat communication routine by peer main loop
 Each public key will check friends gossip according to round robin.
 Each public key also generate gossip if state changes. 
+## DHT middle tier
+annouce own public key each sessions CIDR and seek other public key's CIDR for dht direct.  middle tier need to build own channel for CIDR info discovery.
