@@ -6,19 +6,19 @@ DHT engine provides an access channel for D-DAG virtual space. However D-DAG in 
 ## Public Key to Public Key 
 The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol. 
 We devide TAU server-less communicaiton to be an application layer protocol to faciliate peer to peer connection in following simple command:
-* Get: both dht_direct and dht_recursive retrieve content from remote public key and exchange gossip information ( remote public key, type, hash, gossip vector)
+* Get: both dht_direct and dht_recursive retrieve content from remote public key and exchange gossip information (remote public key, type, hash, gossip vector) `Get`: TAU will `get` data directly then recursively, if un-successful, app can put the request into `gossip` servived hopefully by some peers. 
+   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will do the `get`, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on. 
+   * When aother node B reads from `gossip` channel, if B has such data locally, then B will put the data. <br><br>
+The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, so the request will not flood the system. 
 * Put: only DHT_recursive with no targat public key
-   * Gossip mutable data: through mutable item or dht_direct get/response, gossip will annouce own public key and IP, data demand and message records (sender, receiver, type, hash, timestamp)
+   * Gossip mutable data: through mutable item or dht_direct get/response, gossip will annouce own public key and IP, data demand and message records 
    * Immutable data in demand
 <br><br>
 The gossip concept is created to make each peer constantly in gossip state by exchange they observation of the swarm in terms of message transfer and demand state. 
 * `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
     * mutable data put: app will put mutable data item such as messages, blockchainTip or txTip when demanded.
     * immutable data put: app will put immutable data uppon demand. 
-* `Get`: TAU will `get` data directly then recursively, if un-successful, app can put the request into `gossip` servived hopefully by some peers. 
-   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will do the `get`, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on. 
-   * When aother node B reads from `gossip` channel, if B has such data locally, then B will put the data. <br><br>
-The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, so the request will not flood the system. 
+*
 
 ## DHT and DDAG
 TAU data is permanently stored in the distributed dag, which is spread among many different phones and has noting to do with DHT. 
@@ -89,14 +89,14 @@ We use timestamp in salt to make sure peers getting latest mutable data.
 
 ## Gossip through the mutable data
 The communication on DHT is not stable. There is no garantee of delivery. 
-Gossip is an idea that each peer will talk about the observation and demand, so that to pass the demand and message events around to facilate re-publish. 
+Gossip is an idea that each public key will talk about its observation and own demand, so that to pass around to facilate data put and get. 
 ## Gossip format
 ### Chat
-In the chat function, each peer publish gossip to friend one by one when there is necessity. 
-* mutable item key: salt("gossip"+"receiver pk", timestamp in 10 minutes); 
-   * receiver pk is the full public key of target friend
-   * pk_id is the last 4 bytes of a public key, to reduce the size of message. 4 bytes is good enough for each peer to find out peers. 
-* value: 
+In the chat function, each public key gossips on one channel. 
+* mutable item key: salt("gossip"); 
+  * value: (sender, receiver, type, hash, timestamp)
+    * pk_id is the last 4 bytes of a public key, to reduce the size of message. 4 bytes is good enough for each peer to find out peers. 
+* example: 
 ```
 sender X pk_id, receiver pk_id, "chainHash" or demand of immutable hash; timestamp }; 
 sender Y pk_id, receiver's friend target pk2_id, "c" or d_hash;  timestamp in minutes  }; e.g { y67b, a6g8, "dm", timestemp in minutes }
@@ -104,33 +104,28 @@ sender Y pk_id, receiver's friend target pk2_id, "c" or d_hash;  timestamp in mi
 * flow of chain
 Both A and B are friends to each other, and A maintain a hash chain of messages A>B; B maintain a hash chain of messages B>A. For example, on A>B chain,
 A will hash link B>A chain immutable as response to B's message "read" status. Therefore, A>B and B>A forms up a dual chain DAG. 
-1. A gossip to everyone, in the gossip, there is the latest A>B_Chain_Root, random list of A's friends. 
-2. B discover A gossip, then gossip to the world, in the gossip there is a demand of A>B_chain_Root and B>A_Chain_Root. One gossip data item can contain many demands and messages.
-3. A received the demand, then put A>B chain data items
+1. A gossip if new root for B
+2. B discover A gossip, get from A
+3. A may received the demand from B, then put A>B chain data items
 4. B sync up A>B chain data items. when B generate new data items, always link A>B chain's root. 
    
 ``` 
-* Example: A -> B, Mutable item Salt = "gossip" + "Receiver B Peer's Public Key"
+* Example: A -> B, Mutable item Salt = "gossip"
    * Assume in A friend list, public key peer list: A as defualt, A1, A2, A3, B, B2, C
    * Assume in B friend list, we have public key: B as defaulft, B1, B2, B3, A, A2
 ```
-gossip - messages log with A's peers as `receiver`. 
+gossip - A's friends as `receiver`. 
       {
-      A -> B, timestamp;
-      A2 -> B, timestamp of A2 told other peers that A2 has sent info to B;
-      A2 -> B2, timestamp; 
-      D -> B, 
+      A -> B, ...;
+      A2 -> B2 ...; 
+      D -> B ..., 
        } 
+gossip - B's friends as receiver
+      {
+      A2 -> B2
+      E -> B3
+      }
 ```
 ## Chat communication routine by peer main loop
-Each public key peer will check friend's mutable item for gossip according to round robin.
-Each public key also generate gossip when state update. 
-
-A gossip#0
-4bytes, 4 bytes, 20 bytes
-A_pk_id, chainID, root
-A, pk_id, 
-A, pk_id 1, pk_id 2, 2
-B, pk_id4, 4
-
-29 x 33 =990
+Each public key will check friends gossip according to round robin.
+Each public key also generate gossip if state changes. 
