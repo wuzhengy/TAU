@@ -10,15 +10,11 @@ We devide TAU server-less communicaiton to be an application layer protocol to f
    * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will do the `get`, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on. 
    * When aother node B reads from `gossip` channel, if B has such data locally, then B will put the data. <br><br>
 The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, so the request will not flood the system. 
-* Put: only DHT_recursive with no targat public key
-   * Gossip mutable data: through mutable item or dht_direct get/response, gossip will annouce own public key and IP, data demand and message records 
-   * Immutable data in demand
-<br><br>
-The gossip concept is created to make each peer constantly in gossip state by exchange they observation of the swarm in terms of message transfer and demand state. 
-* `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not. 
-    * mutable data put: app will put mutable data item such as messages, blockchainTip or txTip when demanded.
-    * immutable data put: app will put immutable data uppon demand. 
-*
+* Put: only DHT_recursive
+  * Immutable data in demand
+  * Mutable data channel with salt 'Gossip' : through mutable item or dht_direct get/response, gossip will annouce own public key and IP, data demand and message records 
+      * The gossip concept is created to make each peer constantly in gossip state by exchange their observation of the swarm in terms of message and demand. This will increase the network efficiency. 
+  * `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache Non-blocking, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not.
 
 ## DHT and DDAG
 TAU data is permanently stored in the distributed dag, which is spread among many different phones and has noting to do with DHT. 
