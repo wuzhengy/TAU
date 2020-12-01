@@ -1,8 +1,8 @@
 TAU Cambridge(UK) is building an android app, “TAU Coins Community". <br>
 
-It enables phones to form up independent blockchains for ditigal coins circulation without servers, so that individuals can freely operate payment and finance business in a community.
+It enables phones to form up independent blockchains for ditigal coins circulation, so that individuals can freely operate payment and finance business in a community.
 
-In the core, we develop a server-less communication protocol with all source open. The only cost for user is the data transmission. We pay particular attention to save data consumption and tailor it to be useful in expensive data region.
+In the core, we develop a server-less communication protocol with all source open. Without hosting fee, the only cost for user is the data transmission. We pay particular attention to save data consumption and tailor it to be useful in expensive data region.
 
 #### Company Address
 The Bradfield Centre, UNIT 184, Cambridge Science Park, CB4 0GA <br>
@@ -13,9 +13,9 @@ Email: wuzhengy@hotmail.com <br>
 ### About the technology
 
 TAU is combining advanced blockchain, torrent and mobile technologies to create open source software, in particular:
-* Sever-less communication protocol: no hosting is needed, everything is on the phone’s swarm network.
-* Transparent and immutable blockchain coins: incentivate contribution and are not affected by currency inflation.
-* Proof of Transaction consensus: aim to be super secure based on full community transactions and messages history. 
+* Sever-less communication protocol: no hosting needed, everything is on the phone’s swarm network.
+* Transparent and immutable blockchain coins: incentivate mobile computing power contribution and are not affected by currency inflation.
+* Proof of Transaction consensus: coins security based on parallel communities transactions history. 
 
 ### Links
 * Github - whitepaper, docs and code
