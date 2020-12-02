@@ -18,4 +18,4 @@ She downloads it to her smartphone and creates her own highly secure blockchain 
 One coin equals one jar of garlic paste. 
 She can now sell the coins to her customers in exchange for cash. 
 Customers can later use Anna's coin for garlic paste.
-Easy! Anna gets funding, and customers get nice price.
+Easy and win-win for community! Anna gets funding, and customers get nice price.
