@@ -1,4 +1,4 @@
-* Generate Community Coins
+* Generate Fixed Community Coins
 * Sell Coins to friends
 * Pay coins for products
 * Community Chat
