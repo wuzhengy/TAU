@@ -6,23 +6,16 @@ TAU is a free app that can enable Anna to generate secure digital coins, which s
 As the business grows, the value of the coins increase against the Cedis, because of the quantity of coins is limitted while Cedis always depreciating. It’s a ‘win-win’ for Anna and her customers.
 
 
-### Scripts for animation
+### Scripts for cartoon and animation
 This is Anna from Ghana.
-
 She dreams of having her own shop selling garlic paste. 
+To start her business she needs 1000 US Dollars worth of Cedis.
+Anna knows that neither the bank nor anyone else will give her a reasonable loan.
 
-To start her business she needs 500 US Dollars.
-
-Anna knows that neither the bank nor anyone else will give her a loan.
-
-However, she finds out about an app that will enable her to raise funds: 
-
-the TAU Coins Community - a digital coin solution for getting funds.
-
-She downloads it to her smartphone and creates her own coins. 
-
+However, she finds out about an app that will help her to raise funds: 
+TAU - a digital coin solution for funding and payment.
+She downloads it to her smartphone and creates her own highly secure blockchain coins. 
 One coin equals one jar of garlic paste. 
-
-Easy!
-
-She can now sell her coins to her potential customers in exchange for cash, who can later redeem them for garlic paste. 
+She can now sell the coins to her customers in exchange for cash. 
+Customers can later use Anna's coin for garlic paste.
+Easy! Anna gets funding, and customers get nice price.
