@@ -1,5 +1,5 @@
 * Generate Community Coins
-* Sell Coins
-* Coins Payment
+* Sell Coins to friends
+* Pay coins for products
 * Community Chat
-* Phone Mining to make coins
+* Phone Mining to make transaction fees
