@@ -6,7 +6,7 @@ TAU is a free app that can enable Anna to generate secure digital coins, which s
 As the business grows, the value of the coins increase against the Cedis, because of the quantity of coins is limitted while Cedis always depreciating. It’s a ‘win-win’ for Anna and her customers.
 
 
-### Scripts for cartoon and animation
+### Scripts for whiteboad animation
 This is Anna from Ghana.
 She dreams of having her own shop selling garlic paste. 
 To start her business she needs 1000 US Dollars worth of Cedis.
