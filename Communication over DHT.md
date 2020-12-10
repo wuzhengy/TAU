@@ -132,7 +132,7 @@ For a public key's own NAT or connected other public key, either one of them wil
 ## gossip types in peer to peer texting
 ### from UI layer
 * signal a message that has sent to friend with its MsgDAGRoot
-* signal current gossip frequency,1, 5, 10, 30, 60, so other peers can form up mutable salt to get this gossip quicker. this frequency hope to increase the performance. 
+* signal current gossip frequency,1, 5, 10, 30, 60, so other peers can form up mutable salt to get this gossip quicker. this frequency hope to increase the performance. also when user has message to send, it should gossip immediately. 
 * demand some immutable data item
 ### from chain layer
 * demand some immutable data item
