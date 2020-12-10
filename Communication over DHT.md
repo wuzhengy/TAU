@@ -129,11 +129,12 @@ Each public key also generate gossip if state changes.
 annouce own public key each sessions CIDR and seek other public key's CIDR for dht direct.  middle tier need to build own channel for CIDR info discovery.
 For a public key's own NAT or connected other public key, either one of them will be non-symetric, because symetic can not connect to symetric.
 
-## gossip types
-### from UI
-* checking friends connection to make sure both public key connected
-* signal a message sent to friend
-* demand immutable data
+## gossip types in peer to peer texting
+### from UI layer
+* signal a message that has sent to friend with its MsgDAGRoot
+* signal current gossip frequency,1, 5, 10, 30, 60, so other peers can form up mutable salt to get this gossip quicker. this frequency hope to increase the performance. 
+* demand some immutable data item
 ### from chain layer
-* demand immutable data
+* demand some immutable data item
 * put gossip according to freqence
+* checking friends msgDAGroot update and make sure both side recorded other's public key. for the friends not 100% complete, it will send out gossip item request gossip answer from other peer.(50% never connected, connected, last msg, last seen )
