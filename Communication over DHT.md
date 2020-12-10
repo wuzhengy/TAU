@@ -128,3 +128,12 @@ Each public key also generate gossip if state changes.
 ## DHT middle tier
 annouce own public key each sessions CIDR and seek other public key's CIDR for dht direct.  middle tier need to build own channel for CIDR info discovery.
 For a public key's own NAT or connected other public key, either one of them will be non-symetric, because symetic can not connect to symetric.
+
+## gossip types
+### from UI
+* checking friends connection to make sure both public key connected
+* signal a message sent to friend
+* demand immutable data
+### from chain layer
+* demand immutable data
+* put gossip according to freqence
