@@ -130,11 +130,11 @@ annouce own public key each sessions CIDR and seek other public key's CIDR for d
 For a public key's own NAT or connected other public key, either one of them will be non-symetric, because symetic can not connect to symetric.
 
 ## gossip types in peer to peer texting
+* frequency: node will issue gossip mutable data item according to it.
 ### from UI layer
-* signal a message that has sent to friend with its MsgDAGRoot
-* signal current gossip frequency,1, 5, 10, 30, 60, so other peers can form up mutable salt to get this gossip quicker. this frequency hope to increase the performance. also when user has message to send, it should gossip immediately. 
-* demand some immutable data item
-### from chain layer
-* demand some immutable data item
-* put gossip according to freqence
-* checking friends msgDAGroot update and make sure both side recorded other's public key. for the friends not 100% complete, it will send out gossip item request gossip answer from other peer.(50% never connected, connected, last msg, last seen )
+* signal a message that has sent to friend with its MsgDAGRoot immdeiately
+* signal current gossip frequency 1, `5`, 10, 30, 60, so other peers can form up mutable salt to get this gossip quicker. this `frequency` hope to increase the performance. 
+* gossip: typing on A-B chat, form a new mutable temparary salt to hold new information.
+### from chain layer - put gossip according to freqence
+* `demand` some immutable data item
+* according the default frequency `publish` msgDAGroot update and make sure both side recorded other's public key. for the friends not 100% complete, it will send out gossip item request gossip answer from other peer.(3 signals: 50% never connected/connected, last msg time, last seen time )
