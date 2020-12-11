@@ -1,4 +1,4 @@
-TAU Cambridge(UK) is building an android app, “TAU Coins Community". <br>
+TAU Cambridge(UK) is building an android app, “TAU - free blockchain for selling coins and paying people". <br>
 
 It enables phones to form up independent blockchains for ditigal coins circulation, so that individuals can freely operate payment and finance business in a community.
 
