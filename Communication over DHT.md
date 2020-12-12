@@ -134,7 +134,7 @@ For a public key's own NAT or connected other public key, either one of them wil
 ### from UI layer
 * gossip the new msgDagRoot when a message that has sent to friend immdeiately
 * signal current gossip frequency. 
-* gossip user behavior: such as gossip "user typing on A<->B chat" with a new mutable salt, in this salt, remote peers can get new information instantly. This can potentially increase user behavior. 
+* gossip user behavior: such as gossip "node select A<->B chat", "node type in A<->B chat" with a `new random mutable salt`, in this salt, remote peers can get new information instantly. This can potentially increase user behavior. 
 ### from chain layer - put gossip according to freqence
 * `demand` some immutable data item
 * according the default frequency `publish` msgDAGroot. This provide 3 signals: `50% connected`/`connected`, last msg time, last seen time. 
