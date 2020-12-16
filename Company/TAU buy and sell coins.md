@@ -1,4 +1,4 @@
-### TAU - free blockchain to pay and sell digital coins
+### TAU - pay and sell digital coins
 Anna’s dream is to set up a shop to produce and sell garlic paste in Accra. She needs money to buy the raw materials. Anna is surrounded by a community that could support her. She has one android phone and want to raise the money and process payment.
 
 TAU is a free app that can enable Anna to generate secure digital coins, which she can exchange with her community in return for Ghanaian Cedis, so she is able to buy raw materials. The coins can then be used by her community to buy the garlic paste at a lower price.
