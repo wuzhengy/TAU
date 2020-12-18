@@ -8,7 +8,7 @@ In the core, we develop a server-less communication protocol with all source ope
 The Bradfield Centre, UNIT 184, Cambridge Science Park, CB4 0GA <br>
 Tel: +44 07312 026 892 <br>
 Email: wuzhengy@hotmail.com <br>
-“TAU Coins Community - funding your business” <br>
+“TAU - Pay and Sell Digital Coins” <br>
 
 ### About the technology
 
