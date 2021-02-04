@@ -1,4 +1,4 @@
-# TAU - Decentralized communication with high-scaling blockchain economy.
+# TAU - Phone Mining
 ### Design notes reflect key concepts in TAU.
 Core UI experienses
 - decentralized community chat with crypto-coins circulation
