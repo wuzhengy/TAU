@@ -1,8 +1,6 @@
-TAU Cambridge(UK) is building an android app, “TAU - free blockchain to pay and sell digital coins". <br>
+TAU Phone Mining is a app developed by TAU Cambridge(UK). It enables phones to form and mine independent blockchains at the same time. We aims to enable one android phone to mine 100 full blockchains without connecting to central server. Taucoin.io
 
-It enables phones to form up independent blockchains for ditigal coins circulation, so that individuals can freely operate payment and finance business in a community.
-
-In the core, we develop a server-less communication protocol with all source open. Without hosting fee, the only cost for user is the data transmission. We pay particular attention to save data consumption and tailor it to be useful in expensive data region.
+In the core, we develop a server-less communication and consensus protocol with all source open. Without hosting fee, the only cost for user is the data transmission. We pay particular attention to save data consumption and tailor it to be useful in expensive data region.
 
 #### Company Address
 The Bradfield Centre, UNIT 184, Cambridge Science Park, CB4 0GA <br>
@@ -12,10 +10,9 @@ Email: wuzhengy@hotmail.com <br>
 
 ### About the technology
 
-TAU is combining advanced blockchain, torrent and mobile technologies to create open source software, in particular:
+TAU is combining advanced consensus, torrent DHT and mobile technologies to create open source software, in particular:
 * Sever-less communication protocol: no hosting needed, everything is on the phone’s swarm network.
-* Transparent and immutable blockchain coins: incentivate mobile computing power contribution and are not affected by currency inflation.
-* Proof of Transaction consensus: coins security based on parallel communities transactions history. 
+* Proof of Transaction consensus: coins security based on transactions and messaging history of the community. 
 
 ### Links
 * Github - whitepaper, docs and code
