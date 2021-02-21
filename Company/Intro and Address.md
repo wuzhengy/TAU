@@ -1,4 +1,4 @@
-TAU Phone Mining is a app developed by TAU Cambridge(UK). It enables phones to form and mine independent blockchains at the same time. We aims to enable one android phone to mine 100 full blockchains without connecting to central server. Taucoin.io
+TAU Phone Mining is an app developed by TAU Cambridge(UK). It enables phones to form and mine independent blockchains at the same time. We aims to enable one android phone to mine 100 full blockchains without connecting to central server. Taucoin.io
 
 In the core, we develop a server-less communication and consensus protocol with all source open. Without hosting fee, the only cost for user is the data transmission. We pay particular attention to save data consumption and tailor it to be useful in expensive data region.
 
