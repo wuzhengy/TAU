@@ -1,4 +1,4 @@
-Company Description for Blockchain Life
+Company Description for Blockchain Life <br>
 TAU Phone Mining aims to enable ONE phone to independently mine and operate in 100+ community blockchains. It does not require assistance from any servers. The app is developed by TAU in Cambridge Science Park, UK. Our key innovations are server-less communication, proof-of-transaction consensus and bloom filters to resist secrete chain attack. 
 
 ---
