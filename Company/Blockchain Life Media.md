@@ -11,3 +11,6 @@ Printing Layout for event.
   * Proof of Transaction consensus on history of transactions
   * Applying Bloom filters to resist secrete chain attack
 
+---
+Deck
+https://docs.google.com/presentation/d/1KpFWftvwgu2vqlRHXE1ShTahMAotFoveC3Jz9i88938/edit?usp=sharing
