@@ -30,6 +30,9 @@ Target of Mutable Data: libTAU mutable data aims to exchange data than storage, 
 Data consumption
 * each device with libTAU need to decide daily data usage for achieving balance of contribution and benefits. Generally the more data allocated, the better performance it is. 
 
+Walking frequency
+* each device could setup the range of walking frequency from 1 - 20s, this will also limit the highest data consumption. 
+
 ---
 Bootstrap and time: nodes can get these information from both central or decentral source 
 * from third party bootstrap and time server
