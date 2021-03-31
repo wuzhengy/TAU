@@ -14,6 +14,7 @@ Mutable Data Cache Item
 * Target: 80 bytes
 * Value: 1000 bytes
   * sender X need to sign this value
+  * first half of the sender Node ID has match 2nd half of the target.
 * Appendix key-value (optional)
   * any random sender can update this field without signature
   * sender public key - 32 bytes, value - 32 bytes. 
