@@ -16,7 +16,7 @@ Mutable Data Cache Item
   * sender X need to sign this value
 * Appendix key-value (optional)
   * any random sender can update this field without signature
-  * sender public key -32 bytes, value - 4 bytes. 
+  * sender public key - 32 bytes, value - 32 bytes. 
 
 Target of Mutable Data: libTAU mutable data aims to exchange data than storage, expecting lots of records overlaping like in the routing table
 * 160 bits long
@@ -24,4 +24,14 @@ Target of Mutable Data: libTAU mutable data aims to exchange data than storage, 
   * This design is to create relay incentive for data cache provider. 
   * The more data provided, the provider's Node ID has more places in other peers routing table
 * Second 80 bits: First half of the sender Node ID
-  * when first half equal to second half, this is a self data channel and possible to receive any sender's ping message and update the appendix value. 
+  * when first half equal to second half, this is a self data channel and possible to receive any sender's ping message and update the appendix value. This could be used to add anonymous friends. 
+
+---
+Data consumption
+* each device with libTAU need to decide daily data usage for achieving balance of contribution and benefits. Generally the more data allocated, the better performance it is. 
+
+---
+Bootstrap and time: nodes can get these information from both central or decentral source 
+* from third party bootstrap and time server
+* from community blockchain content
+  * blockchain content is safer to validate true time and swarm, however it is slower than third party service. So we adopt a combined approach with blockchain as foundation. 
