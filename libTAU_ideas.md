@@ -8,7 +8,7 @@ Node ID
 Distrubted Routing Table
 * Tuple: Node ID, IP, Port
 * Meta data: last seen, last communicated, failure counter
-* May consider multiple layers to make find_nodes better fit, 80 layers fit, half of the node id for merge data cache
+* May consider multiple layers to make find_nodes better fit, 80 layers
 ------
 
 Mutable Data Cache bucket-tree
@@ -27,6 +27,7 @@ Target of Mutable Data: libTAU mutable data aims to exchange data than storage, 
   * The more data provided, the provider's Node ID has more places in other peers routing table
 * Second 80 bits: First half of the sender Node ID
   * when first half equal to second half, this is a self data channel and possible to receive any sender's ping message and update the appendix value. This could be used to add anonymous friends. 
+  * only sender Node ID has first 80 bits matching Target second half can sign value field. 
 
 ---
 Data consumption
@@ -40,3 +41,7 @@ Bootstrap and time: nodes can get these information from both central or decentr
 * from third party bootstrap and time server
 * from community blockchain content
   * blockchain content is safer to validate true time and swarm, however it is slower than third party service. So we adopt a combined approach with blockchain as foundation. 
+---
+Encryption
+* use receiver's public key, it is easy to encrypt all messages relaying to receiver in full UDP packet. 
+* relaying nodes can sign the message use own private key, so that receiver knows who relays the messages, in which could be other mesage sender. 
