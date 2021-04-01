@@ -8,15 +8,16 @@ Node ID
 Distrubted Routing Table
 * Tuple: Node ID, IP, Port
 * Meta data: last seen, last communicated, failure counter
+* May consider multiple layers to make find_nodes better fit, 80 layers fit, half of the node id for merge data cache
 ------
 
-Mutable Data Cache Item
-* Target: 80 bytes
+Mutable Data Cache bucket-tree
+* Target: 20 bytes
+  * first half of the sender Node ID must match 2nd half of the target to be qualified to sign the value
 * Value: 1000 bytes
-  * sender X need to sign this value
-  * first half of the sender Node ID has match 2nd half of the target.
-* Appendix key-value (optional)
-  * any random sender can update this field without signature
+  * sender X need to sign this value  
+* Ping: key-value (optional)
+  * any random sender can update this key-value pair without signature, just like ping service
   * sender public key - 32 bytes, value - 32 bytes. 
 
 Target of Mutable Data: libTAU mutable data aims to exchange data than storage, expecting lots of records overlaping like in the routing table
