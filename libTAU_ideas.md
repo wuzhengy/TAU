@@ -41,6 +41,7 @@ Bootstrap and time: nodes can get these information from both central or decentr
 * from third party bootstrap and time server
 * from community blockchain content
   * blockchain content is safer to validate true time and swarm, however it is slower than third party service. So we adopt a combined approach with blockchain as foundation. 
+  * all the added blockchains in the friends list will be treated as boot and time provider with TAU chain as default one. 
 ---
 Encryption
 * use receiver's public key, it is easy to encrypt all messages relaying to receiver in full UDP packet. 
