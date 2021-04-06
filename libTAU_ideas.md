@@ -37,11 +37,11 @@ Walking frequency
 * each device could setup the range of walking frequency from 1 - 20s, this will also limit the highest data consumption. 
 
 ---
-Bootstrap and time: nodes can get these information from both central or decentral source 
-* from third party bootstrap and time server
-* from community blockchain content
-  * blockchain content is safer to validate true time and swarm, however it is slower than third party service. So we adopt a combined approach with blockchain as foundation. 
-  * all the added blockchains in the friends list will be treated as boot and time provider with TAU chain as default one. 
+Bootstrap and time: nodes can get these information from both central and decentral sources 
+* from third party bootstrap and time server such as ISP or TAU Dev.
+* from community blockchain content, libTAU can config serveral community chains to start follow.
+  * blockchain content is safer to validate true time and right phone swarm, however it is slower than third party service. So we adopt a combined approach with blockchain as part of statistical calculation. 
+  * all the added blockchains in the friends list will be treated as boot and time info potential providers equivalent to TAU chain.
 ---
 Encryption
 * use receiver's public key, it is easy to encrypt all messages relaying to receiver in full UDP packet. 
