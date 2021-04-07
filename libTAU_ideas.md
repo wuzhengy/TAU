@@ -1,3 +1,4 @@
+libTAU - serverless communication, an open source Java library for unblockable p2p(pubkey to pubkey) and blockchain messaging.
 
 Public Key
 * 32 bytes ED25519 Pubkey Key generated from random seed
