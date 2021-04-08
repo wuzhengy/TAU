@@ -1,0 +1,2 @@
+Nutshell: similar to smart contract creating tokens, TAU each community blockchain can define own operation logic, such as in a new chain, you can define third variable to be the sum of all transaction volume or even adding interests. 
+Some smart contract lanuage can be used to create such type of coin. Once a smart coin created, it can not be changed, if upgrade happens, it will be a new community chain. 
