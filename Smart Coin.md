@@ -6,4 +6,4 @@ When TAU added smart coin code, it means we will go stateful mining and validati
 Each node will need entire blockchain ledger and state to function. This is why we design each of our block is 1K and 5 minutes one block generation speed. With smart coin, one can expanding address space faster than fixed logic. 
 
 TAU coin multiple address wire <br>
-We will add sending to multiple address to help increase the account space in a public ledger. In TAU, each block will allow to send up to 10 addresses. 
+We will add sending to multiple address to help increase the account space in a public ledger. In TAU, each block will allow to send up to 24 addresses. 
