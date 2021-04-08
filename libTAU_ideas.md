@@ -24,7 +24,7 @@ Mutable Data Cache bucket-tree
 Target of Mutable Data: libTAU mutable data aims to exchange data than storage, expecting lots of records overlaping like in the routing table
 * 160 bits long
 * First 80 bits: First half of the receiver Node ID
-  * This design is to create relay incentive for data cache provider. 
+  * If the receiver has public IP and online, the data will be put into receiver memory directly. This design is to create incentive for data relay provider to get a public IP/port and keep alive. This is also why we **do not** hash (salt + pubkey). 
   * The more data provided, the provider's Node ID has more places in other peers routing table
 * Second 80 bits: First half of the sender Node ID
   * when first half equal to second half, this is a self data channel and possible to receive any sender's ping message and update the appendix value. This could be used to add anonymous friends. 
