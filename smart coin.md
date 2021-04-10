@@ -26,5 +26,15 @@ miner public key
 
 }
 
-}
+}\
+
+
+mutable range: one day
+new peer range: last new address added block. use bloom filer to cover the range.
+simple opcodes: 
+type 1:  1 to n wiring
+type 2:  text
+type 3:  NFT
+
+epock stateful; verification statless. 
 
