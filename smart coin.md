@@ -10,3 +10,21 @@ We will add sending to multiple address to help increase the account space in a 
 
 * define variables: integer, list, string
 * define address-nonce pair
+
+hash the smart contract into chain id. 
+
+Class blockchain_main_loop{
+init()
+func wire(sender, rec 1, rec 2, ...)
+
+Class state{
+  vector(key, value)
+}
+Class Block{
+miner public key
+...
+
+}
+
+}
+
