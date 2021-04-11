@@ -14,3 +14,7 @@ mutable range: one day, 5 x 12 x 24 = 288 blocks.
 new peer range: from current to last new address added block. 
 stateful range: 1 year, 288 x 1000= 288K blocks
 
+* Block and Transaction structure
+ * add sender and miner IP addresses
+ * add new peer pointer
+
