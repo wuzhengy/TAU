@@ -15,6 +15,6 @@ new peer range: last new address added block. use bloom filer to cover the range
   * type 2:  text
 
 stateful range: 1 year
-mining need be stateful for the recent 1 year
-verification could be purely stateless. 
+- mining need be stateful for the recent 1 year
+- verification could be purely stateless. 
 
