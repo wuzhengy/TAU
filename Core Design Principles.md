@@ -27,6 +27,15 @@
     - alpha of the search branches
 * Avoiding constants - we want to use as little as constants as possible to let system to self adjust to the environment such as consumption of memory and bandwidth with performance results. For example, how many libtorrent nodes to initiate. 
 * Gossip protocol to relay signals and enhance the performance
+* Comments on Ethereum Stateless and TAU Epoch Statefulness
+Each 12 months, on a predetermined date, eth miners will choose to forget all state information prior to the year. The purpose is to make state storage below a flat size. The eth dev calls this “epoch expiry” or “partial stateless”. 
+As a miner, you will still need entire information for the recent 12 months. As transaction maker, if you want to make a transaction which need information, such as balance, prior to a year, you need to pay gas fee to bring the state back to the new “epoch”. 
+The eth decision shows that as a blockchain, remembering the entire history is not viable, if the blockchain wants to survive for decades.  However the fixed cut-off date is problematic too. Ethereum states are inter-connected among blocks, such as a deFi loan will need history information on interest rate years ago, which might be cut off when new epoch starts. Each dApp has to select what state to bring back into new epoch. This will be quite expensive for dApp users. 
+I guess this is quite messy and it might be the reason “stateless” has been in discussion for 7 years. 
+As TAU is in the design stage, we need to learn from this trouble. The root cause is the eth smart contracts generating massive states. Bitcoin does not support smart contracts like eth, so its state storage are much lower and acceptable for the chain to keep all the history. 
+TAU is designed to run a phones, so the situation is even worse than the server based. I think we are going to be avoid of both “stateful - remember the whole history” and “smart contracts”. 
+I am designing an TAU chain with “epoch stateful with 1 year rolling base memory without smart contract”. There will be no cut-off line, the state memory is on rolling basis to keep storage flat for each blockchain around maximum 100mb.  
+Without smart contract, the blockchain will be purely for coins wiring and text. I think these are the most important things and sufficient for dApps to build logic such as javascript can be viewed as text. Assume in the future, all devices will need libTAU communication for server-less messaging, we want to make this layer to be cheap and efficient in computing resources consumption.
 
 ## Knowledge building blocks
 Along the way of developing TAU, we have adopted many key ideas from many open-source community projects. Following are the key components we are adopting. 
