@@ -1,20 +1,16 @@
-* one year stateful
-TAU blockchain will only recogonize one year on chain state, any state beyond will be forgotten forever. this will make one blockchain in flat size forever, good for phones. you can also view one year stateful is **epoch stateful mining** and **full stateless verification**. 
-
-simple opcodes: 1 to n wiring
-
-TAU coin multiple address wire <br>
-We will add sending to multiple address to help increase the account space in a public ledger. In TAU, each block will allow to send up to 24 addresses. 
-}\
-
-
-mutable range: one day
-new peer range: last new address added block. use bloom filer to cover the range.
-* simple TXs types: 
-  * type 1:  1 to n wiring
-  * type 2:  text
-
-stateful range: 1 year
+* One year stateful
+TAU blockchain will only keep a chain state for one year, any state beyond will be forgotten forever. This will make the blockchain in flat size, good for phones. You can view this as **epoch stateful mining** and **stateless verification** combined. 
 - mining need be stateful for the recent 1 year
 - verification could be purely stateless. 
+
+
+* Simple opcodes
+TAU aims to enable basic devices in weak networking regions, so we do not add programing language into the tech stack.
+  * type 1:  1 to n wiring, each transaction will allow to send up to 24 addresses. 
+  * type 2:  plain text
+
+* Some ranges: 
+mutable range: one day, 288 blocks.
+new peer range: from current to last new address added block. 
+stateful range: 1 year, 288 x 365= 105,120 blocks
 
