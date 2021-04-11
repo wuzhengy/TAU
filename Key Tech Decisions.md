@@ -5,7 +5,7 @@ TAU blockchain will only keep a chain state for one year, any state beyond will 
 
 
 * Simple opcodes
-TAU aims to enable basic devices in weak networking regions, so we do not add programing language into the tech stack.
+TAU aims to enable basic devices to have determined functions in weak networking regions, so we do not add automaton language into transactions and do not engage variable gas concept.
   * type 1:  1 to n wiring, each transaction will allow to send up to 24 addresses. 
   * type 2:  plain text
 
