@@ -13,8 +13,8 @@ new peer range: last new address added block. use bloom filer to cover the range
 * simple TXs types: 
   * type 1:  1 to n wiring
   * type 2:  text
-  * type 3:  NFT
 
-stateful range: 1 year; 
-verification stateless. 
+stateful range: 1 year
+mining need be stateful for the recent 1 year
+verification could be purely stateless. 
 
