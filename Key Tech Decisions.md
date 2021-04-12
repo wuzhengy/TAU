@@ -1,4 +1,4 @@
-* One year stateful
+* 1000  stateful
 TAU blockchain will only keep a chain state for 1000 days, any state beyond will be forgotten forever. This will make the blockchain in flat size, good for phones. You can view this as **epoch stateful mining** and **stateless verification** combined. 
 - mining need be stateful with 1000 x 288 blocks information. 
 - verification could be purely stateless. 
