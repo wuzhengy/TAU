@@ -10,6 +10,13 @@ Distrubted Routing Table
 * Tuple: Node ID, IP, Port
 * Meta data: last seen, last communicated, failure counter
 * May consider multiple layers to make find_nodes better fit, 80 layers
+
+------
+
+Interface to app developer
+* Java package JAR with embeded c++ swig structure for x86_64 and arm64 ABI
+* SQLite as configuration and message exchange interface between third party and libTAU
+
 ------
 
 Mutable Data Cache bucket-tree
