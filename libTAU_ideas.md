@@ -15,7 +15,7 @@ Distrubted Routing Table
 
 Interface to app developer
 * Java package JAR with embeded c++ swig structure for x86_64 and arm64 ABI
-* SQLite as configuration and message exchange interface between third party and libTAU
+* SQLite as "server-less filesystem based db" provides configuration and message exchange interface between third party and libTAU, so that third party code can work with libTAU in the same process. 
 * Provide blockchain time and bootstrap than third partis time and bootstrap server
 * Traffic consumption calculation based on protocol main-loop estimation than from hardware interface. Taffic info is important in TAU to save cost for devices. 
 ------
