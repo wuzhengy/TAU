@@ -5,6 +5,21 @@
 * assume P2P idea is wrong... the phones is not supposed to communicate with peer to peer in reciprocal tight format ... but loose coupling pub/sub fashion. It will waste lots of traffic data, but data cost follows moore's law. The classical telecom theory is about connection. What if the connection is not the way to solve serveless problem.
 * when relay become essential, the centralization of data is inevitable. The big data centralization cause over-taxing on individual accounts. 
 
+
+## knowledge building blocks
+Along the way of developing TAU, we have adopted many key ideas from many open-source community projects. Following are the key components we are adopting. 
+#### Bitcoin
+Hash linked chain, central-less and permission-less concensus, on-chain UTXO state
+#### Ethereum
+On-chain accounts of balance and nounce
+#### NXT
+Generation signature for mining, proof of stake, chain accumulative difficulty
+#### Libtorrent
+Distributed cache table for mutable data, salt, ed25519 encryption
+#### Levenshtein [Distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
+Building up data transmission completeness in the dht network, where nodes are randomly relay different parts of imformation. 
+#### Bloom Filter
+Checking new blocks with community members block history bloom filters to make sure no secret chain attack is present. 
 ### tech components to solve key problems
 * DAG - directed acyclic graph: every data item in TAU has both `content` and `link`. TAU content network can be viewed as a DAG. Any data connects another data for representing blocks, messages or images. 
   * Mutable item `content` is a pointer to a DAG node,the key of an immutable item; and link is another public key. 
@@ -34,18 +49,7 @@ The eth decision shows that as a blockchain, remembering the entire history is n
 I guess this is quite messy and it might be the reason “stateless” has been in discussion for 7 years. 
 As TAU is in the design stage, we need to learn from this trouble. The root cause is the eth smart contracts generating massive states. Bitcoin does not support smart contracts like eth, so its state storage are much lower and acceptable for the chain to keep all the history. 
 TAU is designed to run a phones, so the situation is even worse than the server based. I think we are going to be avoid of both “stateful - remember the whole history” and “smart contracts”. 
-I am designing an TAU chain with “epoch stateful with 1 year rolling base memory without smart contract”. There will be no cut-off line, the state memory is on rolling basis to keep storage flat for each blockchain around maximum 100mb.  
+I am designing an TAU chain with “epoch stateful with 1000 days rolling base memory without smart contract”. There will be no cut-off line, the state memory is on rolling basis to keep storage flat for each blockchain around maximum 100mb.  
 Without smart contract, the blockchain will be purely for coins wiring and text. I think these are the most important things and sufficient for dApps to build logic such as javascript can be viewed as text. Assume in the future, all devices will need libTAU communication for server-less messaging, we want to make this layer to be cheap and efficient in computing resources consumption.
 
-## Knowledge building blocks
-Along the way of developing TAU, we have adopted many key ideas from many open-source community projects. Following are the key components we are adopting. 
-#### Bitcoin
-Hash linked chain, central-less and permission-less concensus
-#### Ethereum
-Account state transition of balance and nounce
-#### NXT
-Generation signature for mining, proof of stake, chain accumulative difficulty
-#### IPLD/IPFS/LibP2P
-Data Schema on blocks, content addressing
-#### Libtorrent
-Distributed cache table for data item, immutable data and mutable data, salt, ed25519 encryption
+
