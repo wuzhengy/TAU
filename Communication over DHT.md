@@ -1,24 +1,74 @@
 # TAU communication on DHT
-TAU server-less communicaiton is an application level protocol based on libtorrent DHT. Libtorrent DHT built a network of node_id based decentral communcation. TAU adds public_key based communication. Public key rides on nodes to make communication. 
-TAU adopts a loose-coupling communication to DHT engine with multiple sessions concurrency.
-In each session, we use both dht_direct and dht_recursive. We start with direct udp bencode get the data from remote public key's node, if the response does not come back in 1 second, we will start the dht recursive mode, which takes longer time and more data. This will give quick user response even the backend is unstable. DHT cloud become relay services without dedicated servers. The DHT relay service provide external IP and port discovery to all peers.   
-DHT engine provides an access channel for D-DAG virtual space. However D-DAG in nature is only provide data integrity but not availability.
+TAU server-less communicaiton is an application level protocol based on libtorrent DHT. Libtorrent DHT built a network of node_id based decentral communcation. TAU adds public_key based communication. Public key overides on nodes IP to make communication. DHT cloud become relay services without dedicated servers. 
+libTAU - serverless communication, an open source Java library for unblockable p2p(pubkey to pubkey) and blockchain messaging.
+
+------
+
+Public Key
+* 32 bytes ED25519 Pubkey Key generated from random seed
+
+Node ID
+* First 160 bits of the public key
+
+Distrubted Routing Table
+* Tuple: Node ID, IP, Port
+* Meta data: last seen, last communicated, failure counter
+* May consider multiple layers to make find_nodes better fit, 80 layers
+
+------
+
+Interface to app developer
+* Java package JAR with embeded c++ swig structure for x86_64 and arm64 ABI
+* SQLite as "server-less filesystem based db" provides configuration and message exchange interface between third party and libTAU, so that third party code can work with libTAU in the same process. 
+* Provide blockchain time and bootstrap than third partis time and bootstrap server
+* Traffic consumption calculation based on protocol main-loop estimation than from hardware interface. Taffic info is important in TAU to save cost for devices. 
+------
+
+Mutable Data Cache bucket-tree
+* Target: 20 bytes
+  * first half of the sender Node ID must match 2nd half of the target to be qualified to sign the value
+* Value: 1000 bytes
+  * sender X need to sign this value  
+* Ping: key-value (optional)
+  * any random sender can update this key-value pair without signature, just like ping service
+  * sender public key - 32 bytes, value - 32 bytes. 
+
+Target of Mutable Data: libTAU mutable data aims to exchange data than storage, expecting lots of records overlaping like in the routing table
+* 160 bits long
+* First 80 bits: First half of the receiver Node ID
+  * If the receiver has public IP and online, the data will be put into receiver memory directly. This design is to create incentive for data relay provider to get a public IP/port and keep alive. This is also why we **do not** hash (salt + pubkey). 
+  * The more data provided, the provider's Node ID has more places in other peers routing table
+* Second 80 bits: First half of the sender Node ID
+  * when first half equal to second half, this is a self data channel and possible to receive any sender's ping message and update the appendix value. This could be used to add anonymous friends. 
+  * only sender Node ID has first 80 bits matching Target second half can sign value field. 
+
+---
+Data consumption
+* each device with libTAU need to decide daily data usage for achieving balance of contribution and benefits. Generally the more data allocated, the better performance it is. 
+
+Walking frequency
+* each device could setup the range of walking frequency from 1 - 20s, this will also limit the highest data consumption. 
+
+---
+Bootstrap and time: nodes can get these information from both central and decentral sources 
+* from third party bootstrap and time server such as ISP or TAU Dev.
+* from community blockchain content, libTAU can config serveral community chains to start follow.
+  * blockchain content is safer to validate true time and right phone swarm, however it is slower than third party service. So we adopt a combined approach with blockchain as part of statistical calculation. 
+  * all the added blockchains in the friends list will be treated as boot and time info potential providers equivalent to TAU chain.
+---
+Encryption
+* use receiver's public key, it is easy to encrypt all messages relaying to receiver in full UDP packet. 
+* relaying nodes can sign the message use own private key, so that receiver knows who relays the messages, in which could be other mesage sender. 
+
+
 ## Public Key to Public Key 
 The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol. 
 We devide TAU server-less communicaiton to be an application layer protocol to faciliate peer to peer connection in following simple command:
-* Get: both dht_direct and dht_recursive retrieve content from remote public key and exchange gossip information (remote public key, type, hash, gossip vector) `Get`: TAU will `get` data directly then recursively, if un-successful, app can put the request into `gossip` servived hopefully by some peers. 
-   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will do the `get`, if DHT reponse is nil, A will put the key in A's `gossip` channel, then move on. 
-   * When aother node B reads from `gossip` channel, if B has such data locally, then B will put the data. <br><br>
-The TAU DHT engine will setup a get unique queue to ensure the key uniqueness, so the request will not flood the system. 
+* Get
+   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will do the `dht_get` 
 * Put: only DHT_recursive
-  * Immutable data in demand
-  * Mutable data channel with salt 'Gossip' : through mutable item or dht_direct get/response, gossip will annouce own nickName, data demand and message records 
-      * The gossip concept is created to make each peer constantly in gossip state by exchange their observation of the swarm in terms of message and demand. This will increase the network efficiency. 
+  * The gossip concept is created to make each peer constantly in gossip state by exchange their observation of the swarm in terms of message and demand. This will increase the network efficiency. 
   * `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache Non-blocking, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not.
-
-## DHT and DDAG
-TAU data is permanently stored in the distributed dag, which is spread among many different phones and has noting to do with DHT. 
-DHT is an access and cache layer to operate DDAG data for blockchain and messenger to use. DHT temporarily load portion of dag data into cache for app to use and also serve as communication laywer among peers collectively storing DDAG. 
 
 ## Mutable
 In the salt, we put friend pk_id, chainID, channel name, time slot(the valid time window for the message) and other protocol information to form up mutable data item key, on which we will build many commication protocol support blockchain and chat.  
@@ -37,14 +87,6 @@ After B scanned A's QR code(public key), B start to post gossip to A, then expec
    * immutable msgRoot= { verion; type(text,image); timestamp; contentRoot1..5; previousMsgDAGRoot}
 ```
 
-### Immutable
-Immutable data in nature is the history data. Peers will publish these data uppon seeing the request. Therefore, peer need to request those data before getting them. 
-
-## Re-announcement or Re-provide issue and its fix
-In both IPFS and libtorrent, for certain data, the protocol will automatically ask peers to re-annouce or re-provide by put the data into dht space again. This is an awkward operation, firstly you do not know when data is required and what part of data is required, it engages some kind of constants to regualate such behavior, and it is hard to get right constants. <br>
-TAU DHT will not do static re-provide, all TAU peers will put data into DHT only at following two ocations
-* When publish gossip
-* When some peer request the data through gossip
 
 ## Salt channels
 Each topic of blk, msg, tx has mutable channels for publishing <br>
@@ -54,32 +96,7 @@ Each topic of blk, msg, tx has mutable channels for publishing <br>
    * example. peerXpubkey+chainID+msgTip
 * `txTip` pool channel, it the highest tx fee transaction in the pool or own tx
 
-```
-Signal Types for mining: 
-    TIP_BLOCK_FROM_PEER_FOR_MINING, // get from tip channel, mutable, for randomly getting community members tip of blockchain
 
-    GET_HISTORY_BLOCK_FOR_MINING, // get from peers on immutable block - getting a history block by providing block hash
-    GET_HISTORY_BLOCK_TX_FOR_MINING, // get from peers on immutable tx - getting a transaction under above block
-
-    BLOCK_DEMAND_FROM_PEER, // get demand from peers, mutable item: request block hash - receiving block hash under requesting by peers
-    BLOCK_TX_DEMAND_FROM_PEER, // mutable item: request tx hash
-    
-    GET_HISTORY_BLOCK_FOR_SYNC, // get from peers immutable block for sync
-    GET_HISTORY_TX_FOR_SYNC, // get from peers immutable tx for sync
-
-    TIP_BLOCK_FROM_PEER_FOR_VOTING, // mutable block for voting
-    GET_HISTORY_BLOCK_FOR_VOTING, // immutable block for voting
-
-    TIP_TX_FOR_MINING, // mutable tx for mining
-    GET_TX_FOR_MINING, // immutable tx for mining
-    
-  
-    TIP_BLOCK_FROM_PEER_FOR_VOTING, // mutable block for voting
-    HISTORY_BLOCK_REQUEST_FOR_VOTING, // immutable block for voting
-
-    TIP_TX_FOR_MINING, // mutable tx for pool
-    TX_FOR_MINING, // immutable tx for pool  
-```
 #### Timestamp in salt
 We use timestamp in salt to make sure peers getting latest mutable data. 
 
@@ -138,5 +155,3 @@ For a public key's own NAT or connected other public key, either one of them wil
 ### from chain layer - put gossip according to freqence
 * `demand` some immutable data item
 * according the default frequency `publish` msgDAGroot. This provide 3 signals: `50% connected`/`connected`, last msg time, last seen time. 
-
-## when on non-meterred network, use single session, multiple interface; when on meterred network daily remaining > 500m, single session one interface, read only.
