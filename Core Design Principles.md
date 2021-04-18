@@ -73,4 +73,11 @@ TAU is designed to run a phones, so the situation is even worse than the server 
 I am designing an TAU chain with “epoch stateful with 1000 days rolling base memory without smart contract”. There will be no cut-off line, the state memory is on rolling basis to keep storage flat for each blockchain around maximum 100mb.  
 Without smart contract, the blockchain will be purely for coins wiring and text. I think these are the most important things and sufficient for dApps to build logic such as javascript can be viewed as text. Assume in the future, all devices will need libTAU communication for server-less messaging, we want to make this layer to be cheap and efficient in computing resources consumption.
 
+------
+### Multimedia
+TAU communication is a connection-less protocol, at the current stage, it is not ideal for large amount of data transfer such as video streaming and big files. 
+The current app will only support: 
+1. Text: some mark-down language
+2. Image: compress to 20k webP format which is designed for phone screen size. 
+
 
