@@ -18,6 +18,20 @@ TAU dev wants to:
   * messages
   * blockchain
   * friends lists
+* Initiation
+
+  publicKey TAU.start( secret,  // the secret of key pairs, could be any random number
+  [
+  (blockchain ID1, [peer1, peer2, ...]), // the blockchains participated
+  (blockchain ID2, [peer1, peer2, ...]),
+  ...
+  ],
+  [ 
+  (friend 1, flag), // friends list
+  (friend 2, flag),
+  ...
+  ]
+  )
 ```
 
 ------
