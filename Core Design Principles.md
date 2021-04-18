@@ -20,7 +20,28 @@ Distributed cache table for mutable data, salt, ed25519 encryption
 Building up data transmission completeness in the dht network, where nodes are randomly relay different parts of imformation. 
 #### Bloom Filter
 Checking new blocks with community members block history bloom filters to make sure no secret chain attack is present. 
-### tech components to solve key problems
+
+------
+* 1000  stateful
+TAU blockchain will only keep a chain state for 1000 days, any state beyond will be forgotten forever. This will make the blockchain in flat size, good for phones. You can view this as **epoch stateful mining** and **stateless verification** combined. 
+- mining need be stateful with 1000 x 288 blocks information. 
+- verification could be purely stateless. 
+
+
+* Simple opcodes
+TAU aims to enable basic devices to have determined functions in weak networking regions, so we do not add automaton language into transactions and do not engage variable gas concept.
+  * type 1:  1 to n wiring, each transaction will allow to send up to 24 addresses. 
+  * type 2:  plain text
+
+* Some ranges: 
+mutable range: one day, 5 x 12 x 24 = 288 blocks.
+new peer range: from current to last new address added block. 
+stateful range: 1 year, 288 x 1000= 288K blocks
+
+* Block and Transaction structure
+ * add sender and miner IP addresses
+ * add new peer pointer
+### tech components to solve problems
 * DAG - directed acyclic graph: every data item in TAU has both `content` and `link`. TAU content network can be viewed as a DAG. Any data connects another data for representing blocks, messages or images. 
   * Mutable item `content` is a pointer to a DAG node,the key of an immutable item; and link is another public key. 
    - The public key with a salt can form a new pointer. The new pointer nature is much dependent on channels. 
