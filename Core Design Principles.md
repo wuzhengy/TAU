@@ -79,5 +79,6 @@ TAU communication is a connection-less protocol, at the current stage, it is not
 The current app will only support: 
 1. Text: some mark-down language
 2. Image: compress to 20k webP format which is designed for phone screen size. 
+3. On-Chain web site: index note transaction with markdown language to form a linkable site. 
 
 
