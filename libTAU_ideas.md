@@ -22,7 +22,7 @@ TAU dev wants to:
 
   publicKey TAU.start( secret,  // the secret of key pairs, could be any random number
   [
-  (blockchain ID1, [peer1, peer2, ...]), // the blockchains participated
+  (blockchain ID1, [peer1, peer2, ...]), // the blockchains participated, default will join TAUcoin chain
   (blockchain ID2, [peer1, peer2, ...]),
   ...
   ],
