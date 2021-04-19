@@ -33,6 +33,13 @@ TAU dev wants to:
   ]
   )
 ```
+------
+
+Width Priority and Depth Priorty search in DHT communication
+* We need to achieve fast communication and low data footprints at the same time, where regular DHT table are not customeized to do that since they are only transmitting meta data. 
+* We will use short time-out to regulate depth search, the longer the short time-out, the higher priority is given to depth. Along with this, we will make replace bucket as memory for history failed invoke to prevent waste data. options are 0.5, 1, 1.5 or 2 seconds.   
+* We use main loop frequence to perform width search, however faster frequency will cause high data consumption.  options are 200ms, 500ms, 1s.
+* We use long time-out to control the wait time for data collection completeness, but long time-out has nothing to do with searching.  
 
 ------
 libTAU design to solve a few key problems that famous projects such as libtorrent, IFPS and libP2P do not solve. 
