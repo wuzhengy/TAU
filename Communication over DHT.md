@@ -26,7 +26,7 @@ Interface to app developer
 
 Mutable Data Cache bucket-tree
 * Target: 20 bytes
-  * first half of the sender Node ID must match 2nd half of the target to be qualified to sign the value
+  * first half of the sender Node ID must match the either half of the target to be qualified to sign the value; get/put maker will randomly use first half and second half for their ID combination. This will prevent routing table polution and also facilate auto sync between devices. 
 * Value: 1000 bytes
   * sender X need to sign this value  
 * Ping: key-value (optional)
