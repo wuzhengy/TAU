@@ -13,7 +13,7 @@ Node ID
 Distrubted Routing Vector
 * Tuple: Node ID, IP, Port
 * Meta data: last seen, last communicated, failure counter
-* Single Layer Vector rather than table: node will communication with other node using inter-changeablilty target ID, pubkey-salt(sender-receiver) and salt-pubkey(receiver-sender) are the same. This will cause routing vector with multiple clusters(prefix groups). The mainline dht table aims to own node ID as single center. 
+* Single Layer Vector rather than table: node will communication with other node using inter-changeablilty target ID, pubkey-salt(sender-receiver) and salt-pubkey(receiver-sender) are the same. This will cause routing vector with multiple clusters(prefix groups). The mainline dht table aims to own node ID as single center. <br><br>
 Replacement Vector
 * This now plays more important roles as: remember invoke failure to avoid local optimization problem, provide candidates to invoke list, holding failed routing vecgor nodes, holding other responsed nodes entry for potential invoke. 
 * The vector is limited in size, the reflesh is based on the time a node stay in the vector. 
