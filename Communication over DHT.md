@@ -1,5 +1,5 @@
 # TAU communication on DHT
-TAU server-less communicaiton is an application level protocol based on libtorrent DHT. Libtorrent DHT built a network of node_id based decentral communcation. TAU adds public_key based communication. Public key overides on nodes IP to make communication. DHT cloud become relay services without dedicated servers. 
+TAU DHT server-less communicaiton, libTAU is a transport(OSI) protocol modified from libtorrent Mainline DHT. Major changes has been introduced in ID, routing, data item structure and bootstrapping. TAU adds public_key based communication. Public key overides on IP to make communication. DHT cloud become relay services without dedicated servers. 
 libTAU - serverless communication, an open source Java library for unblockable p2p(pubkey to pubkey) and blockchain messaging.
 
 ------
@@ -10,11 +10,21 @@ Public Key
 Node ID
 * First 160 bits of the public key
 
-Distrubted Routing Table
+Distrubted Routing Vector
 * Tuple: Node ID, IP, Port
 * Meta data: last seen, last communicated, failure counter
-* May consider multiple layers to make find_nodes better fit, 80 layers
+* Single Layer Vector rather than table: node will communication with other node using inter-changeablilty target ID, pubkey-salt(sender-receiver) and salt-pubkey(receiver-sender) are the same. This will cause routing vector with multiple clusters(prefix groups). The mainline dht table aims to own node ID as single center. 
+Replacement Vector
+* This now plays more important roles as: remember invoke failure to avoid local optimization problem, provide candidates to invoke list, holding failed routing vecgor nodes, holding other responsed nodes entry for potential invoke. 
+* The vector is limited in size, the reflesh is based on the time a node stay in the vector. 
 
+------
+* Beacon Signal - a mutable data, each TAU node will remit signal when mainloop gives time slot, in the sigal, it will send to all friends include itself, the timestamp, device id, messages hash levenstein vector, gossip of other nodes( for XX situation, random own friend ID), payload location (hash, node id, end point). 
+
+* Payload item - an immutable data encrypted with message content. This item is not intend to store in XOR close nodes, but the end point which Beacon Signal pointing to. 
+```
+Mainline DHT recursive put/get will only apply to Beacon Signal. The messaging payload are deterministic in location, so to save bandwidth. 
+```
 ------
 
 Interface to app developer
