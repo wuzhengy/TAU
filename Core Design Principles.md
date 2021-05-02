@@ -81,4 +81,11 @@ The current app will only support:
 2. Image: compress to 20k webP format which is designed for phone screen size. 
 3. On-Chain web site: index note transaction with markdown language to form a linkable site. 
 
+------
+Special block elements
+* total number of peers in recent 1000 days, this is for group communication peers selection random distribution
+* lastNewPeer, this is for fast sync peers list <br><br>
+
+In many ways, TAU is really a blockchain designed for communication. 
+
 
