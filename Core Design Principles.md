@@ -1,4 +1,5 @@
 ### key problems and assumption
+* TAU is designed for blockchain v3 from my view, which is blockchain tech stack for serverless communnication. 
 * mobile phones behind telecom cell tower can not establish direct peer to peer IP connection, due to firewalls restricting incoming unknown IP
 * mobile device availability is random and quality of network is unpredictable due to the location moving
 * no incentive for server to provide free relay services 
@@ -70,8 +71,10 @@ The eth decision shows that as a blockchain, remembering the entire history is n
 I guess this is quite messy and it might be the reason “stateless” has been in discussion for 7 years. 
 As TAU is in the design stage, we need to learn from this trouble. The root cause is the eth smart contracts generating massive states. Bitcoin does not support smart contracts like eth, so its state storage are much lower and acceptable for the chain to keep all the history. 
 TAU is designed to run a phones, so the situation is even worse than the server based. I think we are going to be avoid of both “stateful - remember the whole history” and “smart contracts”. 
-I am designing an TAU chain with “epoch stateful with 1000 days rolling base memory without smart contract”. There will be no cut-off line, the state memory is on rolling basis to keep storage flat for each blockchain around maximum 100mb.  
+I am designing an TAU chain with “epoch stateful with 365 days rolling base memory without smart contract”. There will be no cut-off line, the state memory is on rolling basis to keep storage flat for each blockchain around maximum 100mb.  
 Without smart contract, the blockchain will be purely for coins wiring and text. I think these are the most important things and sufficient for dApps to build logic such as javascript can be viewed as text. Assume in the future, all devices will need libTAU communication for server-less messaging, we want to make this layer to be cheap and efficient in computing resources consumption.
+* Reduce the peer number space. We design serverless communication blockchain to only make one transaction per block, which means one sender one receiver, this will bring the total peer numbers under 288 * 365 = 105,120；the 6th root of which is 7, which is the swarm size of blockchain communication. 6th root is a good social distance. 
+* This means one TAU community chain can only hold 105,120 peers at current network phone condition, until next personal phone upgrade like 5G complete mature. 
 
 ------
 ### Multimedia
