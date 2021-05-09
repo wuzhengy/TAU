@@ -40,12 +40,9 @@ Interface to app developer
 
 Mutable Data Cache bucket-tree
 * Target: 20 bytes
-  * first half of the sender Node ID must match the either half of the target to be qualified to sign the value; get/put maker will randomly use first half and second half for their ID combination. This will prevent routing table polution and also facilate auto sync between devices. 
+  * first half of the sender Node ID must match the second half of the target to be qualified to sign the value;
 * Value: 1000 bytes
   * sender X need to sign this value  
-* Ping: key-value (optional)
-  * any random sender can update this key-value pair without signature, just like ping service
-  * sender public key - 32 bytes, value - 32 bytes. 
 
 Target of Mutable Data: libTAU mutable data aims to exchange data than storage, expecting lots of records overlaping like in the routing table
 * 160 bits long
