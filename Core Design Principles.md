@@ -93,13 +93,13 @@ In many ways, TAU is really a blockchain designed for communication.
 
 ------
 Blockchain v3 should a technology for communication
-Blockchain v1, bitcoin, is a technology for server-less digital asset, which turns our to be quite successful. Blockchain v2, ethereum, is a technology for server-less financial transactions. The momentum is quite recognized recently.
+* Blockchain v1, bitcoin, is a technology for server-less digital asset, which turns our to be quite successful. Blockchain v2, ethereum, is a technology for server-less financial transactions. The momentum is quite recognized recently.
 So what is blockchain v3? One of the most important modern world features is digital communication. I think blockchain technology will renovate this sector.
-Here is a big technical problem for server-less group communication. When peers number increases in the group, the synchronization efficiency becomes low due to no central place to host information. Assume you have 1 million users in a group, the sync complexity is N square, which is 1 m x 1m, which is not possible for current network to handle. We have to come up with a better design. The TAU current plan is to restrict total chain size so as the peer numbers. The 1 years length, 1 tx per block, 5 minutes per block plan will bring us about 100,000 peers on the whole chain. The tx speed is low here but if blockchain as communication peer registration, it should be acceptable since the real messaging volume is unbounded.
-Further, we plan to engage torrent choking design, means in any moment, a peer only exchange data with a set number peers on the "tit for tat" basis. The number is 6th root of whole chain peers N. The 6th root is a magic number that in social media 6th steps will bring connection between any two persons in the world. This allows the whole traverse complexity of a message to be under O(6) which is quite good.
-The clarity of above thinking will make following design decision much easier to proceed:
-epoch stateful chain rather than stateful and stateless choice, which is ethereum future plan
-no smart contract on the chain
-block structure includes the number N and last new peer.
+* Here is a big technical problem for server-less group communication. When peers number increases in the group, the synchronization efficiency becomes low due to no central place to host information. Assume you have 1 million users in a group, the sync complexity is N square, which is 1 m x 1m, which is not possible for current network to handle. We have to come up with a better design. The TAU current plan is to restrict total chain size so as the peer numbers. The 1 years length, 1 tx per block, 5 minutes per block plan will bring us about 100,000 peers on the whole chain. The tx speed is low here but if blockchain as communication peer registration, it should be acceptable since the real messaging volume is unbounded.
+* Further, we plan to engage torrent choking design, means in any moment, a peer only exchange data with a set number peers on the "tit for tat" basis. The number is 6th root of whole chain peers N. The 6th root is a magic number that in social media 6th steps will bring connection between any two persons in the world. This allows the whole traverse complexity of a message to be under O(6) which is quite good.
+* The clarity of above thinking will make following design decision much easier to proceed:
+* epoch stateful chain rather than stateful and stateless choice, which is ethereum future plan
+* no smart contract on the chain
+* block structure includes the number N and last new peer.
 
 
