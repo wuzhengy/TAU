@@ -1,18 +1,10 @@
-* Image
-  * Image will be retrofit mobile phone display, the default is to fitting 1/3 of phone screen. We use progressive image CDT to present pictures in 5k data, which is 5 immutable data item linked list. If user want more clarity of the image, they can gossip more data from community. 
+The current libTAU aims to support text communication in the data payload. At current latency of global internet and considering Africa region especially, we believe video and pictures are better serviced centrally, while text such as block, messages and transactions are well fit in the ability of global internet to achieve communication decentrally and permissionlessly. 
   
 <br><br>
+libTAU `mutable data` time is only used for nodes live signal, which is vastly different from libtorrent for any data type transmission. libTAU data item idea can be viewed as an application of libtorrent arbitrary data item. Live signal is maintaining basic meta data communicaition between nodes without carrying real content as payload. The content data will be stored as immutable item and storage address is carried in the life signal. 
 
-Mutable Item has the immutable key of the target data, which could be either a demanding or a publishing of block, transaction or message
-Immutable Data type: 0 - block, 1 - transaction, 2 - text, 3 - image
-vertical links; horizontal links; pubkey; extention link; 
-
-
-Immutable Item
+`immutable item`
 The content addressable data scheme such as IPLD, the immutable item space is a DAG. Mutable item is the entry to the DAG. 
 * Block: basically the block header and hash link to transactions. 
 * Transaction
 * Message: own content, link to previous own message, link to another referral message. 
-
-Immutable item will not point to mutable item.
-Mutable item only points to immutable item. 
