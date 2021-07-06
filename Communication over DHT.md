@@ -43,6 +43,7 @@ Interface to app developer
 * SQLite as "server-less filesystem based db" provides configuration and message exchange interface between third party and libTAU, so that third party code can work with libTAU in the same process. 
 * Provide blockchain time and bootstrap than third partis time and bootstrap server
 * Traffic consumption calculation based on protocol main-loop estimation than from hardware interface. Taffic info is important in TAU to save cost for devices. 
+* 
 ------
 
 Mutable Data Cache bucket-tree
@@ -52,11 +53,11 @@ Mutable Data Cache bucket-tree
   * sender X need to sign this value  
 
 Target of Mutable Data: libTAU mutable data aims to exchange data than storage, expecting lots of records overlaping like in the routing table
-* 160 bits long
-* First 80 bits: First half of the receiver Node ID
+* 256 bits long
+* First 128 bits: First half of the **Friend**  public key
   * If the receiver has public IP and online, the data will be put into receiver memory directly. This design is to create incentive for data relay provider to get a public IP/port and keep alive. This is also why we **do not** hash (salt + pubkey). 
   * The more data provided, the provider's Node ID has more places in other peers routing table
-* Second 80 bits: First half of the sender Node ID
+* Second 128 bits: First half of own public key
   * when first half equal to second half, this is a self data channel and possible to receive any sender's ping message and update the appendix value. This could be used to add anonymous friends. 
   * only sender Node ID has first 80 bits matching Target second half can sign value field. 
 
