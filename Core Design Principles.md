@@ -20,8 +20,11 @@ Generation signature for mining, proof of stake, chain accumulative difficulty
 Distributed cache table for mutable data, salt, ed25519 encryption
 #### Levenshtein [Distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
 Building up data transmission completeness in the dht network, where nodes are randomly relay different parts of imformation. 
-#### Bloom Filter
-Checking new blocks with community members block history bloom filters to make sure no secret chain attack is present. 
+#### RLP, Bencode, UDP Raw Encryption
+* libTAU use RLP encode to compose blocks and transactions in binary format
+* libTAU DHT use bencode to build mutable and immutable data block, since Bencode is a human readable encoding at base 128. 
+* libTAU UDP package: first 48 bytes are encrypted senders public key, and remaining is the encrypted payload. only receiver can decode using private key. 
+Checking new blocks with community members block history bloom filters to make sure no secret chain attack is present. Here is binary again. 
 
 ------
 * 1000  stateful
