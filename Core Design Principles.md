@@ -21,10 +21,16 @@ Distributed cache table for mutable data, salt, ed25519 encryption
 #### Levenshtein [Distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
 Building up data transmission completeness in the dht network, where nodes are randomly relay different parts of imformation. 
 #### RLP, Bencode, UDP Raw Encryption
-* libTAU use RLP encode to compose blocks and transactions in binary format
-* libTAU DHT use bencode to build mutable and immutable data block, since Bencode is a human readable encoding at base 128. 
-* libTAU UDP package: first 48 bytes are encrypted senders public key, and remaining is the encrypted payload. only receiver can decode using private key. 
+* libTAU use RLP encode to compose blocks and transactions in binary series.
+* libTAU communication use bencode to build mutable and immutable data item for DHT engine to transmit.
+* libTAU dht UDP package: first 48 bytes are encrypted senders public key, and remaining is the encrypted payload. only receiver can decode using private key. 
 Checking new blocks with community members block history bloom filters to make sure no secret chain attack is present. Here is binary again. 
+#### Friend public key and device ID
+* each libTAU session will keep one public key friend list, which is in sync with UI
+* one public key node might include many device ID sharing same private key. The device ID is an optional but important information in live signal. System will record this field and report it in the alert to UI, but will not process it. As long as the device has private key, its messages will be processed disregard what device ID it has. As long as private key is same, all devices are treated same. 
+#### TAU community ledger serve as bootstrap and time server
+For a decentralized system, it is hard to do a trust bootstrap and find a server to trust for time. In TAU, since the choking (multiple prisoners dilemma) requires good time to reach win win solution, nodes need to find out what is the consensused time in the network. 
+Rather than bootstrap from fixed nodes, TAU nodes will use current ledger nodes for bootstrap and time calculation. 
 
 ------
 * 1000  stateful
