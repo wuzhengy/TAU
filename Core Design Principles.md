@@ -20,8 +20,8 @@ Generation signature for mining, proof of stake, chain accumulative difficulty
 Distributed cache table for mutable data, salt, ed25519 encryption
 #### Levenshtein [Distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
 Building up data transmission completeness in the dht network, where nodes are randomly relay different parts of imformation. 
-#### RLP, Bencode, UDP Raw Encryption
-* libTAU use RLP encode to compose blocks and transactions in binary series.
+#### Bencode, UDP Raw Encryption
+* libTAU use bencode to compose blocks and transactions in binary series.
 * libTAU communication use bencode to build mutable and immutable data item for DHT engine to transmit.
 * libTAU dht UDP package: first 48 bytes are encrypted senders public key, and remaining is the encrypted payload. only receiver can decode using private key. 
 Checking new blocks with community members block history bloom filters to make sure no secret chain attack is present. Here is binary again. 
@@ -31,6 +31,9 @@ Checking new blocks with community members block history bloom filters to make s
 #### TAU community ledger serve as bootstrap and time server
 For a decentralized system, it is hard to do a trust bootstrap and find a server to trust for time. In TAU, since the choking (multiple prisoners dilemma) requires good time to reach win win solution, nodes need to find out what is the consensused time in the network. 
 Rather than bootstrap from fixed nodes, TAU nodes will use current ledger nodes for bootstrap and time calculation. 
+##### Bootstrap
+libTAU nodes will use all locally available ledger to bootstrap itself. In each TAU block, we recommend adding "end point" into block. When the block is accepted by the node, it will use this info into local bootstrap list. Initial software will come with part of TAUcoin blockchain ledger, which will include initial bootstrap nodes. 
+
 
 ------
 * 1000  stateful
@@ -60,6 +63,8 @@ stateful range: 1 year, 288 x 1000= 288K blocks
      - For #msg, it is a latest message sending address. This pointer is used to make searching more efficient by every peers contributing knowledge.
   * Immutable item is a DAG node. The item `content` is the part of data schema, and `link` is pointing to another immutable item. Each immutable item also include a skip list pointer such as in block structure to point into a history item for speed up searching. 
 * DHT - a search engine on D-DAG
+* 64 bits, android 5.1, api 22.
+* token: IP address random checking. 
 * Peer's gossip channel - a place peers to gossip publishing and demand for own and friends. A blockchain community technically can be viewed as a friend in the gossip channel. 
 * Data Schema - every mutable item's content is the root of a `data schema` or the first immutable item starting the schema.
   - Schema is series of immutable item together to present a data structure. IPLD protocol has built example of data schema. 
