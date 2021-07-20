@@ -1,30 +1,29 @@
-### key problems and assumption
-* TAU is designed for blockchain v3 from my view, which is blockchain tech stack for serverless communnication. 
-* mobile phones behind telecom cell tower can not establish direct peer to peer IP connection, due to firewalls restricting incoming unknown IP
-* mobile device availability is random and quality of network is unpredictable due to the location moving
-* no incentive for server to provide free relay services 
-* assume P2P idea is wrong... the phones is not supposed to communicate with peer to peer in reciprocal tight format ... but loose coupling pub/sub fashion. It will waste lots of traffic data, but data cost follows moore's law. The classical telecom theory is about connection. What if the connection is not the way to solve serveless problem.
-* when relay become essential, the centralization of data is inevitable. The big data centralization cause over-taxing on individual accounts. 
-* choking mechanism in blockchain mining, for each nodes synching blockchain ledger, collectively there are less incentive for any node to give data to stranger nodes. so far the working last resort is the torrent choking plan, in any certain time window, only a subset of nodes are suppose to open access to each other and each will use tit for tac accounting for exchange data. So that the nodes do not want to share data at all will found hard to receive data from the un-choked peers at a certain time frame. in libTAU, we use blockchain time to arrange planned communications paire between nodes, in each time, each nodes will know exactly what nodes to talk to. when communication starts, bothsides will have to provide data to each other. this is probabaly the most important thing in libTAU blockchain data exchange. 
+working draft ...
+### Key Points
+* TAU is designed as protocol for data communication over blockchain. Its applications include crypto coins mining on phones, community serverless communication and low cost IOT interaction. 
+  * some known difficulties: 
+    * personal phones and devices do not have public accessble IP addresses, they have to relay through certain servers such as whatsApp, telegram, youTube. 
+    * lack of incentive for peers to provide data to public internet
+    * internet routers and firewalls love to block certain crypto related traffic
+    * no trust worthy time and bootstrap service available on internet
 
-
-## knowledge building blocks
+### knowledge building blocks
 Along the way of developing TAU, we have adopted many key ideas from many open-source community projects. Following are the key components we are adopting. 
 #### Bitcoin
 Hash linked chain, central-less and permission-less concensus, on-chain UTXO state
 #### Ethereum
-On-chain accounts of balance and nounce
+Accounts design of balance and nounce, stateless future plan
 #### NXT
-Generation signature for mining, proof of stake, chain accumulative difficulty
+Generation signature for proof of stake mining
 #### Libtorrent
-Distributed cache table for mutable data, salt, ed25519 encryption
+DHT based metadata communication
 #### Levenshtein [Distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
-Building up data transmission completeness in the dht network, where nodes are randomly relay different parts of imformation. 
+Building up data transmission integrity in the UDP network, where nodes are randomly relaying different parts of imformation. 
+TAU uses Levensthtein array than sequence number in TCP to achieve data transmission integrity. 
 #### Bencode, UDP Raw Encryption
-* libTAU use bencode to compose blocks and transactions in binary series.
-* libTAU communication use bencode to build mutable and immutable data item for DHT engine to transmit.
-* libTAU dht UDP package: first 48 bytes are encrypted senders public key, and remaining is the encrypted payload. only receiver can decode using private key. 
-Checking new blocks with community members block history bloom filters to make sure no secret chain attack is present. Here is binary again. 
+* libTAU use bencode to compose blocks and transactions. Bencode has mixed benefits of partial human readable and binary serilazation. 
+* libTAU DHT communication use bencode to build mutable and immutable data item for transmission.
+* libTAU UDP package: the payload is encrypted senders public key and data. Only receiver with right private key can decode. 
 #### Friend public key and device ID
 * each libTAU session will keep one public key friend list, which is in sync with UI
 * one public key node might include many device ID sharing same private key. The device ID is an optional but important information in live signal. System will record this field and report it in the alert to UI, but will not process it. As long as the device has private key, its messages will be processed disregard what device ID it has. As long as private key is same, all devices are treated same. 
@@ -116,5 +115,7 @@ So what is blockchain v3? One of the most important modern world features is dig
 * epoch stateful chain rather than stateful and stateless choice, which is ethereum future plan
 * no smart contract on the chain
 * block structure includes the number N and last new peer.
+* assume P2P idea is wrong... the phones is not supposed to communicate with peer to peer in reciprocal tight format ... but loose coupling pub/sub fashion. It will waste lots of traffic data, but data cost follows moore's law. The classical telecom theory is about connection. What if the connection is not the way to solve serveless problem.
 
+* choking mechanism in blockchain mining, for each nodes synching blockchain ledger, collectively there are less incentive for any node to give data to stranger nodes. so far the working last resort is the torrent choking plan, in any certain time window, only a subset of nodes are suppose to open access to each other and each will use tit for tac accounting for exchange data. So that the nodes do not want to share data at all will found hard to receive data from the un-choked peers at a certain time frame. in libTAU, we use blockchain time to arrange planned communications paire between nodes, in each time, each nodes will know exactly what nodes to talk to. when communication starts, bothsides will have to provide data to each other. this is probabaly the most important thing in libTAU blockchain data exchange. 
 
