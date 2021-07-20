@@ -6,7 +6,6 @@ working draft ...
     * lack of incentive for peers to provide data to public internet
     * internet routers and firewalls love to block certain crypto related traffic
     * no trust worthy time and bootstrap service available on internet
-
 ### knowledge building blocks
 Along the way of developing TAU, we have adopted many key ideas from many open-source community projects. Following are the key components we are adopting. 
 #### Bitcoin
@@ -20,17 +19,17 @@ DHT based metadata communication
 #### Levenshtein [Distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
 Building up data transmission integrity in the UDP network, where nodes are randomly relaying different parts of imformation. 
 TAU uses Levensthtein array than sequence number in TCP to achieve data transmission integrity. 
-#### Bencode, UDP Raw Encryption
+#### Bencode, UDP level Encryption
 * libTAU use bencode to compose blocks and transactions. Bencode has mixed benefits of partial human readable and binary serilazation. 
 * libTAU DHT communication use bencode to build mutable and immutable data item for transmission.
-* libTAU UDP package: the payload is encrypted senders public key and data. Only receiver with right private key can decode. 
+* libTAU UDP package: the payload is encrypted senders public key and data. Only receiver with right private key can decode. The UDP payload level encryption will make router not be able to recognize the protocol for the data. 
 #### Friend public key and device ID
 * each libTAU session will keep one public key friend list, which is in sync with UI
 * one public key node might include many device ID sharing same private key. The device ID is an optional but important information in live signal. System will record this field and report it in the alert to UI, but will not process it. As long as the device has private key, its messages will be processed disregard what device ID it has. As long as private key is same, all devices are treated same. 
 #### TAU community ledger serve as bootstrap and time server
 For a decentralized system, it is hard to do a trust bootstrap and find a server to trust for time. In TAU, since the choking (multiple prisoners dilemma) requires good time to reach win win solution, nodes need to find out what is the consensused time in the network. 
 Rather than bootstrap from fixed nodes, TAU nodes will use current ledger nodes for bootstrap and time calculation. 
-##### Bootstrap
+##### Bootstraping
 libTAU nodes will use all locally available ledger to bootstrap itself. In each TAU block, we recommend adding "end point" into block. When the block is accepted by the node, it will use this info into local bootstrap list. Initial software will come with part of TAUcoin blockchain ledger, which will include initial bootstrap nodes. 
 
 
@@ -40,31 +39,15 @@ TAU blockchain will only keep a chain state for 1000 days, any state beyond will
 - mining need be stateful with 1000 x 288 blocks information. 
 - verification could be purely stateless. 
 
-
-* Simple opcodes
-TAU aims to enable basic devices to have determined functions in weak networking regions, so we do not add automaton language into transactions and do not engage variable gas concept.
-  * type 1:  1 to n wiring, each transaction will allow to send up to 24 addresses. 
-  * type 2:  plain text
-
 * Some ranges: 
 mutable range: one day, 5 x 12 x 24 = 288 blocks.
-new peer range: from current to last new address added block. 
 stateful range: 1 year, 288 x 1000= 288K blocks
 
-* Block and Transaction structure
+* Block and Transaction special feature
  * add sender and miner IP addresses
- * add new peer pointer
 ### tech components to solve problems
-* DAG - directed acyclic graph: every data item in TAU has both `content` and `link`. TAU content network can be viewed as a DAG. Any data connects another data for representing blocks, messages or images. 
-  * Mutable item `content` is a pointer to a DAG node,the key of an immutable item; and link is another public key. 
-   - The public key with a salt can form a new pointer. The new pointer nature is much dependent on channels. 
-     - For #blk channle, it is another miner. 
-     - For #msg, it is a latest message sending address. This pointer is used to make searching more efficient by every peers contributing knowledge.
-  * Immutable item is a DAG node. The item `content` is the part of data schema, and `link` is pointing to another immutable item. Each immutable item also include a skip list pointer such as in block structure to point into a history item for speed up searching. 
-* DHT - a search engine on D-DAG
 * 64 bits, android 5.1, api 22.
 * token: IP address random checking. 
-* Peer's gossip channel - a place peers to gossip publishing and demand for own and friends. A blockchain community technically can be viewed as a friend in the gossip channel. 
 * Data Schema - every mutable item's content is the root of a `data schema` or the first immutable item starting the schema.
   - Schema is series of immutable item together to present a data structure. IPLD protocol has built example of data schema. 
 <br><br>
