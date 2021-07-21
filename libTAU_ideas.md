@@ -4,6 +4,7 @@ To make devices communicatable to others, the state-of-art tech will require som
 TAU team thinks that IP protocol is really designed for server's global inter networking.
 For personal smart phones or smaller devices, the public key is the real identifier, since it is too costly or risky to give each devices a long term IP address and it is difficult to achieve this in mobile network. 
 Public key to public key indepandent communication is the true form of Internet for every entity, even as small as a lamp. 
+PCM - Phone Crypto Mining
 TAU dev wants to:
 * provide developers to use TAU communication for any devices supporting java runtime.
 
