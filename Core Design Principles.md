@@ -22,19 +22,25 @@ TAU uses Levensthtein array than sequence number in TCP to achieve data transmis
 #### Bencode, UDP level Encryption
 * libTAU use bencode to compose blocks and transactions. Bencode has mixed benefits of partial human readable and binary serilazation. 
 * libTAU DHT communication use bencode to build mutable and immutable data item for transmission.
-* libTAU UDP package: the payload is encrypted senders public key and data. Only receiver with right private key can decode. The UDP payload level encryption will make router not be able to recognize the protocol for the data. 
+* libTAU UDP package: the payload is encrypted bencoded data entry, that is signed by original sender. Only receiver with right private key can decode. The UDP payload level encryption will make router not be able to recognize the protocol for the data. 
 #### Friend public key and device ID
 * each libTAU session will keep one public key friend list, which is in sync with UI
 * one public key node might include many device ID sharing same private key. The device ID is an optional but important information in live signal. System will record this field and report it in the alert to UI, but will not process it. As long as the device has private key, its messages will be processed disregard what device ID it has. As long as private key is same, all devices are treated same. 
 #### TAU community ledger serve as bootstrap and time server
 For a decentralized system, it is hard to do a trust bootstrap and find a server to trust for time. In TAU, since the choking (multiple prisoners dilemma) requires good time to reach win win solution, nodes need to find out what is the consensused time in the network. 
 Rather than bootstrap from fixed nodes, TAU nodes will use current ledger nodes for bootstrap and time calculation. 
+#### IP address reachability and relay
+In libTorrent, the routing table entry has 4 fields: ID, IP + Port, round trip time and pinged flag. The pinged flag means whether this node is reachable from host. However this could be bluffed, if only relying on own. Due to libTAU public key, everytime a node to discover the new nodes, in the ping field, it could record referrals public key. When more than two public key referred this node with same IP address, it means that this IP address is reachable by public. Of course, the more referred, the better. <br>
 ##### Bootstraping
 libTAU nodes will use all locally available ledger to bootstrap itself. In each TAU block, we recommend adding "end point" into block. When the block is accepted by the node, it will use this info into local bootstrap list. Initial software will come with part of TAUcoin blockchain ledger, which will include initial bootstrap nodes. 
 
 ##### Stateless Chain
 TAU blockchain will only keep a chain state for 1 year, any state and ledger beyond will be forgotten forever. This will make the blockchain in small size, good for communication and small community. A limited state size will also make inter-peers communication in controlable volumn. Assume 1 million peers existing in one chain, the data sync effort will be too big for small devices. 
 * As a miner, you will maximum need 365 x 288 blocks information. However mining can start from any time. 
+##### DDOS attack
+Creating big number of IP pool to request services from a phone node will abuse phone's computing power and bandwidth. libTorrent uses "token refreshing" to regulate such behavior. But the token acknowledgement will cause extra waste of bandwidth and prolonged latency. 
+In libTAU, since each node has its friends, routing table and blockchain peers public key memory, it will be efficient just to use public key to identify the source. One libTau node will allocate 50% of the resources for unknown public key messages, these are mostly relaying data for other nodes with closer publickey prefix, the reward for this, the node's address will be recorded in others routing table for easier discovery and also for relay. 
+This feature will be inplemented after mainnet on, assume initially we will not have too many attackers. 
 ##### Ranges: 
 * mutable range: one day, 5 x 12 x 24 = 288 blocks. 
 * stateful range: 1 year, 288 x 365= 105,120 blocks
