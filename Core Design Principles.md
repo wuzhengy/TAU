@@ -22,7 +22,7 @@ TAU uses Levensthtein array than sequence number in TCP to achieve data transmis
 #### Bencode, UDP level Encryption
 * libTAU use bencode to compose blocks and transactions. Bencode has mixed benefits of partial human readable and binary serilazation. 
 * libTAU DHT communication use bencode to build mutable and immutable data item for transmission.
-* libTAU UDP package: the payload is encrypted bencoded data entry, that is signed by original sender. Only receiver with right private key can decode. The UDP payload level encryption will make router not be able to recognize the protocol for the data. 
+* libTAU UDP package: the payload is composed of relay node public key and encrypted bencoded data entry, that is signed by original sender. Only receiver with right private key can decode payload. The UDP payload level encryption will make router not be able to recognize the protocol for the data. The risk here is relay node public key is exposed. So our privacy level is the same as bitcoin, pseudo-privacy, that is ip address can be found associated with public key.  
 #### Friend public key and device ID
 * each libTAU session will keep one public key friend list, which is in sync with UI
 * one public key node might include many device ID sharing same private key. The device ID is an optional but important information in live signal. System will record this field and report it in the alert to UI, but will not process it. As long as the device has private key, its messages will be processed disregard what device ID it has. As long as private key is same, all devices are treated same. 
