@@ -35,8 +35,11 @@ In libTorrent, the routing table entry has 4 fields: ID, IP + Port, round trip t
 libTAU nodes will use all locally available ledger to bootstrap itself. In each TAU block, we recommend adding "end point" into block. When the block is accepted by the node, it will use this info into local bootstrap list. Initial software will come with part of TAUcoin blockchain ledger, which will include initial bootstrap nodes. 
 
 ##### Stateless Chain
-TAU blockchain will only keep a chain state for 1 year, any state and ledger beyond will be forgotten forever. This will make the blockchain in small size, good for communication and small community. A limited state size will also make inter-peers communication in controlable volumn. Assume 1 million peers existing in one chain, the data sync effort will be too big for small devices. 
-* As a miner, you will maximum need 365 x 288 blocks information. However mining can start from any time. 
+TAU blockchain will only keep a chain state for 1 year, any state and ledger beyond will be forgotten forever. This will make the blockchain in small size, good for communication and small community. A limited state size will also make inter-peers communication in controlable volumn. Assume 1 million peers existing in one chain, the data sync effort will be too big for small devices. On TAU chain, one chain will accept mostly 105120 participants to make sure data sync is not overwhelmed. This is a quite big community already.
+* As a miner, you will maximum need 365 x 288 blocks information. However mining can start from any time.
+* State database vs state trie
+  * eth use state trie to record each variable and value. In libTAU stateless plan adopted, each variable will only live for certain unique time window, not epochs, the trie key-value data structure is hard to maintain such expiry. 
+  * libTAU will use relationship database such as sqlite to hold state date with time window.  
 ##### DDOS attack
 Creating big number of IP pool to request services from a phone node will abuse phone's computing power and bandwidth. libTorrent uses "token refreshing" to regulate such behavior. But the token acknowledgement will cause extra waste of bandwidth and prolonged latency. 
 In libTAU, since each node has its friends, routing table and blockchain peers public key memory, it will be efficient just to use public key to identify the source. One libTau node will allocate 50% of the resources for unknown public key messages, these are mostly relaying data for other nodes with closer publickey prefix, the reward for this, the node's address will be recorded in others routing table for easier discovery and also for relay. 
