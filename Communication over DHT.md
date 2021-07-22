@@ -1,5 +1,5 @@
 # TAU communication on DHT
-TAU DHT server-less communicaiton, libTAU is a transport(OSI) protocol modified from libtorrent Mainline DHT. Major changes has been introduced in ID, routing, data item structure, incentive and bootstrapping. TAU adds public_key based communication. DHT cloud become relay services without dedicated servers. TAU adds asymmetric encryption into UDP raw data layer, so that to prevent Internet router to understand either the protocol or content. 
+TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major changes has been introduced in incentive, ID, routing, bootstrap,time service, data item structure and blockchain. TAU adds public_key based communication. DHT cloud become relay services without dedicated servers. TAU adds asymmetric encryption into UDP raw data layer, so that to prevent Internet router to understand either the protocol or content. 
 <br><br>
 libTAU - serverless communication, an open source c++ library for unblockable p2p(pubkey to pubkey) and blockchain messaging.
 
