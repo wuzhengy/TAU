@@ -59,22 +59,16 @@ Without smart contract, the blockchain will be purely for coins wiring and text.
 * Reduce the peer number space. We design serverless communication blockchain to only make one transaction per block, which means one sender one receiver, this will bring the total peer numbers under 288 * 365 = 105,120；the 6th root of that is 7, which is the swarm size of blockchain communication. 6th root is a reasonable social distance cap. 
 * This means one TAU community chain can only hold 105,120 peers at current network phone condition, until next personal phone upgrade like 5G complete mature. 
 
-------
 ##### Why not multimedia on DHT
 TAU communication is a connection-less protocol, at the current stage, it is not ideal for large amount of data transfer such as video streaming and big files. 
 The current app will only support: 
 1. Text: some mark-down language
 2. On-Chain web: note transaction with markdown language to form a linkable site. 
 
----
-
-* Here is a big technical problem for server-less group communication. When peers number increases in the group, the synchronization efficiency becomes low due to no central place to host information. Assume you have 1 million users in a group, the sync complexity is N square, which is 1 m x 1m, which is not possible for current network to handle. We have to come up with a better design. The TAU current plan is to restrict total chain size so as the peer numbers. The 1 years length, 1 tx per block, 5 minutes per block plan will bring us about 100,000 peers on the whole chain. The tx speed is low here but if blockchain as communication peer registration, it should be acceptable since the real messaging volume is unbounded.
-* Further, we plan to engage torrent choking design, means in any moment, a peer only exchange data with a set number peers on the "tit for tat" basis. The number is 6th root of whole chain peers N. The 6th root is a magic number that in social media 6th steps will bring connection between any two persons in the world. This allows the whole traverse complexity of a message to be under O(6) which is quite good.
-* The clarity of above thinking will make following design decision much easier to proceed:
-* epoch stateful chain rather than stateful and stateless choice, which is ethereum future plan
-* no smart contract on the chain
-* block structure includes the number N and last new peer.
-* assume P2P idea is wrong... the phones is not supposed to communicate with peer to peer in reciprocal tight format ... but loose coupling pub/sub fashion. It will waste lots of traffic data, but data cost follows moore's law. The classical telecom theory is about connection. What if the connection is not the way to solve serveless problem.
-
-* choking mechanism in blockchain mining, for each nodes synching blockchain ledger, collectively there are less incentive for any node to give data to stranger nodes. so far the working last resort is the torrent choking plan, in any certain time window, only a subset of nodes are suppose to open access to each other and each will use tit for tac accounting for exchange data. So that the nodes do not want to share data at all will found hard to receive data from the un-choked peers at a certain time frame. in libTAU, we use blockchain time to arrange planned communications paire between nodes, in each time, each nodes will know exactly what nodes to talk to. when communication starts, bothsides will have to provide data to each other. this is probabaly the most important thing in libTAU blockchain data exchange. 
+##### Choking in limited number of peers
+When peers number increases in the blockchain, the data synchronization efficiency becomes low due to no central place to host information. Assume you have 1 million users in a group, the sync complexity is N square, which is 1 m x 1m, which is not possible for current network to handle. We have to come up with a better design. The TAU current plan is to restrict total chain size, so as the peer numbers. The 1 years length, 1 transaction per block, 5 minutes per block plan will bring us about 105,120 peers on the whole chain. 
+* we plan to engage torrent choking design, means in any moment, a peer only exchange data with a set number peers. The number is 6th root of whole chain peers N. The 6th root is a magic number that in social media 6th steps will bring connection between any two persons in the world. This allows the traverse steps of a message to be under O(6) which is quite good.
+* For each nodes synching blockchain ledger, collectively there are less incentive for any node to give data to stranger nodes. The choking plan, in any certain time window, only a subset of nodes are suppose to open access to each other and each will use "tit for tac" to exchange data. So that the nodes do not want to share data will found hard to receive data from the un-choked peers at a certain time frame. 
+* libTAU, we use blockchain time to arrange planned communications paire between nodes, in each time, each nodes will know exactly what nodes to talk to. when communication starts, bothsides will have to provide data to each other. this is probabaly the most important thing in libTAU blockchain data exchange. 
+* libTAU will use 6 blocks hash prior and include the immutable point to decide peers for unchoke. 
 
