@@ -1,13 +1,13 @@
 # TAU communication on DHT
-TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major changes has been introduced in incentive, ID, routing, bootstrap,time service, data item structure and blockchain. TAU adds public_key based communication. DHT cloud become relay services without dedicated servers. TAU adds asymmetric encryption into UDP raw data layer, so that to prevent Internet router to understand either the protocol or content. 
+TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major changes has been introduced in incentive, ID, routing, bootstrap,time service, data item structure and blockchain. TAU adds public_key based communication. DHT cloud become relay services without dedicated servers. TAU uses blockchain ledger to bootstrap networking and community time as timestamp to help communication. 
 <br><br>
-libTAU - serverless communication, an open source c++ library for unblockable p2p(pubkey to pubkey) and blockchain messaging.
+libTAU - communication on blockchains, an open source c++ library for unblockable p2p(pubkey to pubkey) communication.
 
 ------
 
 Public Key
 * 32 bytes ED25519 Pubkey Key generated from random seed
-* Node ID is the public key
+* Node ID is the public key for incentive creation purpose
 
 Routing Vector
 * Tuple: Node_ID, IP, Port, Reachable Flag, rtt, timestamp 
