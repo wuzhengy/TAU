@@ -23,8 +23,8 @@ Design live nodes, replacement buckets, m_list, alpha and beta
 * alpha is initial selected number of nodes from live vector, beta is the nodes from replacement. 
 * in libTAU, we inherites this arrangement; however due to libTAU traversal is no long recursive but limited to fixed number of friends exchanging live signals. every time traveral model only pick up alpha + beta number for nodes from m_list to invoke query the finish. alpha, we will use alpha as 1, beta as 1, which basically give chances to both live and replacement buckets. i think this will avoid local optimization also increase the main loop frequence. 
  <br><br>
-### Choking communication
-One peer will public two Levenstein distance array into its blockchain mutable signal: blockchain history and messages history. The receiving peers will then return the missing blocks and messages in mutual signal. If a node does not have response from other peers, it can just only randomly collecting blocks and messages from mutable data results. A new peers on line, it will collecting many Levenstein array, and find most common prefix to follow. 
+###  Choking communication
+One peer will public two Levenstein distance array into its blockchain mutable life signal: blockchain history and messages history. The receiving peers will then return the missing blocks and messages in mutual signal. If a node does not have response from other peers, it means the node has not been widely accepted, so it will just randomly collect blocks and messages. A new peers on line, it will collect many Levenstein array, and find most common prefix to follow. The most common prefix is a prefix of Levenstain distance with a weight. When a new difficulty chain violates this prefix, if the fork happening after immutable point, then trust new high difficulty, if fork prior to immutable point, then ignore this fork and report attacking error. 
  
 Replacement Vector
 * This now plays more important roles as: remember invoke failure to avoid local optimization problem, provide candidates to invoke list, holding failed routing vecgor nodes, holding other responsed nodes entry for potential invoke. 
