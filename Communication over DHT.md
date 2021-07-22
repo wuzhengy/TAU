@@ -3,9 +3,7 @@ TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major chang
 <br><br>
 libTAU - communication on blockchains, an open source c++ library for unblockable p2p(pubkey to pubkey) communication.
 
-------
-
-Public Key
+## Public Key
 * 32 bytes ED25519 Pubkey Key generated from random seed
 * Node ID is the public key for incentive creation purpose
 
@@ -22,9 +20,10 @@ Design live nodes, replacement buckets, m_list, alpha and beta
 * m_list: in libtorrent, this is the temporary list for traveral with sorted distance to the target
 * alpha is initial selected number of nodes from live vector, beta is the nodes from replacement. 
 * in libTAU, we inherites this arrangement; however due to libTAU traversal is no long recursive but limited to fixed number of friends exchanging live signals. every time traveral model only pick up alpha + beta number for nodes from m_list to invoke query the finish. alpha, we will use alpha as 1, beta as 1, which basically give chances to both live and replacement buckets. i think this will avoid local optimization also increase the main loop frequence. 
- <br><br>
+
+
 #### Choking communication
-In peer friends communication, peers life signal to friend contains 1 levenstain distance array for messages. For blockchain, one peer will public two Levenstein distance array into its blockchain mutable life signal: blockchain history with `current blocknumber` and messages history. The receiving peers will then return the missing blocks and messages in mutual signal. If a node does not have response from other peers, it means the node has not been widely accepted, so it will just randomly collect blocks and messages. A new peers on line, it will collect 10% or 100 Levenstein arrays to find common immutable point **prefix**, and find most common prefix to follow with the same immutable point. If 100 array is not able to give such agreed immutable point, then keep on collecting. The most common prefix is a prefix of Levenstain distance with a weight. When a new difficulty chain violates this prefix, if the fork happening after immutable point, then trust new high difficulty, if fork prior to immutable point, then ignore this fork and report attacking error. 100 is the number in stats to calculate meaningful results. 
+In peer friends communication, peers life signal to friend contains 1 levenstain distance array for messages. For blockchain, one peer will public three Levenstein distance array into its blockchain mutable life signal: blockchain history with `current blocknumber`, transaction pool and messages history. The receiving peers will then return the missing blocks and messages through immutable data item. If a node does not have response from other peers, it means the node has not been widely accepted, so it will just randomly collect blocks and messages. A new peers on line, it will collect 10% or 100 Levenstein arrays to find common immutable point **prefix**, and find most common prefix to follow with the same immutable point. If 100 array is not able to give such agreed immutable point, then keep on collecting. The most common prefix is a prefix of Levenstain distance with a weight. When a new difficulty chain violates this prefix, if the fork happening after immutable point, then trust new high difficulty, if fork prior to immutable point, then ignore this fork and report attacking error. 100 is the number in stats to calculate meaningful results. 
 **immutable prefix** of the blockchain levenstain distance array is crutial for blockchain forking detection. The current block number is used to align the prefix compare. 
  
 Replacement Vector
