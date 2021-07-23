@@ -23,14 +23,14 @@ Design live nodes, replacement buckets, m_list, alpha and beta
 
 
 #### Choking communication
-In peer friends communication, peers life signal to friend contains 1 levenstain distance array for messages. For blockchain, one peer will public three Levenstein distance array into its blockchain mutable life signal: 
-* blockchain history with `current blocknumber`, 
-* transaction pool  
-* messages history. 
+In peer friends communication, peers life signal to other friends. In the same idea, blockchain ID is a special type of friend, one peer will send three signals into its blockchain mutable life signal, as well as payload end point: 
+* immutable point, diffitulty and blocknumber of `current tip` and blocks demand, 
+* transaction pool levenstein distance array 
+* messages history levenstein distance array
+* payload end points
 
+The receiving peers will then return the missing blocks and messages through immutable data item. If a node does not have response from other peers, it means the node has not been widely accepted, so it will just randomly collect blocks and messages. A new peers on line, it will collect 10% or 100 Levenstein arrays to find common immutable point , and find most common prefix to follow with the same immutable point. If 100 array is not able to give such agreed immutable point, then keep on collecting. The most common prefix is a prefix of Levenstain distance with a weight. When a new difficulty chain violates this prefix, if the fork happening after immutable point, then trust new high difficulty, if fork prior to immutable point, then ignore this fork and report attacking error. 100 is the number in stats to calculate meaningful results. 
 
-The receiving peers will then return the missing blocks and messages through immutable data item. If a node does not have response from other peers, it means the node has not been widely accepted, so it will just randomly collect blocks and messages. A new peers on line, it will collect 10% or 100 Levenstein arrays to find common immutable point **prefix**, and find most common prefix to follow with the same immutable point. If 100 array is not able to give such agreed immutable point, then keep on collecting. The most common prefix is a prefix of Levenstain distance with a weight. When a new difficulty chain violates this prefix, if the fork happening after immutable point, then trust new high difficulty, if fork prior to immutable point, then ignore this fork and report attacking error. 100 is the number in stats to calculate meaningful results. 
-**immutable prefix** of the blockchain levenstain distance array is crutial for blockchain forking detection. The current block number is used to align the prefix compare. 
  
 Replacement Vector
 * This now plays more important roles as: remember invoke failure to avoid local optimization problem, provide candidates to invoke list, holding failed routing vecgor nodes, holding other responsed nodes entry for potential invoke. 
