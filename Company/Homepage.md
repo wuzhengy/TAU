@@ -27,3 +27,5 @@ Our product is the Phone Crypto Mining App: it enables phones to form up indepen
 
 ### Join us
 * Subscribe/unsubscribe newsletter by sending email to info@taucoin.io
+
+### TAU - Phone Crypto Mining(TM)
