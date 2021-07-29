@@ -13,8 +13,9 @@ A open source c++ library for server-less p2p and blockchain communication with 
 TAU invented the Proof of Transaction(POT) blockchain concensus, the more transactions made, the higher mining power it is. Without intensive puzzel solving competition, POT is a light weight blockchain consensus. One average smart phone mines 100+ full blockchains, based on libTAU server-less blockchain communication tech-stack. 
 
 ### About Us
-TAU Cambridge(UK) is located in Cambridge Science Park and registered in United Kingdom. The company are funded through private venture capitals without conducting any **ICO** or selling any coins. TAU will airdrop 80% of TAUcoins and keep 20% for development funding.
-Our product is the Phone Crypto Mining open source app: it enables phones to form up independent blockchains for ditigal coins circulation, so that communities can freely operate payment and communication. We emphasize on saving data consumption and tailor it to be useful in expensive and slow data region.
+TAU Cambridge(UK) is located in Cambridge Science Park and registered in United Kingdom. The company are funded through private venture capitals without conducting any **ICO** or selling any coins to public. TAU will airdrop 80% of TAUcoins to world communities and keep 20% for development funding.
+Our product for consumer is the Phone Crypto Mining open source app: it enables phones to form up independent blockchains for ditigal coins circulation, so that communities can freely operate payment and communication. We emphasize on saving data consumption and tailor it to be useful in expensive and slow data region.
+We provide free and open source libTAU for developers. 
 
 ### Download
 * libTAU testing app: an interim dev app for playing purpose. 
