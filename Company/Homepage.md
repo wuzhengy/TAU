@@ -14,9 +14,9 @@ TAU invented the Proof of Transaction(POT) blockchain concensus, the more transa
 
 ### About Us
 TAU Cambridge(UK) is located in Cambridge Science Park and registered in United Kingdom. The company are funded through private venture capitals without conducting any **ICO** or selling coins to public. TAU will airdrop 80% of TAUcoins to world communities and keep 20% for development of the technology.
-Our product for consumer is the Phone Crypto Mining open source app: it enables phones to form up independent blockchains for ditigal coins circulation, so that communities can freely operate payment and communication. We emphasize on saving data consumption and tailor it to be useful in expensive and slow data region.
-We provide free and open source libTAU for developers. 
-Users do not need to own any TAUcoins to build blockchains and make server-less communications. 
+* Our product for consumer is the Phone Crypto Mining open source app: it enables phones to form up independent blockchains for ditigal coins circulation, so that communities can freely operate payment and communication. We emphasize on saving data consumption and tailor it to be useful in expensive and slow data region.
+* We provide free and open source libTAU for developers. 
+* Users do not need to own any TAUcoins to build blockchains and make server-less communications. 
 
 ### Download
 * libTAU testing app: an interim dev app for playing purpose. 
