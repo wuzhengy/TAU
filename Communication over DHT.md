@@ -14,12 +14,12 @@ TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major chang
 
 ## Main loop and depth traversal
 * Kademlia DHT uses depth traversal to find nodes. 
-* libTAU added a top layer mainloop to search friend lists and blockchain unchoked peers.
-* combined maybe 10% depth, 90% mainloop will generate best results.
+* libTAU added a top layer mainloop to constantly locate friends and blockchain unchoked peers. This is the key to avoid dedicated server. 
+  * the returned nodes will be added to replacement buckets for future main looping selection. 
 
 ## Communication token 
-* Kademlia uses communication token in the get process to explore more nodes and control spam
-* libTAU will reducethe token usage to 10%, therefore, in each put process, only 10% will excute get token, this is to keep nodes explore and reduce traffic waste for putting items. 
+* Kademlia uses communication token in the get process to control spam
+* libTAU removed mutable put function, in return, every mutable data is called exchange. We will rely node id checking to avoid spam. 
 
 
 ### Design live nodes, replacement buckets, m_list, alpha and beta
@@ -85,16 +85,11 @@ Bootstrap and time: nodes can get these information from both central and decent
   * blockchain content is safer to validate true time and right phone swarm, however it is slower than third party service. So we adopt a combined approach with blockchain as part of statistical calculation. 
   * all the added blockchains in the friends list will be treated as boot and time info potential providers equivalent to TAU chain.
 ---
-Encryption
-* use receiver's public key, it is easy to encrypt all messages relaying to receiver in full UDP packet. 
-* relaying nodes can sign the message use own private key, so that receiver knows who relays the messages, in which could be other mesage sender. 
-
 
 ## Public Key to Public Key 
-The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol. 
+The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the IP connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol. 
 We devide TAU server-less communicaiton to be an application layer protocol to faciliate peer to peer connection in following simple command:
-* Get
+* Get in mutable data item
    * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will do the `dht_get` 
-* Put: only DHT_recursive
-  * The gossip concept is created to make each peer constantly in gossip state by exchange their observation of the swarm in terms of message and demand. This will increase the network efficiency. 
-  * `Put` / `Put and Forget`: When a node wants to put data item, it will call DHT recursively to put data into network cache Non-blocking, and then move to next steps. The `put` action does not cause blocking and do not require response, since it does not need to care about whether data is really put or not.
+
+
