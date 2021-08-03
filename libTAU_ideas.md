@@ -10,3 +10,6 @@
     * after decide new immutable point, if the new block immutable point blocknumber post to immutable point, highest difficulty dorminates; if new block immutable point prior to current voted immutable point, then ignore, this fixed to delegate people to make decision long time problem.
         
 * in summary, each round immutable point is decided by voting, but tip block is decided by crypto difficulty and data integrity
+
+### State range
+Each account balance and nounce will have a valid range starting from the time of change to future 1 year. This range info need to be in database, when switching forks. Therefore, tau account can not use MPT trie, but to use sql structure for easier deletion and rolling back. Each state change for both balance and valid range will be recorded in database. 
