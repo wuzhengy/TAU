@@ -7,7 +7,7 @@ When phones can communicate to each other for free and be incentivated to make b
 A open source c++ library for server-less p2p and blockchain communication with Java Swig and Shell interface. libTAU is forked out of libtorrent by answering following key problems, which were unsolvable in the pre-blockchain world. 
 * Incentive to provide data, bandwidth and cpu power for peers
 * Avoid Internet router protocol screening
-* Pre-arranged bootstrap and time server <br>
+* Pre-arranged bootstrap and time server <br> <br>
 We also address server based blockchain problems. 
 * Secret chain attack in the POS world
 * Ledge data supply incentive
