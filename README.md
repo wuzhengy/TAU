@@ -2,6 +2,9 @@
 TAU is a research project to create a phone blockchain mining and communication protocol called libTAU. Devices could communicate with each other through public keys. To demonstrate the libTAU, Phone Crypto Mining app is built to enable many communities to build independent blockchains. 
 TAUcoin is one of the blockchain coins in the TAU blockchains community. TAUcoin public ledger will provide basic bootstrapping and time services for other communities. Community does not need taucoin to operate own communities. TAU software is free to use. 
 
+## Applications built on Phone Crypto Mining network
+We will experiment build a demonstration purpose uber service on the phone crypto mining network, that will cut the commission of connecting rider and drivers. 
+
 ### Key concepts in TAU Phone Mining.
 Core UI experienses
 - decentralized community with crypto-coins circulation
