@@ -43,24 +43,15 @@ Replacement Vector
 * This now plays more important roles as: remember invoke failure to avoid local optimization problem, provide candidates to invoke list, holding failed routing vecgor nodes, holding other responsed nodes entry for potential invoke. 
 * The vector is limited in size, the reflesh is based on the time a node stay in the vector. 
 
-### Live Signal
-* a mutable data, each TAU node will remit signal when mainloop gives time slot, in the sigal, it will send to all friends include itself, the timestamp, device id, messages hash levenstein vector, gossip of other nodes( for XX situation, random own friend ID), payload location (hash, node id, end point). 
-
-* Payload item - an immutable data encrypted with message content. This item is not intend to store in XOR close nodes, but the end point which Beacon Signal pointing to. 
-```
-Mainline DHT recursive put/get will only apply to Beacon Signal. The messaging payload are deterministic in location, so to save bandwidth. 
-```
-
-### Interface to app developer
-* Java package: libTAU4J; C++ lib: libTAU; for x86_64 and arm64
-
-------
-
-Mutable Data
-* Target: 32 bytes
-  * first half of the sender Node ID must match the second half of the target to be qualified to sign the value;
-* Value: 1000 bytes
-  * sender X need to sign this value  
+### Live Signal and Payload ( modified from BEP44 data item)
+* a mutable data, each TAU node will remit signal when mainloop provides time slot, in the sigal, it will send to all friends include itself, the timestamp, device id, messages hash levenstein vector, gossip of other nodes( for XX situation, random own friend ID), payload location (hash, node id, end point). 
+  * put life signal: direct put, expecting response with referral nodes potentially closer than routing table entries. 
+  * get life signal: expecting value and referral nodes
+  * Mutable Data
+    * Target: 32 bytes
+      * first half of the sender public key must match the second half of the target
+    * Value: 1000 bytes
+      * sender need to sign this value  
 
 Target of Mutable Data: libTAU mutable data aims to exchange data than storage, expecting lots of records overlaping like in the routing table
 * 256 bits long
@@ -68,25 +59,23 @@ Target of Mutable Data: libTAU mutable data aims to exchange data than storage, 
   * If the receiver has public IP and online, the data will be put into receiver memory directly. This design is to create incentive for data relay provider to get a public IP/port and keep alive. This is also why we **do not** hash (salt + pubkey). 
   * The more data provided, the provider's Node ID has more places in other peers routing table
 * Second 128 bits: First half of own public key
-  * when first half equal to second half, this is a self data channel and possible to receive any sender's ping message and update the appendix value. This could be used to add anonymous friends. 
-  * only sender Node ID has first 80 bits matching Target second half can sign value field. 
+* Hash and endpoint of Payload item, this item is not intend to store in XOR close nodes, but the end point which life Signal pointing to. 
+  * put: direct put into end points, without expectation of nodes referral
+  * get: direct get, expect return value without return any referral
 
----
-Data consumption
-* each device with libTAU need to decide daily data usage for achieving balance of contribution and benefits. Generally the more data allocated, the better performance it is. 
+### Interface to app developer
+* Java package: libTAU4J; C++ lib: libTAU; for x86_64 and arm64
 
-Walking frequency
+### Mainloop frequency
 * each device could setup the range of walking frequency from 1 - 20s, this will also limit the highest data consumption. 
 
----
-Bootstrap and time: nodes can get these information from both central and decentral sources 
+### Bootstrap and time: nodes can get these information from both central and decentral sources 
 * from third party bootstrap and time server such as ISP or TAU Dev.
 * from community blockchain content, libTAU can config serveral community chains to start follow.
   * blockchain content is safer to validate true time and right phone swarm, however it is slower than third party service. So we adopt a combined approach with blockchain as part of statistical calculation. 
   * all the added blockchains in the friends list will be treated as boot and time info potential providers equivalent to TAU chain.
----
 
-## Public Key to Public Key 
+## Public Key to Public Key communication
 The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the IP connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol. 
 We devide TAU server-less communicaiton to be an application layer protocol to faciliate peer to peer connection in following simple command:
 * Get in mutable data item
