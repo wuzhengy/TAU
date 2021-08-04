@@ -14,3 +14,7 @@
 
 ### State range
 Each account balance and nounce will have a valid range starting from the time of change to future 1 year. This range info need to be in database, when switching forks. Therefore, tau account can not use MPT trie, but to use sql structure for easier deletion and rolling back. Each state change for both balance and valid range will be recorded in database. 
+
+## Applications built on Phone Crypto Mining network
+We will experiment build a demonstration purpose uber service on the phone crypto mining network, that will cut the commission of connecting rider and drivers. 
+
