@@ -9,10 +9,12 @@ A open source c++ library for server-less p2p and blockchain communication with 
 * Avoid Internet router protocol screening
 * Pre-arranged bootstrap and time server 
 <br> <br>
+
 We also address server based blockchain problems. 
 * Secret chain attack in the POS world
-* Ledge data supply incentive
-* Blockchain merging after regional network isolation
+* Ledger data supply incentive
+* Stateful to stateless transition for a flat state storage
+* One phone mines 100 parallel independent blockchains
 
 ### About the core technology
 TAU invented the Proof of Transaction(POT) blockchain concensus, the more transactions made, the higher mining power it is. Without intensive puzzel solving competition, POT is a light weight blockchain consensus. One average smart phone mines 100+ full blockchains, based on libTAU server-less blockchain communication tech-stack. 
