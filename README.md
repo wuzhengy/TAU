@@ -19,23 +19,11 @@ Core UI experienses
    * Rename/blacklist - users can rename or blacklist a peer
    * Support unlimited multiple devices sharing same address/account. 
 - Dashboard: network data consumption, nodes status and devices status
---- 
 
-
-## Data flow: StateDB, BlocksDB and DHT
-  - statedb is the local database holding account power and balance
-  - blockdb is the local database holding the blocks content that will be put and get through DHT
-  - DHT provides key-value mutable data item, TAU has revised libtorrent DHT to keep mutable data structure only, and modified ID and encryption system to prevent sybil and eclipse attack. The basic idea is that routing table entry has to be honest in relaying on-chain data.
-  - Data flow
-    - `blockdb` ---> `tauDHT put` ---> `DHT`
-    - `blockdb` <--- `tauDHT demand/get` <--- `DHT`
-    - `statedb` <--> `blockdb`
-  - p2p IP level direct communication on phones is not possible to implement, given firewalls/NAT and personal device security restrictions. DHT is the overlay p2p communication. When peer is off-line, the content is still available in DHT cache for exchange. 
 ## Concepts
 - Version 1 default parameters: 
   - 5 minutes average to generate a block. It can be upgraded when network enhance. 
   - One block has one transaction. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
-- p2c, peer to consensus for reducing the sybil attack by requiring nodes all relaying data related onchain peers or friend list. If one node transmitting or relaying content not relating to onchain account, it will be droped from routing table. 
 - Community ChainID := `community name`#`hash(GenesisMinerPubkey + timestamp)` 
   - Community will choose its own `community name`. 
   - example: TAUcoin ID is TAUcoin#hash 
