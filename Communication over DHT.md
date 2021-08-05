@@ -36,7 +36,9 @@ In peer friends communication, peers life signal to other friends. In the same i
 * messages history levenstein distance array
 * payload end points
 
-The receiving peers will then return the missing blocks and messages through immutable data item. If a node does not have response from other peers, it means the node has not been widely accepted, so it will just randomly collect blocks and messages. A new peers on line, it will collect 10% or 100 Levenstein arrays to find common immutable point , and find most common prefix to follow with the same immutable point. If 100 array is not able to give such agreed immutable point, then keep on collecting. The most common prefix is a prefix of Levenstain distance with a weight. When a new difficulty chain violates this prefix, if the fork happening after immutable point, then trust new high difficulty, if fork prior to immutable point, then ignore this fork and report attacking error. 100 is the number in stats to calculate meaningful results. 
+The receiving peers will then return the missing blocks and messages through immutable data item. If a node does not have response from other peers, it means the node has not been widely accepted, so it will just randomly collect blocks and messages. 
+
+Choking peers selection: hash(own ID + timestamp_base_5minutes) XOR peer list
 
  
 Replacement Vector
