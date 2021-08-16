@@ -26,7 +26,8 @@ Core UI experienses
       * Give a name to new blockchain and its coin
       * Creation of a blockchain with 1 million coins on 5 minutes per block generation rate
    * Transactions on community blockchain：社区主界面包含节点打包交易出块，节点确认区块，发送交易，消息，和选择器
-      * Forum Note，Mark down serverless web. 每个节点的note可以视为一个连续的“html file"
+      * Onchain Note，Mark down serverless web. 每个节点的note可以视为一个连续的“markdown file", GFM mark down style.
+      * Offchain message, regular text
       * Wiring Transaction
       * Genesis
    * Text messaging with people and group members. 
