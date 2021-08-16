@@ -25,16 +25,16 @@ Core UI experienses
    * Create a chat/community/blockchain 
       * Give a name to new blockchain and its coin
       * Creation of a blockchain with 1 million coins on 5 minutes per block generation rate
-   * Transactions on community blockchain
-      * Forum Note
+   * Transactions on community blockchain：社区主界面包含节点打包交易出块，节点确认区块，发送交易，消息，和选择器
+      * Forum Note，Mark down serverless web. 每个节点的note可以视为一个连续的“html file"
       * Wiring Transaction
       * Genesis
-   * Text essaging with people and group members. 
+   * Text messaging with people and group members. 
    * Rename/blacklist - users can rename or blacklist a peer
    * Support unlimited multiple devices sharing same address/account. 
 - Dashboard
   * app system: network data consumption, nodes status and devices status
-  * chain status: 链的长度，难度，节点数，节点出块数量，总流通币量，前十名持币地址和币量，前10名power地址和pot，共识点投票前三名的区块号和哈希最后2个bytes的16进制,tip前三名区块号和哈希，当前分叉点区块号和哈希
+  * chain status: 链的长度，难度，节点数，节点出块数量，总流通币量，前十名持币地址和币量，前10名power地址和pot，共识点投票前三名的区块号和哈希最后2个bytes的16进制,tip前三名区块号和哈希，当前分叉点区块号和哈希，全部节点列表可以点击添加
   * friend status: last seen, last communication, common chains
 
 ## Concepts
