@@ -32,13 +32,16 @@ Core UI experienses
    * Text essaging with people and group members. 
    * Rename/blacklist - users can rename or blacklist a peer
    * Support unlimited multiple devices sharing same address/account. 
-- Dashboard: network data consumption, nodes status and devices status
+- Dashboard
+  * app system: network data consumption, nodes status and devices status
+  * chain status: 链的长度，难度，节点数，节点出块数量，总流通币量，前十名持币地址和币量，前10名power地址和pot，共识点投票前三名的区块号和哈希最后2个bytes的16进制,tip前三名区块号和哈希，当前分叉点区块号和哈希
+  * friend status: last seen, last communication, common chains
 
 ## Concepts
 - Version 1 default parameters: 
   - 5 minutes average to generate a block. It can be upgraded when network enhance. 
   - One block has one transaction. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
-- Community ChainID := `community name`#`hash(GenesisMinerPubkey + timestamp)` 
+- Community ChainID := `hash(GenesisMinerPubkey + timestamp)定长``community name变长`
   - Community will choose its own `community name`. 
   - example: TAUcoin ID is TAUcoin#hash 
 - Public key is used as the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. 
@@ -51,7 +54,7 @@ Core UI experienses
 // build genesis block
 blockJSON  = { 
 1. version;
-2. chain id; 32 bytes
+2. chain id; 32 bytes `hash(GenesisMinerPubkey + timestamp)定长``community name变长`
 2. timestamp; 
 3. Domain name, IP address and port
 4. blockNumber;
@@ -59,10 +62,10 @@ blockJSON  = {
 6. basetarget = 0x21D0369D036978;
 7. cummulative difficulty int64; 
 8. generation signature;
-11. msg; // {genesis state k-v, String chainID} // here is the only place chainID displayed to prevent genesis attack
-12. `TsenderTAUpk`Noune = null
-13. `Tsender`Balance = null;
-14. `TminerTAUpk`Balance= null;
+11. msg;
+12. `TsenderTAUpk`Noune = 365*24*12
+13. `Tsender`Balance = 1,000,000;
+14. `TminerTAUpk`Balance= 1,000,000; // in the genesis, Tsender = Tminer
 15. `Treceiver`Balance = null;
 16. ED25519 public key
 17. ED25519 signature
