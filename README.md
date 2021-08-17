@@ -66,8 +66,10 @@ blockJSON  = {
 11. msg;
 12. `TsenderTAUpk`Noune = 365*24*12
 13. `Tsender`Balance = 1,000,000;
+nouce
 14. `TminerTAUpk`Balance= 1,000,000; // in the genesis, Tsender = Tminer
 15. `Treceiver`Balance = null;
+nouce
 16. ED25519 public key
 17. ED25519 signature
 }
