@@ -13,7 +13,12 @@ We will experiment to build a demonstration purpose uber service on the phone cr
   * 节点A收到UI给出的区块链的邀请信号，本质是个mutable item target, chain id + 推荐者公钥, 64字节。如果有多个推荐者，可以从UI多次给出64字节的邀请信号target。一个社区chain id和多个推荐者的公钥，可以放入二维码一起携带。
   * A建立chain id的社区节点列表，类似朋友列表，第一个成员是推荐者公钥
   * A根据当前时间戳计算出5个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5个固定+1个可变的通信成员。 
-  * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信号，包含consensus point hash和block number, 当前tip block的payload immutable data hash和endpoint，自己能够提供的其他区块的immutable data hash和endpoint，自己需要的其他区块的hash和block number，交易池按照时间顺序的莱文斯坦50个数据数组和payload & end point. 交易包括非区块的消息和交易。
+  * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信:
+    * 包含consensus point hash和block number, 
+    * 当前tip block的payload immutable data hash和endpoint，
+    * 自己能够提供的其他区块的immutable data hash和endpoint，
+    * 自己需要的其他区块的hash 或 block number，
+    * 交易池按照时间顺序的莱文斯坦50个数据数组和payload & end point. 交易包括上链和非上链的消息和交易。
   * A不断本地存放累计收到的所有区块，啥数据结构如何管理，KV数据库
   * A试图通过hash link连接当前最难tip到genesis的区块，在连接过程中如果发现包含consensus point的block number区块，则认为是合法链接。不包含则为非法链接。非法链接区块和推荐者不进入黑名单。
   * 在连接成功的基础上：
@@ -26,17 +31,17 @@ Core UI experienses
    * Create a chat/community/blockchain 
       * Give a name to new blockchain and its coin
       * Creation of a blockchain with 1 million coins on 5 minutes per block generation rate
-   * Transactions on community blockchain：社区主界面包含节点打包交易出块，节点确认区块，发送交易，消息，和选择器
-      * Onchain Note，Mark down serverless web. 每个节点的note可以视为一个连续的“markdown file", GFM mark down style.
+   * Transactions on community blockchain：社区主界面包含节点打包交易出块，发送交易，消息，和选择器 (Tip Blocks, Wiring Tx, Notes TX and Messages)
+      * Onchain Note TX，Mark down serverless web. 每个节点的note可以视为一个连续的“markdown file", GFM mark down style.
       * Offchain message, regular text
       * Wiring Transaction
-      * Genesis
+      * Tip Blocks
    * Text messaging with people and group members. 
    * Rename/blacklist - users can rename or blacklist a peer
    * Support unlimited multiple devices sharing same address/account. 
 - Dashboard
   * app system: network data consumption, nodes status and devices status
-  * chain status: 链的长度，难度，节点数，节点出块数量，总流通币量，前十名持币地址和币量，前10名power地址和pot，共识点投票前三名的区块号和哈希最后2个bytes的16进制,tip前三名区块号和哈希，当前分叉点区块号和哈希，全部节点列表可以点击添加朋友
+  * chain status: 链的长度，难度，节点数，节点出块数量，总流通币量，前十名持币地址和币量，前10名power地址和pot，共识点投票前三名的区块号和哈希最后2个bytes的16进制,tip前三名区块号和哈希，当前分叉点区块号和哈希，全部节点列表可以点击添加朋友； （ Chain Length, Difficulty, Total Peers, Peers & Blocks, Total coins, Top 10 Peers and Coins, Top 10 Peers and Power, Top 3 Consensus Blocknumber and Hash, Top 3 Tip Blocknumber and Hash, Current Fork Blocknumber and Hash, Full Peers List) 
   * friend status: last seen, last communication, common chains
 
 ## Concepts
