@@ -8,12 +8,13 @@ We will experiment to build a demonstration purpose uber service on the phone cr
 ## 挖矿算法
 * chain id: 32字节，包含社区名字和建立时间戳`hash(GenesisMinerPubkey + timestamp)定长``community name变长` ，每个区块内部都含有chain id，类似IPFS的multi-addressing的思路，一个区块链只要获得一些区块，就可以开始收集其他节点。
 * consensus point: 在某个区块链中，节点成员对当前区块288个区块前的位置的区块投票结果(block hash, block number)，简单多数获胜，这个点是随时在变化，可以前进可以后退。当网络只有一个节点时，这个节点的投票结果就是consensus point。 
+* stateless blockchain: 在每个区块里面要把状态变化补全，由于部分状态会过期，导致丢失nonce。stateless statechain 可能是更好的名称
 * 挖矿过程
   * 节点A收到UI给出的区块链的邀请信号，本质是个mutable item target, chain id + 推荐者公钥, 64字节。如果有多个推荐者，可以从UI多次给出64字节的邀请信号target。一个社区chain id和多个推荐者的公钥，可以放入二维码一起携带。
   * A建立chain id的社区节点列表，类似朋友列表，第一个成员是推荐者公钥
-  * A根据当前时间戳计算出5个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5+个通信成员。 
-  * A从6个成员中随机选取通信对象，获得区块链在线信号，包含consensus point hash, 当前tip block的payload immutable hash和endpoint，自己能够提供的其他区块的immutable hash和endpoint，自己需要的其他区块block number
-  * A不断本地存放累计收到的所有区块，啥数据结构如何管理？
+  * A根据当前时间戳计算出5个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5个固定+1个可变的通信成员。 
+  * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信号，包含consensus point hash, 当前tip block的payload immutable hash和endpoint，自己能够提供的其他区块的immutable hash和endpoint，自己需要的其他区块block number
+  * A不断本地存放累计收到的所有区块，啥数据结构如何管理，KV数据库
   * A试图通过hash link连接当前最难tip到genesis的区块，在连接过程中如果发现包含consensus point的block number区块，则认为是合法链接。不包含则为非法链接。非法链接区块和推荐者不进入黑名单。
   * 在连接成功的基础上：
       * state 数据库数据回到分叉点，从这个分叉点开始数学验证后续区块。分叉点可以是genesis block。数学验证如果发生错误，发生错误的区块签发者公钥，进入黑名单。发生数学计算错误的概率应该极低。state数据结构：block number, key, value
@@ -44,7 +45,7 @@ Core UI experienses
   - One block has one transaction. One block can include more transaction by encoding the hash of other transactions, which may be implmented in future version. 
 - Community ChainID := `hash(GenesisMinerPubkey + timestamp)定长``community name变长`
   - Community will choose its own `community name`. 
-  - example: TAUcoin ID is TAUcoin#hash 
+  - example: TAUcoin ID is hash#TAUcoin 
 - Public key is used as the crypto address: balance identifier under different chains; holds the power and perform mining. "Seed" generates privatekey and public key. 
 - POT defines power as transaction volumn, the power annually increase according to Fibonacci sequence.
 - Genesis block power: give one year power to genesis public key to make admin airdrop possible.  
@@ -56,22 +57,22 @@ Core UI experienses
 blockJSON  = { 
 1. version;
 2. chain id; 32 bytes `hash(GenesisMinerPubkey + timestamp)定长``community name变长`
-2. timestamp; 
-3. Domain name, IP address and port
-4. blockNumber; // for each 105,120 blocks, we will increase power unit follow fibonacci series - 1,1,2,3,...
-5. previousBlockRoot = null; // genesis is built from null.
-6. basetarget = 0x21D0369D036978;
-7. cummulative difficulty int64; 
-8. generation signature;
-11. msg;
-12. `TsenderTAUpk`Noune = 365*24*12
-13. `Tsender`Balance = 1,000,000;
-nouce
-14. `TminerTAUpk`Balance= 1,000,000; // in the genesis, Tsender = Tminer
-15. `Treceiver`Balance = null;
-nouce
-16. ED25519 public key
-17. ED25519 signature
+3. timestamp; 
+4. Domain name, IP address and port
+5. blockNumber; // for each 105,120 blocks, we will increase power unit follow fibonacci series - 1,1,2,3,...
+6. previousBlockRoot = null; // genesis is built from null.
+7. basetarget = 0x21D0369D036978;
+8. cummulative difficulty int64; 
+9. generation signature;
+10. msg;
+11. `TsenderTAUpk`Nonce = 365*24*12
+12. `Tsender`Balance = 1,000,000;
+13. `TminerTAUpk`Balance= 1,000,000; // in the genesis, Tsender = Tminer = Treceiver
+14. `TminerTAUpk`Nonce= 365*24*12
+15. `Treceiver`Balance = 1,000,000;
+16. `Treceiver`Nonce= 365*24*12
+17. ED25519 public key
+18. ED25519 signature
 }
 
 ```
