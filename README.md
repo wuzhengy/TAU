@@ -11,7 +11,7 @@ We will experiment to build a demonstration purpose uber service on the phone cr
 * 挖矿过程
   * 节点A收到UI给出的区块链的邀请信号，本质是个mutable item target, chain id + 推荐者公钥, 64字节。如果有多个推荐者，可以从UI多次给出64字节的邀请信号target。一个社区chain id和多个推荐者的公钥，可以放入二维码一起携带。
   * A建立chain id的社区节点列表，类似朋友列表，第一个成员是推荐者公钥
-  * A根据当前时间戳计算出4个 unchoked peers，计算方法是把时间戳哈希后分成4个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上随机选取的2个节点，构成当前每5分钟的6个通信成员。 
+  * A根据当前时间戳计算出4个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5+个通信成员。 
   * A从6个成员中随机选取通信对象，获得区块链在线信号，包含consensus point hash, 当前tip block的payload immutable hash和endpoint，自己能够提供的其他区块的immutable hash和endpoint，自己需要的其他区块block number
   * A不断本地存放累计收到的所有区块，啥数据结构如何管理？
   * A试图通过hash link连接当前最难tip到genesis的区块，在连接过程中如果发现包含consensus point的block number区块，则认为是合法链接。不包含则为非法链接。非法链接区块和推荐者不进入黑名单。
