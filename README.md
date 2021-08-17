@@ -13,7 +13,7 @@ We will experiment to build a demonstration purpose uber service on the phone cr
   * 节点A收到UI给出的区块链的邀请信号，本质是个mutable item target, chain id + 推荐者公钥, 64字节。如果有多个推荐者，可以从UI多次给出64字节的邀请信号target。一个社区chain id和多个推荐者的公钥，可以放入二维码一起携带。
   * A建立chain id的社区节点列表，类似朋友列表，第一个成员是推荐者公钥
   * A根据当前时间戳计算出5个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5个固定+1个可变的通信成员。 
-  * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信:
+  * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信号:
     * 包含consensus point hash和block number, 
     * 当前tip block的payload immutable data hash和endpoint，
     * 自己能够提供的其他区块的immutable data hash和endpoint，
