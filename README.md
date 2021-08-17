@@ -8,17 +8,17 @@ We will experiment to build a demonstration purpose uber service on the phone cr
 ## 挖矿算法
 * chain id: 32字节，包含社区名字和建立时间戳`hash(GenesisMinerPubkey + timestamp)定长``community name变长` ，每个区块内部都含有chain id，类似IPFS的multi-addressing的思路，一个区块链只要获得一些区块，就可以开始收集其他节点。
 * consensus point: 在某个区块链中，节点成员对当前区块288个区块前的位置的区块投票结果(block hash, block number)，简单多数获胜，这个点是随时在变化，可以前进可以后退。当网络只有一个节点时，这个节点的投票结果就是consensus point。 
-* stateless blockchain: 在每个区块里面要把状态变化补全，由于部分状态会过期，导致丢失nonce。stateless statechain 可能是更好的名称, stateless是不能使用UTXO，由于区块链丢失，余额计算不准确；账号系统是，只要账号存在，就是准确的，不会每个区块进步都发生变化。
+* stateless blockchain: 在每个区块里面要把状态变化补全，由于部分状态会过期，导致丢失nonce。stateless statechain 可能是更好的名称, stateless是不能使用UTXO，由于区块丢失，余额计算不准确，不可能为每个utxo建立世界戳；账号系统中只要账号存在，就是准确的，不会每个区块进步都发生余额度变化。
 * 挖矿过程
   * 节点A收到UI给出的区块链的邀请信号，本质是个mutable item target, chain id + 推荐者公钥, 64字节。如果有多个推荐者，可以从UI多次给出64字节的邀请信号target。一个社区chain id和多个推荐者的公钥，可以放入二维码一起携带。
   * A建立chain id的社区节点列表，类似朋友列表，第一个成员是推荐者公钥
   * A根据当前时间戳计算出5个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5个固定+1个可变的通信成员。 
-  * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信号，包含consensus point hash, 当前tip block的payload immutable hash和endpoint，自己能够提供的其他区块的immutable hash和endpoint，自己需要的其他区块block number
+  * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信号，包含consensus point hash和block number, 当前tip block的payload immutable data hash和endpoint，自己能够提供的其他区块的immutable data hash和endpoint，自己需要的其他区块的hash和block number
   * A不断本地存放累计收到的所有区块，啥数据结构如何管理，KV数据库
   * A试图通过hash link连接当前最难tip到genesis的区块，在连接过程中如果发现包含consensus point的block number区块，则认为是合法链接。不包含则为非法链接。非法链接区块和推荐者不进入黑名单。
   * 在连接成功的基础上：
-      * state 数据库数据回到分叉点，从这个分叉点开始数学验证后续区块。分叉点可以是genesis block。数学验证如果发生错误，发生错误的区块签发者公钥，进入黑名单。发生数学计算错误的概率应该极低。state数据结构：block number, key, value
-      * 被回滚的数据state，在新的state没有验证完之前，目前处理方式是直接删除。我们应该认为包含consensus point的数学验证应该是100%通过的。当然这个不绝对，但是目前情况下，我觉得可以容忍。
+      * state 数据库数据回到分叉点，从这个分叉点开始数学验证后续区块。分叉点可以是genesis block。数学验证如果发生错误，发生错误的区块签发者公钥，进入黑名单。发生数学计算错误的概率应该极低。state数据结构：key, value, block number
+      * 被回滚的数据state，在新的state没有验证完之前，分叉点后的数据，目前处理方式是直接删除。我们应该认为包含consensus point的数学验证应该是100%通过的。当然这个不绝对，但是目前情况下，我觉得可以容忍。
       * 头部的过期区块可以直接从state删除
 ### Key concepts in TAU Phone Mining.
 Core UI experienses
@@ -36,7 +36,7 @@ Core UI experienses
    * Support unlimited multiple devices sharing same address/account. 
 - Dashboard
   * app system: network data consumption, nodes status and devices status
-  * chain status: 链的长度，难度，节点数，节点出块数量，总流通币量，前十名持币地址和币量，前10名power地址和pot，共识点投票前三名的区块号和哈希最后2个bytes的16进制,tip前三名区块号和哈希，当前分叉点区块号和哈希，全部节点列表可以点击添加
+  * chain status: 链的长度，难度，节点数，节点出块数量，总流通币量，前十名持币地址和币量，前10名power地址和pot，共识点投票前三名的区块号和哈希最后2个bytes的16进制,tip前三名区块号和哈希，当前分叉点区块号和哈希，全部节点列表可以点击添加朋友
   * friend status: last seen, last communication, common chains
 
 ## Concepts
