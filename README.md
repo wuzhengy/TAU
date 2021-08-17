@@ -65,12 +65,12 @@ blockJSON  = {
 8. cummulative difficulty int64; 
 9. generation signature;
 10. msg;
-11. `TsenderTAUpk`Nonce = 365*24*12
+11. `TsenderTAUpk`Nonce = 1;
 12. `Tsender`Balance = 1,000,000;
 13. `TminerTAUpk`Balance= 1,000,000; // in the genesis, Tsender = Tminer = Treceiver
-14. `TminerTAUpk`Nonce= 365*24*12
+14. `TminerTAUpk`Nonce= 1;
 15. `Treceiver`Balance = 1,000,000;
-16. `Treceiver`Nonce= 365*24*12
+16. `Treceiver`Nonce= 1;
 17. ED25519 public key
 18. ED25519 signature
 }
