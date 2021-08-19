@@ -14,9 +14,9 @@ We will experiment to build a demonstration purpose uber service on the phone cr
   * A建立chain id的社区节点列表，类似朋友列表，第一个成员是推荐者公钥
   * A根据当前时间戳计算出5个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5个固定+1个可变的通信成员。 
   * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信号:
-    * 包含consensus point hash和block number, 
-    * 当前tip block的payload immutable data hash和endpoint，
-    * 自己能够提供的其他区块的immutable data hash和endpoint，
+    * 包含consensus point hash和block number，这类区块要经过自己数学验证才能推荐 
+    * 当前tip block的payload immutable data hash和endpoint，这类区块要不需要经过自己数学验证才能推荐
+    * 自己能够提供的其他区块的immutable data hash和endpoint，这类区块要不需要经过自己数学验证才能推荐
     * 自己需要的其他区块的hash 或 block number，
     * 交易池按照时间顺序的莱文斯坦50个数据数组和payload & end point. 交易包括上链和非上链的消息和交易。
   * A不断本地存放累计收到的所有区块，啥数据结构如何管理，KV数据库
