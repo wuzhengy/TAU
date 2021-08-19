@@ -24,6 +24,7 @@ We will experiment to build a demonstration purpose uber service on the phone cr
   * 在连接成功的基础上：
       * state 数据库数据回到分叉点，从这个分叉点开始数学验证后续区块。分叉点可以是genesis block。数学验证如果发生错误，发生错误的区块签发者公钥，进入黑名单。发生数学计算错误的概率应该极低。state数据结构：key, value, block number
       * 被回滚的数据state，在新的state没有验证完之前，分叉点后的数据，目前处理方式是直接删除。我们应该认为包含consensus point的数学验证应该是100%通过的。当然这个不绝对，但是目前情况下，我觉得可以容忍。
+      * 在没有充分验证链的情况下，先相信区块内涵的state，这样用户可以先获得部分区块链信息。
       * 头部的过期区块可以直接从state删除
 ### Key concepts in TAU Phone Mining.
 Core UI experienses
