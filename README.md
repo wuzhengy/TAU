@@ -21,7 +21,7 @@ We will experiment to build a demonstration purpose uber service on the phone cr
     * 自己需要的其他区块的hash 或 block number，
     * 交易池按照时间顺序的莱文斯坦50个数据数组和payload & end point. 交易包括上链和非上链的消息和交易。
   * A不断本地存放累计收到的所有区块，啥数据结构如何管理，KV数据库
-  * A试图通过hash link连接当前最难tip到genesis的区块，在连接过程中如果发现包含consensus point的block number区块，则认为是合法链接。不包含则为非法链接。非法链接区块和推荐者不进入黑名单。
+  * A试图通过hash link连接当前最难tip到genesis的区块，在连接过程中如果发现包含consensus point的block number区块，则认为是合法链接。不包含则为非法链接。非法链接区块和推荐者不进入黑名单。获得难度更高区块tip 时，立即试图本地链接区块到consensus point, 如果本地连接不成（验证hash链中断），就不认可难度，只接受state，继续积累区块。
   * 在连接成功的基础上：
       * state 数据库数据回到分叉点，从这个分叉点开始数学验证后续区块。分叉点可以是genesis block。数学验证如果发生错误，发生错误的区块签发者公钥，进入黑名单。发生数学计算错误的概率应该极低。state数据结构：key, value, block number
       * 被回滚的数据state，在新的state没有验证完之前，分叉点后的数据，目前处理方式是直接删除。我们应该认为包含consensus point的数学验证应该是100%通过的。当然这个不绝对，但是目前情况下，我觉得可以容忍。
