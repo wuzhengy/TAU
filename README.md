@@ -4,6 +4,8 @@ TAUcoin is one of the blockchain coins in the TAU blockchains community. TAUcoin
 
 ## Applications built on Phone Crypto Mining network
 We will experiment to build a demonstration purpose uber service on the phone crypto mining network, that will cut the commission of connecting rider and drivers. 
+* Any one register its address on a community blockchain chain using that community coins
+* Members of the community can enjoy communication freely either it is a food delivery, ride sharing or purchase without paying third party. 
 
 ## 挖矿算法
 * chain id: 32字节，包含社区名字和建立时间戳`hash(GenesisMinerPubkey + timestamp) 8 bytes定长``community name变长 24 bytes` ，每个区块内部都含有chain id，类似IPFS的multi-addressing的思路，一个区块链只要获得一些区块，就可以开始收集其他节点。
