@@ -3,7 +3,7 @@ TAU is a research project to create a phone based blockchain mining and communic
 TAUcoin is one of the blockchain coins in the TAU blockchains community. TAUcoin public ledger will provide basic bootstrapping and time services for other communities. Community does not need taucoin to operate own communities. TAU software is free to use. 
 
 ## Applications built on Phone Crypto Mining network
-We will experiment to build a demonstration purpose uber service on the phone crypto mining network, that will cut the commission of connecting rider and drivers. 
+We will experiment to build a demonstration purpose uber service on the phone crypto mining network, that will cut the commission fee of connecting rider and drivers. 
 * Any one register its address on a community blockchain chain using that community coins
 * Members of the community can enjoy communication freely either it is a food delivery, ride sharing or purchase without paying third party. 
 
