@@ -9,8 +9,9 @@ We will experiment to build a demonstration purpose uber service on the phone cr
 
 ## 挖矿算法
 * chain id: 32字节，包含社区名字和建立时间戳`hash(GenesisMinerPubkey + timestamp) 8 bytes定长``community name变长 24 bytes` ，每个区块内部都含有chain id，类似IPFS的multi-addressing的思路，一个区块链只要获得一些区块，就可以开始收集其他节点。
-* consensus point: 在某个区块链中，节点成员对当前区块288个区块前的位置的区块投票结果(block hash, block number)，简单多数获胜，这个点是随时在变化，可以前进可以后退。当网络只有一个节点时，这个节点的投票结果就是consensus point。 
+* consensus epoch: 在某个区块链中，节点成员对当前区块288个区块前的位置的区块投票结果(block hash, block number)，简单多数获胜，这个点是随时在变化，可以前进可以后退。当网络只有一个节点时，这个节点的投票结果就是consensus point。 Consensus point 可以定义为离开目前tip，倒数第二个结尾区块号为00的区块，这样可以投票集中些
 * stateless blockchain: 在每个区块里面要把状态变化补全，由于部分状态会过期，导致丢失nonce。stateless statechain 可能是更好的名称, stateless是不能使用UTXO，由于区块丢失，余额计算不准确，不可能为每个utxo建立世界戳；账号系统中只要账号存在，就是准确的，不会每个区块进步都发生余额度变化。
+* 验证：每个节点只验证voting epoch 区块，和自己挖矿的区块。其他区块传递包括tip，历史区块都不验证，当然有过验证的优先，未验证区块不可以代替验证的区块，除非发生回滚。
 * 挖矿过程
   * 节点A收到UI给出的区块链的邀请信号，本质是个mutable item target, chain id + 推荐者公钥, 64字节。如果有多个推荐者，可以从UI多次给出64字节的邀请信号target。一个社区chain id和多个推荐者的公钥，可以放入二维码一起携带。
     * 这里需要修改mutable item合法性算法，就是前后半32位都可以验证通过签署内容。由于如果把chainID放在salt里面，就是target的前32位，会导致一个区块链的中继节点集中到某几个节点。所以这个位置和朋友mutable内容正好相反，朋友列表中发送者在target后32位可以签署，区块链是发送者在target前32位可以签署。 
