@@ -11,7 +11,11 @@ We will experiment to build a demonstration purpose uber service on the phone cr
 * chain id: 32字节，包含社区名字和建立时间戳`hash(GenesisMinerPubkey + timestamp) 8 bytes定长``community name变长 24 bytes` ，每个区块内部都含有chain id，类似IPFS的multi-addressing的思路，一个区块链只要获得一些区块，就可以开始收集其他节点。
 * consensus epoch: 在某个区块链中，节点成员对当前区块288个区块前的位置的区块投票结果(block hash, block number)，简单多数获胜，这个点是随时在变化，可以前进可以后退。当网络只有一个节点时，这个节点的投票结果就是consensus point。 Consensus point 可以定义为离开目前tip，倒数第二个结尾区块号为00的区块，这样可以投票集中。从而投票周期是每200 block内一个节点只能投1票，就是每天记录一票。
 * stateless blockchain: 在每个区块里面要把状态变化补全，由于部分状态会过期，导致丢失nonce。stateless statechain 可能是更好的名称, stateless是不能使用UTXO，由于区块丢失，余额计算不准确，不可能为每个utxo建立世界戳；账号系统中只要账号存在，就是准确的，不会每个区块进步都发生余额度变化。
-* 验证：每个节点只验证voting epoch 区块，和自己挖矿的区块。其他区块传递包括tip，历史区块都不验证，当然有过验证的优先，未验证区块不可以代替验证的区块，除非发生回滚。发生回滚时，新验证的节点代替旧验证的几点。如果回滚失败，则把分叉点后的节点设置为未验证。
+* 验证：区块入statedb完全不需要验证，直接用"未验证"状态存入state，数学验证就是从consensus epoch之后开始, consensus epoch之前的区块在回溯过程中设置为"已经验证"，epoch之后的数学验证使用statedb中已经验证的kv。 节点可以根据自己的statedb"已经验证"，对交易池做初步验证入池。节点对于statedb的构建支点为投票后的voting epoch 区块，自己发出的区块要严格验证。relay其他区块传递包括tip，历史区块都不需要验证。发生回滚时，新验证的节点代替旧验证的几点，没有验证的kv不能代替验证过的kv。如果回滚数学验证失败，则把数学验证失败的共钥拉入黑明单。
+* 交易池雷文斯坦数组
+  * 每个节点建立本地交易池条件：根据自己手里的statedb中已经验证的kv，来验证是否进入交易池；数组长度10；发送到区块链在线信号。
+    * 进入交易池的key，进入choking选择，有利于用户体验 
+  * 出块所用的交易缓存：长度10；交易费大的交易，可以验证的交易。
 * 挖矿过程
   * 节点A收到UI给出的区块链的邀请信号，本质是个mutable item target, chain id + 推荐者公钥, 64字节。如果有多个推荐者，可以从UI多次给出64字节的邀请信号target。一个社区chain id和多个推荐者的公钥，可以放入二维码一起携带。
     * 这里需要修改mutable item合法性算法，就是前后半32位都可以验证通过签署内容。由于如果把chainID放在salt里面，就是target的前32位，会导致一个区块链的中继节点集中到某几个节点。所以这个位置和朋友mutable内容正好相反，朋友列表中发送者在target后32位可以签署，区块链是发送者在target前32位可以签署。 
