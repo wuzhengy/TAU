@@ -13,7 +13,7 @@ We will experiment to build a demonstration purpose uber service on the phone cr
 * stateless blockchain: 在每个区块里面要把状态变化补全，由于部分状态会过期，导致丢失nonce。stateless statechain 可能是更好的名称, stateless是不能使用UTXO，由于区块丢失，余额计算不准确，不可能为每个utxo建立世界戳；账号系统中只要账号存在，就是准确的，不会每个区块进步都发生余额度变化。
 * 验证：区块入statedb完全不需要验证，直接用"未验证"状态存入state，数学验证就是从consensus epoch之后开始, consensus epoch之前的区块在回溯过程中设置为"已经验证"，epoch之后的数学验证使用statedb中已经验证的kv。 节点可以根据自己的statedb"已经验证"，对交易池做初步验证入池。节点对于statedb的构建支点为投票后的voting epoch 区块，自己发出的区块要严格验证。relay其他区块传递包括tip，历史区块都不需要验证。发生回滚时，新验证的节点代替旧验证的几点，没有验证的kv不能代替验证过的kv。如果回滚数学验证失败，则把数学验证失败的共钥拉入黑明单。
 * 交易池雷文斯坦数组
-  * 每个节点建立本地交易池条件：根据自己手里的statedb中已经验证的kv，来验证是否进入交易池；数组长度10；发送到区块链在线信号。
+  * 每个节点建立本地交易池条件：根据自己手里的statedb中已经验证的kv，来验证是否进入交易池；数组长度10个时间最新的交易；发送到区块链在线信号。
     * 进入交易池的key，进入choking选择，有利于用户体验 
   * 出块所用的交易缓存：长度10；交易费大的交易，可以验证的交易。
 * 挖矿过程
