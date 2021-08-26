@@ -72,7 +72,6 @@ blockJSON  = {
 1. version;
 2. chain id; 32 bytes `hash(GenesisMinerPubkey + timestamp)定长``community name变长`
 3. timestamp; 
-4. Domain name, IP address and port
 5. blockNumber; // for each 105,120 blocks, we will increase power unit follow fibonacci series - 1,1,2,3,...
 6. previousBlockRoot = null; // genesis is built from null.
 7. basetarget = 0x21D0369D036978;
