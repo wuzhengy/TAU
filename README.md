@@ -12,9 +12,10 @@ We will experiment to build a demonstration purpose uber service on the phone cr
 * consensus epoch: 在某个区块链中，节点成员对当前区块288个区块前的位置的区块投票结果(block hash, block number)，简单多数获胜，这个点是随时在变化，可以前进可以后退。当网络只有一个节点时，这个节点的投票结果就是consensus point。 Consensus point 可以定义为离开目前tip，倒数第二个结尾区块号为00的区块，这样可以投票集中。从而投票周期是每200 block内一个节点只能投1票，就是每天记录一票。
 * stateless blockchain: 在每个区块里面要把状态变化补全，由于部分状态会过期，导致丢失nonce。stateless statechain 可能是更好的名称, stateless是不能使用UTXO，由于区块丢失，余额计算不准确，不可能为每个utxo建立世界戳；账号系统中只要账号存在，就是准确的，不会每个区块进步都发生余额度变化。consensus epoch号最小为0，0之前的区块也不需要验证，所以我们其实有个负区块的概念，就是社区创立时，最初的地址里面的币是可以人为设置到负数区块里面。最前面的负数区块的向前连接的hash可以是null. 这样解决一个起初社区建立初始社群的问题。0号区块之前的区块都是在consensus epoch之前的都不需要数学验证。 
 * 验证：区块入blockDB完全不需要验证，数学验证就是从consensus epoch之后开始, consensus epoch之前的区块在回溯过程中直接填写入statedb，epoch之后的数学验证使用statedb中已经验证的kv。 节点可以根据自己的statedb，对交易池做初步验证入池。节点自己发出的区块要严格验证。relay其他区块传递包括tip，历史区块都不需要验证。发生回滚时，新验证的节点代替旧验证的state。如果回滚数学验证失败，则把数学验证失败的共钥拉入黑明单，清除分叉点后面的state kv。
-* 交易池哈希数组
-  * 每个节点建立本地交易池条件：根据自己手里的statedb中已经验证的kv，来初步验证这比交易是否进入交易池；数组长度10个时间最新的交易；发送到区块链在线信号。交易池中的未上链的public key，不参与choking通信。
-  * 出块所用的交易缓存：长度10；交易费大的交易，可以验证的交易。
+* 交易池(通信池)哈希数组
+  * 每个节点建立本地交易池条件：根据自己手里的statedb中已经验证的kv，来初步验证这比交易是否进入交易池。交易池中的未上链的public key，不参与choking通信。
+  * 出块所用的本地私有交易缓存：长度10；交易费大的交易，可以验证的交易，这个不向社区公布。
+  * 对于最近5分钟内的消息，每个节点按照交易费大小来排序，发到区块链在线消息，区块链在线消息结构填满为止，就是说你的消息给的钱不够，可能无法被中继出去。一个消息hash到2个字节，每个在线信号可以存储约200个消息。
 * 挖矿过程
   * 节点A收到UI给出的区块链的邀请信号，本质是个mutable item target, chain id + 推荐者公钥, 64字节。如果有多个推荐者，可以从UI多次给出64字节的邀请信号target。一个社区chain id和多个推荐者的公钥，可以放入二维码一起携带。
     * 这里需要修改mutable item合法性算法，就是前后半32位都可以验证通过签署内容。由于如果把chainID放在salt里面，就是target的前32位，会导致一个区块链的中继节点集中到某几个节点。所以这个位置和朋友mutable内容正好相反，朋友列表中发送者在target后32位可以签署，区块链是发送者在target前32位可以签署。 
@@ -22,11 +23,10 @@ We will experiment to build a demonstration purpose uber service on the phone cr
   * A根据当前时间戳计算出5个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5个固定+1个可变的通信成员。 
   * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信号:
     * 包含consensus point hash和block number，这类区块要经过自己数学验证才能推荐 
-    * 自己的挖出的区块，需要经过数学验证
-    * 当前tip block的payload immutable data hash和endpoint，这类区块要不需要经过自己数学验证才能推荐
-    * 自己能够提供的其他区块的immutable data hash和endpoint，这类区块要不需要经过自己数学验证才能推荐
+    * 自己的挖出的区块end point，需要经过数学验证
+    * 自己提供的其他区块，包括tip，的immutable data hash和endpoint，这类区块要不需要经过自己数学验证
     * 自己需要的其他区块的hash 或 block number，
-    * 交易池按照时间顺序的莱文斯坦50个数据数组和payload & end point. 交易包括上链和非上链的消息和交易。
+    * 交易池（通信池）
   * A不断本地存放累计收到的所有区块，啥数据结构如何管理，KV数据库
   * A试图通过hash link连接当前最难tip到genesis的区块，在连接过程中如果发现包含consensus point的block number区块，则认为是合法链接。不包含则为非法链接。非法链接区块和推荐者不进入黑名单。获得难度更高区块tip 时，立即试图本地链接区块到consensus point, 如果本地连接不成（验证hash链中断），就不认可难度，只接受state，继续积累区块。
   * 在连接成功的基础上，即包括consensus point：
