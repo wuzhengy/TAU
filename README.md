@@ -78,7 +78,7 @@ blockJSON  = {
 7. basetarget = 0x21D0369D036978;
 8. cummulative difficulty int64; 
 9. generation signature;
-10. msg;
+10. payload, starting with domain and ip info;
 11. `TsenderTAUpk`Nonce = 1;
 12. `Tsender`Balance = 1,000,000;
 13. `TminerTAUpk`Balance= 1,000,000; // in the genesis, Tsender = Tminer = Treceiver
