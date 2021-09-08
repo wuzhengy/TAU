@@ -53,6 +53,17 @@ This feature will be inplemented after mainnet on, assume initially we will not 
 * 64 bits, android 5.1, api 22.
 * token: IP address random checking. 
 
+### Working mode
+UI will collect platform info such as:
+* charging or not
+* bandwidth meterred or not and user preference of data spending
+* upnp status
+* memory
+* cpu
+* ipv4 or ipv6
+
+Based on these info, UI will config invoke number of libTAU and how many socket interface needed in session
+
 ##### Why not smart contract
 Smart contract is able to generate big numbers of state, TAU is designed to run on a phone and support communication and payments. A Turing complete programable language will swallow the network resources. I am designing an TAU chain with “365 days rolling base memory without smart contract”. There will be no cut-off line, the state memory is on rolling basis to keep storage flat for each blockchain around maximum 100mb.  
 Without smart contract, the blockchain will be purely for coins wiring and text. I think these are the most important things and sufficient for dApps to build logic such as javascript can be viewed as text. Assume in the future, all devices will need libTAU communication for server-less messaging, we want to make this layer to be cheap and efficient in computing resources consumption.
