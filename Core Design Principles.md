@@ -56,6 +56,7 @@ This feature will be inplemented after mainnet on, assume initially we will not 
 
 ### ipv4 and ipv6
 ipv6 provides a stable bootstrap entry. we should support ipv6 as much as possible when data is not meterred. 
+ISP will love to control incoming packets, the local routing table database will need to be smart enough to measure such restrictions. 
 
 ### Working mode
 libTAU working config file: secrete key, bandwidth, invoke, 
