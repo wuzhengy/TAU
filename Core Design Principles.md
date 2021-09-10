@@ -14,6 +14,8 @@ Hash linked chain, central-less and permission-less concensus, on-chain UTXO sta
 Accounts design of balance and nounce, stateless future plan
 #### NXT
 Generation signature for proof of stake mining
+
+PePOS - Perishable Prove of Stake
 #### Libtorrent
 DHT based metadata communication
 #### Levenshtein [Distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
