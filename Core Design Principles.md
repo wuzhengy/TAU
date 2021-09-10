@@ -1,4 +1,4 @@
-working draft ...
+working notes ... read at own risks
 ### Key Points
 * TAU is designed as protocol for data communication over blockchain. Its applications include crypto coins mining on phones, community serverless communication and low cost IOT interaction. 
   * some known difficulties: 
@@ -35,10 +35,11 @@ Rather than bootstrap from fixed nodes, TAU nodes will use current ledger nodes 
 In libTorrent, the routing table entry has 4 fields: ID, IP + Port, round trip time and pinged flag. The pinged flag means whether this node is reachable from host. However this could be bluffed, if only relying on own. Due to libTAU public key, everytime a node to discover the new nodes, in the ping field, it could record referrals public key. When more than two public key referred this node with same IP address, it means that this IP address is reachable by public. Of course, the more referred, the better. <br>
 ##### Bootstraping
 libTAU nodes will use all locally available ledger to bootstrap itself. In each TAU block, we recommend adding "end point" into block. When the block is accepted by the node, it will use this info into local bootstrap list. Initial software will come with part of TAUcoin blockchain ledger, which will include initial bootstrap nodes. 
-
-##### Perishable Chain
-TAU blockchain will only keep a chain state for 1 year, any state and ledger beyond will be forgotten forever. This will make the blockchain in small size, good for communication and small community. A limited state size will also make inter-peers communication in controlable volumn. Assume 1 million peers existing in one chain, the data sync effort will be too big for small devices. On TAU chain, one chain will accept mostly 105120 participants to make sure data sync is not overwhelmed. This is a quite big community already.
-* As a miner, you will maximum need 365 x 288 blocks information. However mining can start from any time.
+##### Perishable Chain - Pepos - Perishable Proof of Stake
+TAU blockchain will only keep the chain state for six months only, any state and ledger beyond will be forgotten forever. This is probably mostly important inovation of TAU. It will make the blockchain in small size, good for communication functions and small community. 
+TAU believes blockchain is not for instant cash payment due to the block latency. Financially, it is for digital assets and savings. It is also for community building and communication. 
+A limited state size will also make inter-peers communication in controlable volumn. Assume 1 million peers existing in one chain, the data sync effort will be too big for small devices. On TAU chain, one chain will accept mostly 50k participants to make sure data sync is not overwhelmed. This is a quite big community already.
+* As a miner, you will maximum need 365 x 180 blocks information. However mining can start from any time, as soon as consensus point is setup.
 * State database vs state trie
   * eth use state trie to record each variable and value. In libTAU stateless plan adopted, each variable will only live for certain unique time window, not epochs, the trie key-value data structure is hard to maintain such expiry. 
   * libTAU will use relationship database such as sqlite to hold state date with time window.  
@@ -96,3 +97,4 @@ Each node will collect voting from all peers through choking communication. One 
 The voting is collecting opinions of top 21 higher staker it encounters, the simple majority wins the consenus point. Anything prior to the consensus point is considerred legit and do not need verification. These blocks will enter state db without math checking. 
 Each node software can decide own voting strategy, it is a very individual thing for nodes. The variety of such strategy can increase the resistence of attacking. 
 The choking communication serve a good base for such voting, since 5 of the 6 time stamp related nodes are suppose to do two way. 1 of the random nodes is only collection information only, kind of one way voting any way. 
+The initial consensus point is when user getting information from referral. A node will always have consensus point. 
