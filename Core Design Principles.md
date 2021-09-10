@@ -8,6 +8,8 @@ working notes ... read at own risks
     * no trust worthy time and bootstrap service available on internet
 ### knowledge building blocks
 Along the way of developing TAU, we have adopted many key ideas from many open-source community projects. Following are the key components we are adopting. 
+We believe blockchain is infrastructure of financial contracts(permament) and community membership registration(perishable). 
+
 #### Bitcoin
 Hash linked chain, central-less and permission-less concensus, on-chain UTXO state
 #### Ethereum
