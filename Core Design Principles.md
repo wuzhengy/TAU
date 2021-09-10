@@ -36,7 +36,7 @@ In libTorrent, the routing table entry has 4 fields: ID, IP + Port, round trip t
 ##### Bootstraping
 libTAU nodes will use all locally available ledger to bootstrap itself. In each TAU block, we recommend adding "end point" into block. When the block is accepted by the node, it will use this info into local bootstrap list. Initial software will come with part of TAUcoin blockchain ledger, which will include initial bootstrap nodes. 
 
-##### Stateless Chain
+##### Perishable Chain
 TAU blockchain will only keep a chain state for 1 year, any state and ledger beyond will be forgotten forever. This will make the blockchain in small size, good for communication and small community. A limited state size will also make inter-peers communication in controlable volumn. Assume 1 million peers existing in one chain, the data sync effort will be too big for small devices. On TAU chain, one chain will accept mostly 105120 participants to make sure data sync is not overwhelmed. This is a quite big community already.
 * As a miner, you will maximum need 365 x 288 blocks information. However mining can start from any time.
 * State database vs state trie
@@ -47,13 +47,13 @@ Creating big number of IP pool to request services from a phone node will abuse 
 In libTAU, since each node has its friends, routing table and blockchain peers public key memory, it will be efficient just to use public key to identify the source. One libTau node will allocate 50% of the resources for unknown public key messages, these are mostly relaying data for other nodes with closer publickey prefix, the reward for this, the node's address will be recorded in others routing table for easier discovery and also for relay. 
 This feature will be inplemented after mainnet on, assume initially we will not have too many attackers. 
 ##### Ranges: 
-* mutable range: one day, 5 x 12 x 24 = 288 blocks. 
-* stateful range: 1 year, 288 x 365= 105,120 blocks
+* consensus point: current block number - 200, then cloeset previous block with 00 ending. for example current block is 86789;  86789-200 = 86589, the 86500 is the consensus point. 
+* stateful range: 6 months, 288 x 180 = 51840
 ##### Block and Transaction special feature
  * add sender and miner end points, IP + port. This is for trustless bootstrap.
-### tech components to solve problems
-* 64 bits, android 5.1, api 22.
-* token: IP address random checking. 
+
+### ipv4 and ipv6
+ipv6 provides a stable bootstrap entry. we should support ipv6 as much as possible when data is not meterred. 
 
 ### Working mode
 libTAU working config file: secrete key, bandwidth, invoke, 
@@ -91,3 +91,8 @@ When peers number increases in the blockchain, the data synchronization efficien
 * libTAU, we use blockchain time to arrange planned communications paire between nodes, in each time, each nodes will know exactly what nodes to talk to. when communication starts, bothsides will have to provide data to each other. this is probabaly the most important thing in libTAU blockchain data exchange. 
 * libTAU will use 6 blocks hash prior and include the immutable point to decide peers for unchoke. 
 
+### voting the consensus point
+Each node will collect voting from all peers through choking communication. One of the 6 choking peers are randomly select from state database. 
+The voting is collecting opinions of top 21 higher staker it encounters, the simple majority wins the consenus point. Anything prior to the consensus point is considerred legit and do not need verification. These blocks will enter state db without math checking. 
+Each node software can decide own voting strategy, it is a very individual thing for nodes. The variety of such strategy can increase the resistence of attacking. 
+The choking communication serve a good base for such voting, since 5 of the 6 time stamp related nodes are suppose to do two way. 1 of the random nodes is only collection information only, kind of one way voting any way. 
