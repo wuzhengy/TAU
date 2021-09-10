@@ -56,6 +56,12 @@ This feature will be inplemented after mainnet on, assume initially we will not 
 * token: IP address random checking. 
 
 ### Working mode
+libTAU working config file: secrete key, bandwidth, invoke, 
+* UI will assign daily bankwidth data and maximum invoke to libTAU.
+* UI will deside to start v4 or v6 interface 
+* UI will assign friend list of public keys and chain IDs
+* UI will meature system cpu and memory and other factors to ajust bandwidth and invoke number
+
 UI will collect platform info such as:
 * charging or not
 * bandwidth meterred or not and user preference of data spending
