@@ -11,6 +11,7 @@ Printing Layout for event.
   * Server-less communication on full phones swarm
   * Perishable blockchain consensus that ignores ledger history beyond 6 months
   * Applying libtorrent-choking and voting to resist secrete chain attack
+* We are seeking technology review and discussion. https://t.me/iMorpheusTau
 
 ---
 Deck
