@@ -12,3 +12,8 @@ UDP payload in libTAU looks like this: （32 bytes public key) + (ECIES encrypte
 * UDP payload for mutable item:（public key) + (ECIES encrypted bencode entry(time, public key, device ID, immutable data hash, endpoints...)). 
 <br><br>
 The router blocking certain traffice is the same nature as someone try to spam a certain services. With public key, binaries, as inistial prefix of an encrypted payload. It will be possible for receiver to identify whether it is a friendly traffic or malicous. It will also be impossible for routers to differenciate libTAU binaries from others, since we do not have recoginzation pattern in udp packets. 
+
+### Blockchain conceptural data structures
+* StateDB - verified states are stored here. 
+* BlockDB
+* Transaction pool(communication pool)
