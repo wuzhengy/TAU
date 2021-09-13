@@ -14,6 +14,6 @@ UDP payload in libTAU looks like this: （32 bytes public key) + (ECIES encrypte
 The router blocking certain traffice is the same nature as someone try to spam a certain services. With public key, binaries, as inistial prefix of an encrypted payload. It will be possible for receiver to identify whether it is a friendly traffic or malicous. It will also be impossible for routers to differenciate libTAU binaries from others, since we do not have recoginzation pattern in udp packets. 
 
 ### Blockchain conceptural data structures
-* StateDB - verified states are stored here. 
-* BlockDB
-* Transaction pool(communication pool)
+* StateDB - verified states are stored here, includes the blocks prior to the consensus point and math verified blocks between consensus point and tip. Rolling back design is in place by using account link to block hash. On TAU blockchain, block is the same as state. 
+* BlockDB - all blocks collected from communication without quality garantee
+* Transaction pool(communication pool) - messages verified using local stateDB, these information will join communication, not added to stateDB.
