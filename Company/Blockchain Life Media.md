@@ -3,6 +3,7 @@ Crypto Phone Mining aims to enable ONE phone to independently mine and operate i
 
 ---
 Printing Layout for event.
+TAUcoin.io
 * Phone Crypto Mining
 * One phone mines 100+ full blockchains without tie to servers.
 * TAU Cambridge UK, taucoin.io
