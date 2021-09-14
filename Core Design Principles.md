@@ -91,6 +91,7 @@ The current app will only support:
 2. On-Chain web: note transaction with markdown language to form a linkable site. 
 
 ##### Choking in limited number of peers
+Choking members resources: 4 for onchain peers, 1 for random address, 1 for transaction pool
 When peers number increases in the blockchain, the data synchronization efficiency becomes low due to no central place to host information. Assume you have 1 million users in a group, the sync complexity is N square, which is 1 m x 1m, which is not possible for current network to handle. We have to come up with a better design. The TAU current plan is to restrict total chain size, so as the peer numbers. The 1 years length, 1 transaction per block, 5 minutes per block plan will bring us about 105,120 peers on the whole chain. 
 * we plan to engage torrent choking design, means in any moment, a peer only exchange data with a set number peers. The number is 6th root of whole chain peers N. The 6th root is a magic number that in social media 6th steps will bring connection between any two persons in the world. This allows the traverse steps of a message to be under O(6) which is quite good.
 * For each nodes synching blockchain ledger, collectively there are less incentive for any node to give data to stranger nodes. The choking plan, in any certain time window, only a subset of nodes are suppose to open access to each other and each will use "tit for tac" to exchange data. So that the nodes do not want to share data will found hard to receive data from the un-choked peers at a certain time frame. 
