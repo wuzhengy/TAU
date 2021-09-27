@@ -1,5 +1,5 @@
 Company Description <br>
-Crypto Phone Mining aims to enable ONE phone to independently mine and operate in 100+ community blockchains. It does not require assistance from central servers. The app and api is developed by TAU in Cambridge Science Park, England. The innovations are perishable proof of transaction(PePOT) consensus, choked-voting to resist secrete chain attack and server-less communication. 
+Crypto Phone Mining aims to enable ONE phone to independently mine and operate in 100+ community blockchains. It does not require assistance from central servers. The app and api is developed by TAU in Cambridge Science Park, England. The innovations are perishable proof of transaction(PPOT) consensus, choked-voting to resist secrete chain attack and server-less communication. 
 
 ---
 Printing Layout for event.
