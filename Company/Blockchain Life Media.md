@@ -9,6 +9,7 @@ Printing Layout for event.
 * TAU Cambridge Ltd, taucoin.io
 * Innovative Open-source Technology
   * Perishable blockchain consensus that ignores ledger history beyond 6 months
+    * In return for full phone node to achieve high communication throughput
   * Constant community voting to resist secrete chain attack
   * Server-less communication on phones swarm 
     * Customized libTorrent DHT with choked syncing
