@@ -8,6 +8,6 @@
 * Management Fee - 1.5% annual
 * TAX and legal
   * Funds currency - onshore Ruble
-    key ? onshore bank to accept ruble and invest into underneath assets
-  * Invest onshore and exit on nasdaq through VIE structure when LCE valuation achieve 500M
+    key ? onshore bank to accept ruble and invest into underneath assets via ruble to usd in swiss bank. 
+  * Invest offshore and exit on nasdaq through VIE structure when LCE valuation achieve 500M
   * Potential anction consideration and study
