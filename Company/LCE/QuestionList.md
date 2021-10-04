@@ -1,8 +1,13 @@
 ## Questions for the fund
 * Why crypto - Value of scarcity
-* What strategy - Weekly Average deployment and momentum riding
-* Exit strategy - private offering to public listing
+* Investment strategy
+  * Weekly Average deployment - 80%
+  * Momentum riding - 20%
+  * Underneath assets - GBTC, ETHE and crypto backed security ...
+* Exit strategy - from private offering to public listing
+* Management Fee - 1.5% annual
 * TAX and legal
-  * Underneath asset - GBTC, ETHE and security ...
+ 
   * Funds currency - on shore Ruble
-  * Invest Ruble onshore rusia and exist on nasdaq. 
+  * Invest onshore and exit on nasdaq. 
+    * Sanction consideration
