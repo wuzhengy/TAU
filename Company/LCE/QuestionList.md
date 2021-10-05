@@ -4,10 +4,8 @@
   * Weekly Average deployment - 80%
   * Momentum riding - fixed 20% in cash to speculate market, profits going to weekly average buy.  
   * Underneath assets - GBTC, ETHE and crypto backed security ...
-* Exit strategy - from private offering to public listing
+* Exit strategy - distribute underneath assets
 * Management Fee - 1.5% annual
 * TAX and legal
   * Funds currency - onshore Ruble
-    key ? onshore bank to accept ruble and invest into underneath assets via ruble to usd in swiss bank. 
-  * Invest offshore and exit on nasdaq through VIE structure when LCE valuation achieve 500M
-  * Potential anction consideration and study
+  * Invest offshore and purchase International security exchange tradeable asset via broker. 
