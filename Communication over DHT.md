@@ -1,25 +1,30 @@
 # TAU communication on DHT
-TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major changes has been introduced in incentive system, ID, routing, bootstrap,time service, data item structure and blockchain support. TAU uses public_key based communication, than IP based. Therefore, when a device does not have a real IP address, it still can communicate independantly without attached to a server. DHT peers cloud overall become relay services. TAU uses blockchain ledger for bootstraping network and community timestamp service. 
+TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major changes has been introduced in incentive system, ID, routing, bootstrap,time service, data item structure and blockchain support. TAU uses public_key to identify communication target, than IP endpoint. Therefore, when a device does not have a real IP address, it still can communicate independantly without attached to a server. DHT swarm overall becomes relay services. TAUcoin community is aiming for bootstraping network and community timestamp service. 
 
 ## Public Key format
 * 32 bytes ED25519 key-pair generated from random seed
-* Node ID is the public key for the incentive framework, nodes with closer prefix will have an incentive to help each other relaying the data. When a node refuses to relay data for other similar prefix nodes, it will found hard to get its needed data, since peers will not put them into routing table for referral. Nodes referral is a constant process in libTAU to locate other peers.  
+* Node ID is the public key for the incentive framework, nodes with closer prefix will have an incentive to help each other relaying the data. When a node refuses to relay data for other similar prefix nodes, it will found hard to get its requested data from close prefix neighboors, since peers will not add lazy nodes into routing table for referral. Nodes referral is a constant process in libTAU to locate other peers.  
 * ECEIS is used for peer to peer content encryption. We use this to achieve deep level UDP payload encryption. 
 
 ## Routing table in DHT
-* Tuple: Node_ID, IP, Port, referee list, rtt, timestamp, ping status
+* Tuple: Node_ID, IP, Port, referee list, round trip time - rtt, contact timestamps vector, ping status, failure counts
   * referee list is who has reported this nodeID and IP/Port combination. The more referees, the safer this node is reachable from public internet. 
-* Meta data: last seen, last communicated, failure counter
-* Single Layer routing table rather than multiple layers: node will communication with target ID, which is (receiver-sender). This will make routing vector filled with multiple clusters(prefix groups). 
+  * contact timestamp vector - recording the history of communications
+  * Single Layer routing table rather than multiple layers like libtorrent. This will make routing vector filled with multiple clusters(prefix groups). So that we need bigger size of the array for routing table. 
+  * selection of nodes: each main loop slot chose one feature: closer range, success nodes. 
+ 
+## Friends list Meta data: last seen, last communicated
+* last seen: last time life signal is received.
+* last comminicate: last time message recieved.
 
 ## Main loop and depth traversal
 * Kademlia DHT uses depth traversal to find nodes. 
-* libTAU added a top layer mainloop to constantly locate friends and blockchain unchoked peers. This is the key to avoid dedicated server. 
+* libTAU added a top layer mainloop to constantly locate friends and blockchain peers. This is the key to avoid dedicated server. 
   * the returned nodes will be added to replacement buckets for future main looping selection. 
 
 ## Communication token 
 * Kademlia uses communication token in the get process to control spam
-* libTAU removed mutable put function, in return, every mutable data is called exchange. We will rely node id checking to avoid spam. 
+* libTAU replace the mutable data concept with every mutable data is called "life signal". We will rely node id whcih is public key checking and limit counting to avoid spamming. 
 
 
 ### Design live nodes, replacement buckets, m_list, alpha and beta
@@ -30,8 +35,9 @@ TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major chang
 * in libTAU, we inherites this arrangement; however due to libTAU traversal is no long recursive but limited to fixed number of friends exchanging live signals. every time traveral model only pick up alpha + beta number for nodes from m_list to invoke query the finish. alpha, we will use alpha as 1, beta as 1, which basically give chances to both live and replacement buckets. i think this will avoid local optimization also increase the main loop frequence. 
 
 #### Choking communication
+* range: onchain nodes + transaction pool ID
 In peer friends communication, peers life signal to other friends. In the same idea, blockchain ID is a special type of friend, one peer will send three signals into its blockchain mutable life signal, as well as payload end point: 
-* immutable point, diffitulty and blocknumber of `current tip` and blocks demand, 
+* `current tip` block(include consens point) and blocks demand, 
 * transaction pool levenstein distance array 
 * messages history levenstein distance array
 * payload end points
@@ -40,7 +46,6 @@ The receiving peers will then return the missing blocks and messages through imm
 
 Choking peers selection: hash(own ID + timestamp_base_5minutes) XOR peer list
 
- 
 Replacement Vector
 * This now plays more important roles as: remember invoke failure to avoid local optimization problem, provide candidates to invoke list, holding failed routing vecgor nodes, holding other responsed nodes entry for potential invoke. 
 * The vector is limited in size, the reflesh is based on the time a node stay in the vector. 
@@ -57,10 +62,11 @@ Replacement Vector
 
 Target of Mutable Data: libTAU mutable data aims to exchange data than storage, expecting lots of records overlaping like in the routing table
 * 256 bits long
-* First 128 bits: First half of the **Friend**  public key
+* First 128 bits: First half of own public key
+* 2nd 128 bits: First half of the **Friend**  public key
   * If the receiver has public IP and online, the data will be put into receiver memory directly. This design is to create incentive for data relay provider to get a public IP/port and keep alive. This is also why we **do not** hash (salt + pubkey). 
   * The more data provided, the provider's Node ID has more places in other peers routing table
-* Second 128 bits: First half of own public key
+
 * Hash and endpoint of Payload item, this item is not intend to store in XOR close nodes, but the end point which life Signal pointing to. 
   * put: direct put into end points, without expectation of nodes referral
   * get: direct get, expect return value without return any referral
@@ -78,9 +84,4 @@ Target of Mutable Data: libTAU mutable data aims to exchange data than storage, 
   * all the added blockchains in the friends list will be treated as boot and time info potential providers equivalent to TAU chain.
 
 ## Public Key to Public Key communication
-The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the IP connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol. 
-We devide TAU server-less communicaiton to be an application layer protocol to faciliate peer to peer connection in following simple command:
-* Get in mutable data item
-   * When a node, A, wants to get a data. It will search local memory firstly. If not found locally, A will do the `dht_get` 
-
-
+The IP protocol requires sender and receiver IP addresses. When IP address is behind NAT or in the private range, the IP connnection between devices is hard to establish. Ideally, each device will have public key. The communcation is conducted between key to key. The under-neath IP connection and routing is handled by protocol.
