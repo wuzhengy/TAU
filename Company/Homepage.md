@@ -18,7 +18,8 @@ We also address server based blockchain problems.
 * One phone mines 100 parallel independent blockchains
 
 ### About the core technology
-TAU invented the Proof of Transaction(POT) blockchain concensus, the more transactions made, the higher mining power it is. Without intensive puzzel solving competition, POT is a light weight blockchain consensus. One average smart phone mines 100+ full blockchains, based on libTAU server-less blockchain communication tech-stack. 
+TAU invented the Perishable Proof of Transactions(PPOT) blockchain concensus, the more transactions made, the higher mining power it is. Without intensive puzzel solving competition, POT is a light weight blockchain consensus. The **perishable** ledger will forget about any blocks 6 months older, to make full node size under 50M. Unlike immutable blockchain designed for long term financial contracts, PPOT is for day to day application communication on decentralized blockchain. 
+One average smart phone mines 100+ full blockchains, based on libTAU server-less blockchain communication tech-stack. 
 
 ### About Us
 TAU Cambridge(UK) is located in Cambridge Science Park and registered in United Kingdom. The company is funded through private venture capitals without conducting any **ICO** or selling coins to public. TAU will airdrop 82% of TAUcoins to world communities and keep 12% for development of the technology.
