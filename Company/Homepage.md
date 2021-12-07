@@ -1,7 +1,8 @@
 ### Introduction
-TAU Cambridge is creating a Phone Crypto Mining(PCM trade-mark) technology. Without permitted or assisted by servers, personal devices will be able to build, mine and transact on blockchains independently. When phones can communicate to each other for free and be incentivated to make blockchain consensu, without central servers, it reduces IT cost of operating an application and removes major part of middleman charge. It will allow transparent and permission-less inter-application data exchange. 
-* Our product for consumer is an open source app: it enables phones to form up independent blockchains for ditigal coins circulation, so that communities can freely operate payment and communication. We emphasize on saving data consumption and tailor it to be useful in expensive and slow data region.
-* We provide free and open source libTAU for developers. 
+TAU Cambridge provides a free community coin app. Without paying any third party transaction cost, such as eth or bnb, personal devices could build, mine and transact blockchain coins independently. 
+
+* Our product for end user is an open source app: it enables phones to form up independent blockchains for ditigal coins circulation, so that communities can freely operate payment and communication. We emphasize on saving data consumption and tailor it to be useful in expensive and slow data region.
+* We provide free and open source libTAU for developers to use our tech stack to build decentralized application without server deployments. 
 * Users do not need to own any TAUcoins to build blockchains and make server-less communications. 
 
 ### libTAU
