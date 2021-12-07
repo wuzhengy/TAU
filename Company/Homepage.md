@@ -1,5 +1,6 @@
-### Introduction - TAU - the free community coin app.
-TAU Cambridge provides a free community coin app. Without paying any third party transaction cost, such as eth or bnb, personal devices could build, mine and transact blockchain coins independently. 
+### Introduction
+#### TAU - the free community coin app.
+TAU Cambridge provides a free community coin mobile app with no need for servers. Without paying any third party transaction cost, such as eth or bnb, personal devices could build, mine and transact blockchain coins independently. 
 
 * Our product for end user is an open source app: it enables phones to form up independent blockchains for ditigal coins circulation, so that communities can freely operate payment and communication. We emphasize on saving data consumption and tailor it to be useful in expensive and slow data region.
 * We provide free and open source libTAU for developers to use our tech stack to build decentralized application without server deployments. 
