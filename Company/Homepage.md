@@ -20,7 +20,7 @@ We also address server based blockchain problems.
 * One phone mines 100 parallel independent blockchains
 
 ### About the core technology
-TAU discovered the Perishable Proof of Transactions(PPOT) blockchain concensus, the more transactions made, the higher mining power it is. Without intensive puzzel solving competition, PPOT is a light weight blockchain consensus. The **perishable** ledger will forget any blocks 6 months older, to make full node size under 50M. Unlike immutable blockchain such as ethereum and bitcoin designed for long term financial contracts, PPOT is for day to day application communication on decentralized blockchain. <br><br>
+TAU discovered the Perishable Proof of Transactions(PPOT) blockchain concensus, the more transactions made, the higher mining power it is. Without intensive puzzel solving competition, PPOT is a light weight blockchain consensus. The **perishable** ledger will forget any blocks 6 months older, to make full node size under 50M. Unlike immutable blockchain such as ethereum and bitcoin designed for long term financial contracts, PPOT is for day to day application communication on decentralized blockchain. <br><br> Dynamic TPS (Transactions per second) allows instant transaction on chain if sender is willing to pay more fee. <br> 
 One average smart phone mines 100+ full blockchains, based on libTAU server-less blockchain communication tech-stack. 
 
 ### About Us
