@@ -1,6 +1,6 @@
 ### Introduction
-#### TAU Serverless App - create and trade coins
-TAU enables your phone to create and trade coins without connection to servers. We emphasize on saving mobile data, so that p2p trade can be freely operated in every cornor of the world. We do NOT require users owning any specific coins, such as TAUcoin, to enjoy all the functions for free. 
+#### TAU Serverless - create and trade coins
+TAU app enables your phone to create and trade coins without connection to servers. We emphasize on saving mobile data, so that p2p trade can be freely operated in every cornor of the world. We do NOT require users owning any specific coins, such as TAUcoin, to enjoy all the functions for free. 
 
 ### libTAU
 
