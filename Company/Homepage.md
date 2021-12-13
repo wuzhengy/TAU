@@ -1,12 +1,12 @@
 ### Introduction
-#### TAU - the free community coin app.
-TAU Cambridge provides a free community coin mobile app with no need for servers. Without paying any third party transaction cost, such as eth or bnb, personal devices could build, mine and transact blockchain coins independently. 
-
-* Our product for end user is an open source app: it enables phones to form up independent blockchains for ditigal coins circulation, so that communities can freely operate payment and communication. We emphasize on saving data consumption and tailor it to be useful in expensive and slow data region.
-* We provide free and open source libTAU for developers to use our tech stack to build decentralized application without server deployments. 
-* Users do not need to own any TAUcoins to build blockchains and make server-less communications. 
+#### TAU Serverless App - create and trade coins
+TAU enables your phone to create and trade coins without connection to servers. We emphasize on saving mobile data, so that p2p trade can be freely operated in every cornor of the world. We do NOT require users owning any specific coins, such as TAUcoin, to enjoy all the functions for free. 
 
 ### libTAU
+
+* We provide free and open source libTAU for developers to use our tech stack to build decentralized application without server deployments. 
+TAU Cambridge is creating an open-source peer to peer communication network using blockchain technologies. Without tieing to servers, phones will be able to build and trade coins independently.
+When phones can communicate to each other for free and, at the same time, be incentivated financially through blockchain coins, it reduces IT cost of operating an application and removes middleman charge. It will allow transparent and permission-less application data exchange.
 A open source c++ library for server-less p2p and blockchain communication with Java Swig and Shell interface. libTAU is forked out of libtorrent by answering following key problems, which were unsolvable in the pre-blockchain world. 
 * Incentive to provide data, bandwidth and cpu power for peers
 * Avoid Internet router protocol screening
