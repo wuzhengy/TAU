@@ -1,6 +1,6 @@
 ### Introduction
 #### TAU - create your trade community on crypto
-TAU mobile app enables you to create crypto trade community with own native coins independantly from servers. We emphasize saving mobile data, so that P2P trade can operate in every corner of the world. We do not require user to own TAUcoins for enjoying all the functions.
+TAU mobile app enables you to create crypto trade community with own native coin independantly from servers. We emphasize saving mobile data, so that P2P trade can operate in every corner of the world. We do not require user to own TAUcoins for enjoying all the functions.
 
 ### helping community manager to build trade community and value of community coins 
 ### libTAU
