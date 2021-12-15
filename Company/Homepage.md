@@ -1,5 +1,5 @@
 ### Introduction
-#### TAU Serverless - create, mine and trade coins
+#### TAU Serverless Market - create, mine and trade coins
 TAU app enables your phone to create, mine, buy and sell coins independantly from servers. We emphasize saving mobile data, so that P2P trade can operate in every corner of the world. We do not require user to own TAUcoins for enjoying all the functions.
 
 
