@@ -1,5 +1,5 @@
 ### Introduction
-#### TAU - create your serverless trade community and coins
+#### TAU - create your coins and serverless trade community
 TAU help you to create crypto trade community without tie to servers. You create own coins econemy independantly from other chains to be avoid of third party transaction fee. We emphasize saving mobile data, so that P2P trade can operate everywhere. We do not require user to own any TAUcoins for enjoying the functions.
 
 ### helping community manager to build trade community and value of community coins 
