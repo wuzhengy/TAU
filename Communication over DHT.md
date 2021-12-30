@@ -46,7 +46,22 @@ B - 区块链的无缓存无序列通信
   * contact timestamp vector - recording the history of communications
   * Single Layer routing table rather than multiple layers like libtorrent. This will make routing vector filled with multiple clusters(prefix groups). So that we need bigger size of the array for routing table. 
   * selection of nodes: each main loop slot chose one feature: closer range, success nodes. 
- 
+ 路由表升级描述
+
+Read Only 不进入路由表，不成为中继，不成为捕捉网络成员。Read Only节点可以被push协议送达，需要不同于路由表做内存缓存供push协议寻址使用
+- 计费节点属于 RO
+- NAT后节点属于RO
+- 防火墙后节点属于RO
+- ipv6全部属于RO，由于目前无法感知是否在防火墙后
+
+Non-Read-Only节点可以进入路由表 
+- ipv4 UPNP 并且 DHT探测公网end point和UPNP反馈end point一致
+- coded bootstrap public IP addresses is referable, provided by app developers 
+
+路由表live、rb、bootstrap和data item storage需要DHT层的数据库存储，在系统启动时装载
+
+对于本地IPv6地址是否是RO，要模仿libtorrent的voting 方案，就是对与incoming的地址做记录，陌生节点( 非自己路由表节点）访问超过10次，才可以认为是non-RO
+
 ## Friends list Meta data: last seen, last communicated
 * last seen: last time life signal is received.
 * last comminicate: last time message recieved.
