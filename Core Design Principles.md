@@ -76,6 +76,17 @@ UI will collect platform info such as:
 * ipv4 or ipv6
 
 Based on these info, UI will config invoke number of libTAU and how many socket interface needed in session
+流量和频率控制策略
+
+前台：不控制流量，对于当前聚焦通信的朋友时间间隔参数30秒, beta  = 3, 和区块链给予80%的随机优先级
+后台：UI提供流量包来控制区块链频率
+
+
+输入：流量 和 节点通信信号
+网络付费状态和日流量消费设置
+APP前后台
+chat聚焦情况
+
 
 ##### Why not smart contract
 Smart contract is able to generate big numbers of state, TAU is designed to run on a phone and support communication and payments. A Turing complete programable language will swallow the network resources. I am designing an TAU chain with “365 days rolling base memory without smart contract”. There will be no cut-off line, the state memory is on rolling basis to keep storage flat for each blockchain around maximum 100mb.  
@@ -83,6 +94,10 @@ Without smart contract, the blockchain will be purely for coins wiring and text.
 Smart contract requires contract to be immutable, which is contradictary to perishable blockchain concept. 
 * Reduce the peer number space. We design serverless communication blockchain to only make one transaction per block, which means one sender one receiver, this will bring the total peer numbers under 288 * 365 = 105,120；the 6th root of that is 7, which is the swarm size of blockchain communication. 6th root is a reasonable social distance cap. 
 * This means one TAU community chain can only hold 105,120 peers at current network phone condition, until next personal phone upgrade like 5G complete mature. 
+Bot
+
+每个地址有个bot的机器人，辅助通信，可以提供airdrop和交易服务。bot默认都是打开。
+社区不存在bot，也就是我们不支持上链的智能协约。
 
 ##### Why not multimedia on DHT
 TAU communication is a connection-less protocol, at the current stage, it is not ideal for large amount of data transfer such as video streaming and big files. 
