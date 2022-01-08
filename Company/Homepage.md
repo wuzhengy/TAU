@@ -1,5 +1,5 @@
 ### Introduction
-#### TAU - create crypto and trade community for free
+#### TAU - create coins and trade community for free
 TAU help you to create crypto trade community without tie to servers. You create own coins econemy independantly from other chains to be avoid of third party transaction fee. We emphasize on saving mobile data, so that P2P trade can operate everywhere. We do not require user to own any TAUcoins for enjoying the functions. Community can airdrop coins to participants free from charge. 
 
 ### helping community manager to build trade community and value of community coins 
