@@ -1,7 +1,11 @@
-Title:	Internet Protocol 2 - IP2
+Title:	Internet Protocol 2 - IP2 
+
 Version:	0.1
+
 Last-Modified:	Feb 1st, 2022
+
 Author:	TAU Cambridge Ltd. 
+
 
 Internet Protocol uses management assigned addresses ether IPv4 or IPv6 to communicate. IP2 uses self-generated 256 bits length public key as address for overlay universal transmission. IP2 uses a "distributed sloppy hash table" (DHT) for traversing, sending and capturing data, ED25519 key pairs for addressing and content randomizing, and UDP/IP for transmission.
 
@@ -131,10 +135,16 @@ announce_peers Query = {"t":"aa", "y":"q", "q":"announce_peer", "a": {"id":"abcd
 bencoded = d1:ad2:id20:abcdefghij012345678912:implied_porti1e9:info_hash20:mnopqrstuvwxyz1234564:porti6881e5:token8:aoeusnthe1:q13:announce_peer1:t2:aa1:y1:qe
 Response = {"t":"aa", "y":"r", "r": {"id":"mnopqrstuvwxyz123456"}}
 bencoded = d1:rd2:id20:mnopqrstuvwxyz123456e1:t2:aa1:y1:re
+  
 References
-[1]	Peter Maymounkov, David Mazieres, "Kademlia: A Peer-to-peer Information System Based on the XOR Metric", IPTPS 2002. 
+  
+[1]	Peter Maymounkov, David Mazieres, "Kademlia: A Peer-to-peer Information System Based on the XOR Metric", IPTPS 2002.
+  
 [2]	Andrew Loewenstern <drue@bittorrent.com>, Arvid Norberg <arvid@bittorrent.com> "DHT Protocol", Bittorent.org, 31-Jan-2008.
+  
 [3] Information Sciences Institute University of Southern California, "INTERNET PROTOCOL", IETF RFC:791, September 1981
-Copyright
+
+  Copyright
   
 This document has been placed in the public domain.
+  
