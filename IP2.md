@@ -27,7 +27,7 @@ When a node want to receive communication, it will traverse the "closest" nodes 
 
 Since each node has key pairs, all the UDP payload between nodes are encrypted with sender private key and only target node can read it. Internet routers can not tell the pattern of an encrypted payload, so that it is not differciable from other video and voices services. The cost of block IP2 packets is to turn down entire UDP protocol. 
 
-IP2 nodes uses public blockchain ledger and pre-coded nodes IP address for bootstrap of routing table. We view this risk is low due to any contact or leakage of node to public nodes will fill up routing table very quickly. 
+IP2 nodes uses user input, self-learning and pre-coded nodes IP address for bootstrap of routing table. We view this risk is low due to any contact or leakage of node to public nodes will fill up routing table very quickly. 
 
 ```
 For a node to announce that its controlling peer is downloading a torrent, it must present the token received from the same queried node in a recent query for peers. When a node attempts to "announce" a torrent, the queried node checks the token against the querying node's IP address. This is to prevent malicious hosts from signing up other hosts for torrents. Since the token is merely returned by the querying node to the same node it received the token from, the implementation is not defined. Tokens must be accepted for a reasonable amount of time after they have been distributed. The BitTorrent implementation uses the SHA1 hash of the IP address concatenated onto a secret that changes every five minutes and tokens up to ten minutes old are accepted.
