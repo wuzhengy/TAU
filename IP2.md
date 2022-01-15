@@ -1,6 +1,6 @@
 ## Title:	Internet Protocol 2 - IP2 
 
-Version:	0.1
+Version:	0.1 - on going draft
 
 Last-Modified:	Feb 1st, 2022
 
