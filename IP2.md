@@ -1,4 +1,4 @@
-Title:	Internet Protocol 2 - IP2 
+## Title:	Internet Protocol 2 - IP2 
 
 Version:	0.1
 
@@ -11,7 +11,7 @@ Internet Protocol uses management assigned addresses ether IPv4 or IPv6 to commu
 
 Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket implementing the distributed hash table protocol.  
 
-Overview
+### Overview
 
 Each node has a globally unique self generated public key, which is generated from random seed from ED25519 encyption scheme. Multiple nodes can share the same public key. When several network devices share the same public key, the data flow control will becoming more complex and therefore powerful, which will employ Leveinstein distance array in the future connection based communication topic. 
 
@@ -23,23 +23,19 @@ After the traverse is exhausted, the client either already touch the target or r
 
 The sender node for a query includes an value known as the "captureSwarm." The receiver will use the capture swarm to find sender efficiently if sender is resricted by firewall rules or NAT/proxy. 
 
-When a node want to receive communication, it will traverse the "closest" nodes to register itself into those nodes routing table. Collectively, we call these nodes capture swarm. Later on, when capture swarm received information targetting to the node, it will push the data to the node when they are behind NAT or restricted by firewall rules. The capture swarm is novo idea from TAU Cambridge on top of classical Kademlia protocol. 
+When a node want to receive communication, it will traverse the "closest" nodes to register itself into those nodes routing table. Collectively, we call these nodes capture swarm. Later on, when capture swarm received information targetting to the node, it will push the data to the node when they are behind NAT or restricted by firewall rules. The capture swarm is novo idea from TAU Cambridge on top of classical Kademlia protocol. The swarm is also used to prevent "suffocating attack" to a public key. 
 
 Since each node has key pairs, all the UDP payload between nodes are encrypted with sender private key and only target node can read it. Internet routers can not tell the pattern of an encrypted payload, so that it is not differciable from other video and voices services. The cost of block IP2 packets is to turn down entire UDP protocol. 
 
-IP2 nodes uses user input, self-learning and pre-coded nodes IP address for bootstrap of routing table. We view this risk is low due to any contact or leakage of node to public nodes will fill up routing table very quickly. 
+IP2 nodes uses user input, self-learning and pre-coded nodes IP addresses for bootstrap of routing table. We view this risk is low due to any contact or leakage of node to public nodes will fill up routing table very quickly. 
 
-```
-For a node to announce that its controlling peer is downloading a torrent, it must present the token received from the same queried node in a recent query for peers. When a node attempts to "announce" a torrent, the queried node checks the token against the querying node's IP address. This is to prevent malicious hosts from signing up other hosts for torrents. Since the token is merely returned by the querying node to the same node it received the token from, the implementation is not defined. Tokens must be accepted for a reasonable amount of time after they have been distributed. The BitTorrent implementation uses the SHA1 hash of the IP address concatenated onto a secret that changes every five minutes and tokens up to ten minutes old are accepted.
-```
-
-Routing Table
+### Routing Table
 
 Every node maintains a routing table of known good nodes. The nodes in the routing table are used as starting points for queries in the DHT. Nodes from the routing table are returned in response to queries from other nodes.
 
 Not all nodes that we learn about are equal. Some are "good" and some are not. Many nodes using the DHT are able to send queries and receive responses, but are not able to respond to queries from other nodes. It is important that each node's routing table must contain only known good nodes. A good node is a node has responded to one of our queries within the last 15 minutes. A node is also good if it has ever responded to one of our queries and has sent us a query within the last 15 minutes. After 15 minutes of inactivity, a node becomes questionable. Nodes become bad when they fail to respond to multiple queries in a row. Nodes that we know are good are given priority over nodes with unknown status.
 
-The routing table covers the entire node ID space from 0 to 2160. The routing table is subdivided into "buckets" that each cover a portion of the space. An empty table has one bucket with an ID space range of min=0, max=2160. When a node with ID "N" is inserted into the table, it is placed within the bucket that has min &lt;= N &lt; max. An empty table has only one bucket so any node must fit within it. Each bucket can only hold K nodes, currently eight, before becoming "full." When a bucket is full of known good nodes, no more nodes may be added unless our own node ID falls within the range of the bucket. In that case, the bucket is replaced by two new buckets each with half the range of the old bucket and the nodes from the old bucket are distributed among the two new ones. For a new table with only one bucket, the full bucket is always split into two new buckets covering the ranges 0..2159 and 2159..2160.
+The routing table covers the entire node space from 0 to 2160. The routing table is subdivided into "buckets" that each cover a portion of the space. An empty table has one bucket with an ID space range of min=0, max=2160. When a node with ID "N" is inserted into the table, it is placed within the bucket that has min &lt;= N &lt; max. An empty table has only one bucket so any node must fit within it. Each bucket can only hold K nodes, currently eight, before becoming "full." When a bucket is full of known good nodes, no more nodes may be added unless our own node ID falls within the range of the bucket. In that case, the bucket is replaced by two new buckets each with half the range of the old bucket and the nodes from the old bucket are distributed among the two new ones. For a new table with only one bucket, the full bucket is always split into two new buckets covering the ranges 0..2159 and 2159..2160.
 
 When the bucket is full of good nodes, the new node is simply discarded. If any nodes in the bucket are known to have become bad, then one is replaced by the new node. If there are any questionable nodes in the bucket have not been seen in the last 15 minutes, the least recently seen node is pinged. If the pinged node responds then the next least recently seen questionable node is pinged until one fails to respond or all of the nodes in the bucket are known to be good. If a node in the bucket fails to respond to a ping, it is suggested to try once more before discarding the node and replacing it with a new good node. In this way, the table fills with stable long running nodes.
 
@@ -47,42 +43,29 @@ Each bucket should maintain a "last changed" property to indicate how "fresh" th
 
 Upon inserting the first node into its routing table and when starting up thereafter, the node should attempt to find the closest nodes in the DHT to itself. It does this by issuing find_node messages to closer and closer nodes until it cannot find any closer. The routing table should be saved between invocations of the client software.
 
-BitTorrent Protocol Extension
 
-The BitTorrent protocol has been extended to exchange node UDP port numbers between peers that are introduced by a tracker. In this way, clients can get their routing tables seeded automatically through the download of regular torrents. Newly installed clients who attempt to download a trackerless torrent on the first try will not have any nodes in their routing table and will need the contacts included in the torrent file.
 
-Peers supporting the DHT set the last bit of the 8-byte reserved flags exchanged in the BitTorrent protocol handshake. Peer receiving a handshake indicating the remote peer supports the DHT should send a PORT message. It begins with byte 0x09 and has a two byte payload containing the UDP port of the DHT node in network byte order. Peers that receive this message should attempt to ping the node on the received port and IP address of the remote peer. If a response to the ping is recieved, the node should attempt to insert the new contact information into their routing table according to the usual rules.
+### Packet structure
 
-Torrent File Extensions
+The structure is a mechanism consisting of bencoded dictionaries sent over UDP. A single query packet is sent out and a single packet is sent in response. There is no retry. There are three message types: query, response, and error. For the DHT protocol, there are three queries: ping, find_node, relay.
 
-A trackerless torrent dictionary does not have an "announce" key. Instead, a trackerless torrent has a "nodes" key. This key should be set to the K closest nodes in the torrent generating client's routing table. Alternatively, the key could be set to a known good node such as one operated by the person generating the torrent. Please do not automatically add "router.bittorrent.com" to torrent files or automatically add this node to clients routing tables.
-```
-nodes = [["<host>", <port>], ["<host>", <port>], ...]
-nodes = [["127.0.0.1", 6881], ["your.router.node", 4804], ["2001:db8:100:0:d5c8:db3f:995e:c0f7", 1941]]
-```
-KRPC Protocol
-
-The KRPC protocol is a simple RPC mechanism consisting of bencoded dictionaries sent over UDP. A single query packet is sent out and a single packet is sent in response. There is no retry. There are three message types: query, response, and error. For the DHT protocol, there are four queries: ping, find_node, get_peers, and announce_peer.
-
-A KRPC message is a single dictionary with three keys common to every message and additional keys depending on the type of message. Every message has a key "t" with a string value representing a transaction ID. This transaction ID is generated by the querying node and is echoed in the response, so responses may be correlated with multiple queries to the same node. The transaction ID should be encoded as a short string of binary numbers, typically 2 characters are enough as they cover 2^16 outstanding queries. Every message also has a key "y" with a single character value describing the type of message. The value of the "y" key is one of "q" for query, "r" for response, or "e" for error. A key "v" should be included in every message with a client version string. The string should be a two character client identifier registered in BEP 20 [3] followed by a two character version identifier. Not all implementations include a "v" key so clients should not assume its presence.
+A message is a single dictionary with three keys common to every message and additional keys depending on the type of message. Every message has a key "t" with a string value representing a transaction ID. This transaction ID is generated by the querying node and is echoed in the response, so responses may be correlated with multiple queries to the same node. The transaction ID should be encoded as a short string of binary numbers, typically 2 characters are enough as they cover 2^16 outstanding queries. Every message also has a key "y" with a single character value describing the type of message. The value of the "y" key is one of "q" for query, "r" for response, or "e" for error. A key "v" should be included in every message with a client version string. 
 
 Contact Encoding
 
-Contact information for peers is encoded as a 6-byte string. Also known as "Compact IP-address/port info" the 4-byte IP address is in network byte order with the 2 byte port in network byte order concatenated onto the end.
-
-Contact information for nodes is encoded as a 26-byte string. Also known as "Compact node info" the 20-byte Node ID in network byte order has the compact IP-address/port info concatenated to the end.
+Contact information for nodes is encoded as a 38-byte string. Also known as "Compact node info" the 32-byte Node public key in network byte order has the compact IP-address/port info concatenated to the end.
 
 Queries
 
-Queries, or KRPC message dictionaries with a "y" value of "q", contain two additional keys; "q" and "a". Key "q" has a string value containing the method name of the query. Key "a" has a dictionary value containing named arguments to the query.
+Queries, or message dictionaries with a "y" value of "q", contain two additional keys; "q" and "a". Key "q" has a string value containing the method name of the query. Key "a" has a dictionary value containing named arguments to the query.
 
 Responses
 
-Responses, or KRPC message dictionaries with a "y" value of "r", contain one additional key "r". The value of "r" is a dictionary containing named return values. Response messages are sent upon successful completion of a query.
+Responses, or  message dictionaries with a "y" value of "r", contain one additional key "r". The value of "r" is a dictionary containing named return values. Response messages are sent upon successful completion of a query.
 
 Errors
 
-Errors, or KRPC message dictionaries with a "y" value of "e", contain one additional key "e". The value of "e" is a list. The first element is an integer representing the error code. The second element is a string containing the error message. Errors are sent when a query cannot be fulfilled. The following table describes the possible error codes:
+Errors, or  message dictionaries with a "y" value of "e", contain one additional key "e". The value of "e" is a list. The first element is an integer representing the error code. The second element is a string containing the error message. Errors are sent when a query cannot be fulfilled. The following table describes the possible error codes:
 
 Code	Description
 ```
@@ -128,46 +111,22 @@ bencoded = d1:ad2:id20:abcdefghij01234567896:target20:mnopqrstuvwxyz123456e1:q9:
 Response = {"t":"aa", "y":"r", "r": {"id":"0123456789abcdefghij", "nodes": "def456..."}}
 bencoded = d1:rd2:id20:0123456789abcdefghij5:nodes9:def456...e1:t2:aa1:y1:re
 ```
-get_peers
 
-Get peers associated with a torrent infohash. "q" = "get_peers" A get_peers query has two arguments, "id" containing the node ID of the querying node, and "info_hash" containing the infohash of the torrent. If the queried node has peers for the infohash, they are returned in a key "values" as a list of strings. Each string containing "compact" format peer information for a single peer. If the queried node has no peers for the infohash, a key "nodes" is returned containing the K nodes in the queried nodes routing table closest to the infohash supplied in the query. In either case a "token" key is also included in the return value. The token value is a required argument for a future announce_peer query. The token value should be a short binary string.
-```
-arguments:  {"id" : "<querying nodes id>", "info_hash" : "<20-byte infohash of target torrent>"}
+relay: ???
 
-response: {"id" : "<queried nodes id>", "token" :"<opaque write token>", "values" : ["<peer 1 info string>", "<peer 2 info string>"]}
+Relay is used to travrse and send data. "q" == "r" A r query has two arguments, "id" containing the node ID of the querying node, and "target" containing the ID of the node sought by the queryer. When a node receives a find_node query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table.
+```
+arguments:  {"id" : "<querying nodes id>", "target" : "<id of target node>"}
 
-or: {"id" : "<queried nodes id>", "token" :"<opaque write token>", "nodes" : "<compact node info>"}
+response: {"id" : "<queried nodes id>", "nodes" : "<compact node info>"}
 ```
-Example Packets:
+Example Packets
 ```
-get_peers Query = {"t":"aa", "y":"q", "q":"get_peers", "a": {"id":"abcdefghij0123456789", "info_hash":"mnopqrstuvwxyz123456"}}
-bencoded = d1:ad2:id20:abcdefghij01234567899:info_hash20:mnopqrstuvwxyz123456e1:q9:get_peers1:t2:aa1:y1:qe
-Response with peers = {"t":"aa", "y":"r", "r": {"id":"abcdefghij0123456789", "token":"aoeusnth", "values": ["axje.u", "idhtnm"]}}
-bencoded = d1:rd2:id20:abcdefghij01234567895:token8:aoeusnth6:valuesl6:axje.u6:idhtnmee1:t2:aa1:y1:re
-Response with closest nodes = {"t":"aa", "y":"r", "r": {"id":"abcdefghij0123456789", "token":"aoeusnth", "nodes": "def456..."}}
-bencoded = d1:rd2:id20:abcdefghij01234567895:nodes9:def456...5:token8:aoeusnthe1:t2:aa1:y1:re
+find_node Query = {"t":"aa", "y":"q", "q":"find_node", "a": {"id":"abcdefghij0123456789", "target":"mnopqrstuvwxyz123456"}}
+bencoded = d1:ad2:id20:abcdefghij01234567896:target20:mnopqrstuvwxyz123456e1:q9:find_node1:t2:aa1:y1:qe
+Response = {"t":"aa", "y":"r", "r": {"id":"0123456789abcdefghij", "nodes": "def456..."}}
+bencoded = d1:rd2:id20:0123456789abcdefghij5:nodes9:def456...e1:t2:aa1:y1:re
 ```
-announce_peer
-
-Announce that the peer, controlling the querying node, is downloading a torrent on a port. announce_peer has four arguments: "id" containing the node ID of the querying node, "info_hash" containing the infohash of the torrent, "port" containing the port as an integer, and the "token" received in response to a previous get_peers query. The queried node must verify that the token was previously sent to the same IP address as the querying node. Then the queried node should store the IP address of the querying node and the supplied port number under the infohash in its store of peer contact information.
-
-There is an optional argument called implied_port which value is either 0 or 1. If it is present and non-zero, the port argument should be ignored and the source port of the UDP packet should be used as the peer's port instead. This is useful for peers behind a NAT that may not know their external port, and supporting uTP, they accept incoming connections on the same port as the DHT port.
-```
-arguments:  {"id" : "<querying nodes id>",
-  "implied_port": <0 or 1>,
-  "info_hash" : "<20-byte infohash of target torrent>",
-  "port" : <port number>,
-  "token" : "<opaque token>"}
-
-response: {"id" : "<queried nodes id>"}
-```
-Example Packets:
-```
-announce_peers Query = {"t":"aa", "y":"q", "q":"announce_peer", "a": {"id":"abcdefghij0123456789", "implied_port": 1, "info_hash":"mnopqrstuvwxyz123456", "port": 6881, "token": "aoeusnth"}}
-bencoded = d1:ad2:id20:abcdefghij012345678912:implied_porti1e9:info_hash20:mnopqrstuvwxyz1234564:porti6881e5:token8:aoeusnthe1:q13:announce_peer1:t2:aa1:y1:qe
-Response = {"t":"aa", "y":"r", "r": {"id":"mnopqrstuvwxyz123456"}}
-bencoded = d1:rd2:id20:mnopqrstuvwxyz123456e1:t2:aa1:y1:re
-```  
 References
   
 [1]	Peter Maymounkov, David Mazieres, "Kademlia: A Peer-to-peer Information System Based on the XOR Metric", IPTPS 2002.
@@ -176,7 +135,7 @@ References
   
 [3] Information Sciences Institute University of Southern California, "INTERNET PROTOCOL", IETF RFC:791, September 1981
 
-  Copyright
+Copyright
   
 This document has been placed in the public domain.
   
