@@ -7,7 +7,7 @@ Last-Modified:	Feb 1st, 2022
 Author:	TAU Cambridge Ltd. 
 
 
-Internet Protocol uses management assigned addresses ether IPv4 or IPv6 to communicate. IP2 uses self-generated 256 bits public key as address for universal transmission. IP2 uses a "distributed sloppy hash table" (DHT) for traversing, sending and capturing data, ED25519 key pairs for addressing and content randomized transmission, and UDP for Internet communication.
+Internet Protocol uses management assigned addresses ether IPv4 or IPv6 to communicate. IP2 uses self-generated 256 bits public key as address. The technology stack includes a "distributed sloppy hash table" (DHT) for traversing, sending and capturing data, ED25519 key pairs for addressing and content randomized transmission, and UDP for Internet communication. It solves internet devices universal connectivity issue and guarantee them a communication channel, even when firewall and NAT wants to block it. 
 
 Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket implementing the distributed hash table protocol.  
 
