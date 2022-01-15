@@ -2,9 +2,7 @@
 
 Version:	0.1 - on going draft
 
-Last-Modified:	Feb 1st, 2022
-
-Author:	TAU Cambridge Ltd. 
+Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd. 
 
 
 Internet Protocol uses management assigned addresses ether IPv4 or IPv6 to communicate. IP2 uses self-generated 256 bits public key as address. The technology stack includes a "distributed sloppy hash table" (DHT) for traversing, sending and capturing data, ED25519 key pairs for addressing and content randomized transmission, and UDP for Internet communication. It solves internet devices universal connectivity issue and guarantee them a communication channel, even when firewall and NAT wants to block it. 
@@ -31,17 +29,13 @@ IP2 nodes uses user input, self-learning and pre-coded nodes IP addresses for bo
 
 ### Routing Table
 
-Every node maintains a routing table of known good nodes. The nodes in the routing table are used as starting points for queries in the DHT. Nodes from the routing table are returned in response to queries from other nodes.
+Every node maintains a routing vector of known good nodes. The nodes in the routing vector are used as starting points for queries in the DHT. Nodes from the routing vector are returned in response to queries from other nodes. IP2 uses vector here than Kadmelia buckets table to save traveral data consumption. We trade storage for less traffic. 
 
-Not all nodes that we learn about are equal. Some are "good" and some are not. Many nodes using the DHT are able to send queries and receive responses, but are not able to respond to queries from other nodes. It is important that each node's routing table must contain only known good nodes. A good node is a node has responded to one of our queries within the last 15 minutes. A node is also good if it has ever responded to one of our queries and has sent us a query within the last 15 minutes. After 15 minutes of inactivity, a node becomes questionable. Nodes become bad when they fail to respond to multiple queries in a row. Nodes that we know are good are given priority over nodes with unknown status. When multiple IP addresses mapping to the same public key, the newer IP address the higher priority they are.
+Not all nodes that we learn about are equal. Some are "good" and some are not. Many nodes using the DHT are able to send queries and receive responses, but are not able to respond to queries from other nodes. It is important that each node's routing table must contain only known good nodes. A good node is a node has responded to one of our queries within the last 15 minutes. A node is also good if it has ever responded to one of our queries and has sent us a query within the last 15 minutes. After 15 minutes of inactivity, a node becomes questionable. Nodes become bad when they fail to respond to multiple queries in a row. Nodes that we know are good are given priority over nodes with unknown status. When multiple IP addresses mapping to the same public key, the newer IP address the higher priority they are. If any nodes in the bucket are known to have become bad, then one is replaced by the new node. If there are any questionable nodes in the bucket have not been seen in the last 15 minutes, the least recently seen node is pinged. If the pinged node responds then the next least recently seen questionable node is pinged until one fails to respond or all of the nodes in the bucket are known to be good. If a node in the bucket fails to respond to a ping, it is suggested to try once more before discarding the node and replacing it with a new good node. In this way, the table fills with stable long running nodes.
 
-The routing table covers the entire node space from 0 to 2160. The routing table is subdivided into "buckets" that each cover a portion of the space. An empty table has one bucket with an ID space range of min=0, max=2160. When a node with ID "N" is inserted into the table, it is placed within the bucket that has min &lt;= N &lt; max. An empty table has only one bucket so any node must fit within it. Each bucket can only hold K nodes, currently eight, before becoming "full." When a bucket is full of known good nodes, no more nodes may be added unless our own node ID falls within the range of the bucket. In that case, the bucket is replaced by two new buckets each with half the range of the old bucket and the nodes from the old bucket are distributed among the two new ones. For a new table with only one bucket, the full bucket is always split into two new buckets covering the ranges 0..2159 and 2159..2160.
+Routing vector should maintain a "last changed" property to indicate how "fresh" the contents are. When a node is pinged and it responds, or a node is added, or a node in a bucket is replaced, the last changed property should be updated. Vector that have not been changed in 15 minutes should be "refreshed." This is done by picking a random ID in the range of the vector and performing a find_node search on it. Nodes that are able to receive queries from other nodes usually do not need to refresh buckets often. Nodes that are not able to receive queries from other nodes usually will need to refresh all buckets periodically to ensure there are good nodes in their table when the DHT is needed.
 
-When the bucket is full of good nodes, the new node is simply discarded. If any nodes in the bucket are known to have become bad, then one is replaced by the new node. If there are any questionable nodes in the bucket have not been seen in the last 15 minutes, the least recently seen node is pinged. If the pinged node responds then the next least recently seen questionable node is pinged until one fails to respond or all of the nodes in the bucket are known to be good. If a node in the bucket fails to respond to a ping, it is suggested to try once more before discarding the node and replacing it with a new good node. In this way, the table fills with stable long running nodes.
-
-Each bucket should maintain a "last changed" property to indicate how "fresh" the contents are. When a node in a bucket is pinged and it responds, or a node is added to a bucket, or a node in a bucket is replaced with another node, the bucket's last changed property should be updated. Buckets that have not been changed in 15 minutes should be "refreshed." This is done by picking a random ID in the range of the bucket and performing a find_nodes search on it. Nodes that are able to receive queries from other nodes usually do not need to refresh buckets often. Nodes that are not able to receive queries from other nodes usually will need to refresh all buckets periodically to ensure there are good nodes in their table when the DHT is needed.
-
-Upon inserting the first node into its routing table and when starting up thereafter, the node should attempt to find the closest nodes in the DHT to itself. It does this by issuing find_node messages to closer and closer nodes until it cannot find any closer. The routing table should be saved between invocations of the client software.
+Upon inserting the first node into its routing vector and when starting up thereafter, the node should attempt to find the closest nodes in the DHT to itself. It does this by issuing find_node messages to closer and closer nodes until it cannot find any closer. The routing vector should be saved between invocations of the client software.
 
 
 
@@ -53,7 +47,7 @@ A message is a single dictionary with three keys common to every message and add
 
 Contact Encoding
 
-Contact information for nodes is encoded as a 38-byte string. Also known as "Compact node info" the 32-byte Node public key in network byte order has the compact IP-address/port info concatenated to the end.
+Contact information for nodes is encoded as a 38-byte string. Also known as "Compact node info" the 32-byte public key with the compact IP-address/port info concatenated to the end.
 
 Queries
 
@@ -61,11 +55,11 @@ Queries, or message dictionaries with a "y" value of "q", contain two additional
 
 Responses
 
-Responses, or  message dictionaries with a "y" value of "r", contain one additional key "r". The value of "r" is a dictionary containing named return values. Response messages are sent upon successful completion of a query.
+Responses, or message dictionaries with a "y" value of "r", contain one additional key "r". The value of "r" is a dictionary containing named return values. Response messages are sent upon successful completion of a query.
 
 Errors
 
-Errors, or  message dictionaries with a "y" value of "e", contain one additional key "e". The value of "e" is a list. The first element is an integer representing the error code. The second element is a string containing the error message. Errors are sent when a query cannot be fulfilled. The following table describes the possible error codes:
+Errors, or message dictionaries with a "y" value of "e", contain one additional key "e". The value of "e" is a list. The first element is an integer representing the error code. The second element is a string containing the error message. Errors are sent when a query cannot be fulfilled. The following table describes the possible error codes:
 
 Code	Description
 ```
@@ -78,55 +72,58 @@ Example Error Packets:
 ```
 generic error = {"t":"aa", "y":"e", "e":[201, "A Generic Error Ocurred"]}
 bencoded = d1:eli201e23:A Generic Error Ocurrede1:t2:aa1:y1:ee
-DHT Queries
-All queries have an "id" key and value containing the node ID of the querying node. All responses have an "id" key and value containing the node ID of the responding node.
 ```
+#### DHT Queries
+
+All queries have an "p" key and value containing the public key of the querying node. All responses have an "p" key and value containing the public key of the responding node.
+
 ping
 
-The most basic query is a ping. "q" = "ping" A ping query has a single argument, "id" the value is a 20-byte string containing the senders node ID in network byte order. The appropriate response to a ping has a single key "id" containing the node ID of the responding node.
+The most basic query is a ping. "q" = "p" A ping query has a single argument, "p" the value is the senders public key. The appropriate response to a ping has a single key "p" containing the public key of the responding node.
 ```
-arguments:  {"id" : "<querying nodes id>"}
+arguments:  {"p" : "<querying node public key>"}
 
-response: {"id" : "<queried nodes id>"}
+response: {"p" : "<queried node public key>"}
 ```
 Example Packets
 ```
-ping Query = {"t":"aa", "y":"q", "q":"ping", "a":{"id":"abcdefghij0123456789"}}
-bencoded = d1:ad2:id20:abcdefghij0123456789e1:q4:ping1:t2:aa1:y1:qe
-Response = {"t":"aa", "y":"r", "r": {"id":"mnopqrstuvwxyz123456"}}
-bencoded = d1:rd2:id20:mnopqrstuvwxyz123456e1:t2:aa1:y1:re
+ping Query = {"t":"aa", "y":"q", "q":"p", "a":{"p":"..."}}
+bencoded = d1:ad1:p3:...e1:q1:p1:t2:aa1:y1:qe
+Response = {"t":"aa", "y":"r", "r": {"p":"..."}}
+bencoded = d1:rd1:p3:...e1:t2:aa1:y1:re
 ```
 find_node
 
-Find node is used to find the contact information for a node given its ID. "q" == "find_node" A find_node query has two arguments, "id" containing the node ID of the querying node, and "target" containing the ID of the node sought by the queryer. When a node receives a find_node query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table.
+Find node is used to find the contact information for a node given its ID. "q" == "f" A find_node query has two arguments, "p" containing the node public key of the querying node, and "target" containing the public key of the node sought by the queryer. When a node receives a find_node query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table.
 ```
-arguments:  {"id" : "<querying nodes id>", "target" : "<id of target node>"}
+arguments:  {"p" : "<querying nodes public key>", "t" : "<id of target node>"}
 
-response: {"id" : "<queried nodes id>", "nodes" : "<compact node info>"}
+response: {"p" : "<queried nodes public key>", "n" : "<compact nodes info>"}
 ```
 Example Packets
 ```
-find_node Query = {"t":"aa", "y":"q", "q":"find_node", "a": {"id":"abcdefghij0123456789", "target":"mnopqrstuvwxyz123456"}}
-bencoded = d1:ad2:id20:abcdefghij01234567896:target20:mnopqrstuvwxyz123456e1:q9:find_node1:t2:aa1:y1:qe
-Response = {"t":"aa", "y":"r", "r": {"id":"0123456789abcdefghij", "nodes": "def456..."}}
-bencoded = d1:rd2:id20:0123456789abcdefghij5:nodes9:def456...e1:t2:aa1:y1:re
+relay Query = {"t":"aa", "y":"q", "q":"f", "a": {"p":"...", "t":"..."}} 
+bencoded = d1:ad1:p3:...1:t3:...e1:q1:f1:t2:aa1:y1:qe
+Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
+bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 ```
 
-relay: ???
+relay
 
-Relay is used to travrse and send data. "q" == "r" A r query has two arguments, "id" containing the node ID of the querying node, and "target" containing the ID of the node sought by the queryer. When a node receives a find_node query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table.
+Relay is used to traverse and send data. "q" == "r" A r query has two arguments, "p" containing the node public key of the sender node, and "t" containing the public key of the receiver node. When a node receives a relay query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table. The node will be the receiver, if not, the node will check local relay vector for the receiver node, if existing, the node will send the payload to receiver to satisfy the relay function. 
 ```
-arguments:  {"id" : "<querying nodes id>", "target" : "<id of target node>"}
+arguments:  {"p" : "<querying nodes public key>", "t" : "<id of target node>"}
 
-response: {"id" : "<queried nodes id>", "nodes" : "<compact node info>"}
+response: {"p" : "<queried nodes public key>", "n" : "<compact nodes info>"}
 ```
 Example Packets
 ```
-find_node Query = {"t":"aa", "y":"q", "q":"find_node", "a": {"id":"abcdefghij0123456789", "target":"mnopqrstuvwxyz123456"}}
-bencoded = d1:ad2:id20:abcdefghij01234567896:target20:mnopqrstuvwxyz123456e1:q9:find_node1:t2:aa1:y1:qe
-Response = {"t":"aa", "y":"r", "r": {"id":"0123456789abcdefghij", "nodes": "def456..."}}
-bencoded = d1:rd2:id20:0123456789abcdefghij5:nodes9:def456...e1:t2:aa1:y1:re
+find_node Query = {"t":"aa", "y":"q", "q":"r", "a": {"p":"...", "t":"..."}}  // todo adding payload.
+bencoded = d1:ad1:p3:...1:t3:...e1:q1:f1:t2:aa1:y1:qe
+Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
+bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 ```
+
 References
   
 [1]	Peter Maymounkov, David Mazieres, "Kademlia: A Peer-to-peer Information System Based on the XOR Metric", IPTPS 2002.
