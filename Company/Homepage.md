@@ -17,7 +17,7 @@ One individual smart phone can hold and mine 100+ full blockchains. Collectively
 TAU Cambridge provides an opensource C++ reference implementation of PPOT parallel mining and messaging on github(...libTAU).
 
 #### Internet Protocol 2 - IP2
-IP2 uses self-generated 256 bits public key as address, while previous Internet Protocol[3] uses hierarchically assigned address ether IPv4 or IPv6 to communicate. IP2 is designed for restriction free "public key to public key" overlay communication on UPD. IP2 is not easily affacted by network devices such as router, firewall and NAT.
+Internet Protocol 2 uses self-generated 256-bits "public key" as address, while previous Internet Protocol uses hierarchically and often dynamically appointed address ether IPv4 or IPv6 so to cause uncertain device to device direct communication especially when devices are moving among subnets. IP2 is designed for "public key directly to public key" overlay communication. On top of IP2, traditional TCP or UDP could be rebuilt for device to device without worrying about static or dynamic, v4 or v6, local or public, wifi or cell types of IP addresses and their firewall/NAT rules.
 
 The technology stack includes "distributed routing vectors" for traversing, sending and capturing data, and ED25519 assymetric encryption for premission-less and colision-free unique addressing and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...libIP2).
 PPOT blockchain consensus is an application of IP2. 
