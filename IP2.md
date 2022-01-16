@@ -4,11 +4,11 @@ Version:	0.1 - on going draft
 
 Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd. 
 
-Internet Protocol 2(IP2) uses self-generated 256-bits "public key" as address, while previous Internet Protocol(IP1) uses hierarchically and often dynamically appointed address. IP1 has caused "address uncertainty" in device to device communication, especially when devices are moving among subnets and firewall rules changes; therefore additional communication or name server infrastructure burden is needed for each application. 
+Internet Protocol 2(IP2) enable user to choose self-generated 256-bits "public key" as address, while classical Internet Protocol(IP1) appoints hierarchically and often dynamically addresses. IP1 has caused "uncertain device reachability" in type of address and connection, especially when  same device is moving among different networks or locating in unknown changing firewall rules; therefore additional proxy or name server infrastructure burden is needed for each application. 
 
-IP2 is designed for "public key direct to public key" overlay communication. Collectively the nodes are incentivated to share "public key to IP address locating" and relay disregard of application types, thanks to the innovation of XOR distance to form the local capture swarm network to bring the incentive.
+IP2 is designed for "public key direct to public key" overlay communication. Thanks to the innovation of XOR distance to form up the local capture swarm network, the nodes are incentivated to share "public key to IP address" naming and relaying for restricted nodes, disregard of application types.
 
-On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static or dynamic, v4 or v6, local or public, wifi or cellular types of IP1 addresses and their firewall/NAT restriction. This potentially reduces cost of operating IOT devices.  
+On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static/dynamic, v4/v6, local/public, wifi/cellular types of IP1 addresses and their fluid firewall/NAT restrictions. This potentially reduces cost of operating IOT devices, as well.  
 
 The technology stack includes "distributed routing vectors" for sending and capturing data, ED25519 assymetric encryption for premission-less and colision-free unique addressing, and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
 
@@ -16,9 +16,9 @@ Please note the terminology used in this document to avoid confusion. A "public 
 
 ### Overview
 
-Each Internet device such as phone, watch, pad or a node has a globally unique self generated public key, which is generated from random seed from ED25519 encyption scheme. When several network devices share the same public key, the data flow control will becoming multiple way and therefore potentially more powerful. TCP type of connection based communication, such as TCP/IP2 will be much different and employ Leveinstein distance array, rather than sequence number. libTAU provides a sample of such. 
+In IP2 overlay network, each Internet device such as phone, watch, pad or a node has a globally unique and immutable self-appointed public key, which is generated from random seed in ED25519 encyption scheme. Due to the "virtual-ness" of public key, several network devices can share the same public key, the data flow will branch to multiple way and therefore potentially more powerful. TCP type of connection based communication, such as TCP/IP2 will be much different to implement, potentially employing Leveinstein distance array rather than sequence number. libTAU provides a sample of connection based communication over IP2. 
 
-IP2 does not differenciate Intranet or Internet, so IP2 embedded port number idea in the basic layer. 
+IP2 is a device oriented end point to end point protocol, not a routing protocol.  To differenciate applicationi type on the same devices, IP2 embedded port number in the base layer, which was missing in IP1 as a rounting protocol. 
 
 A "distance metric" is used to compare two addresses for "closeness". The metric is XOR and the result is interpreted as an unsigned integer. distance(A,B) = |A xor B| Smaller values are closer. Nodes must maintain a routing vector containing the contact information for a number of other nodes. As opposed to the traditional Kademlia[1] "The routing table becomes more detailed as IDs get closer to the node's own ID", IP2 prefer a big single layer routing vector, in order to saving traversal data consumption. IP2 API provides more ability in saving data transmission, due to most of the Internet devices are personal devices on batteries and meterred network. 
 
@@ -42,7 +42,11 @@ Routing vector should maintain a "last changed" property to indicate how "fresh"
 
 Upon inserting the first node into its routing vector and when starting up thereafter, the node should attempt to find the closest nodes in the DHT to itself. It does this by issuing find_node messages to closer and closer nodes until it cannot find any closer. The routing vector should be saved between invocations of the client software.
 
+### Capture swarm vector
+* quality of the swarm member, end to end feedback.
 
+Along with routing vector for storing good qualty know nodes, for the nodes without a direct quality connection, we define a capture swarm vector to record the relay nodes for receiver nodes. Comparinig to Kadmelia, IP2 has two routing vectors in the core, one for direct connection, one for relaying. 
+For relaying nodes, it is benefitical for them to wait until receiver response to give feedback to sender nodes to ensure the swarm quality. 
 
 ### Packet structure
 
@@ -128,6 +132,8 @@ bencoded = d1:ad1:p3:...1:t3:...e1:q1:f1:t2:aa1:y1:qe
 Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
 bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 ```
+### PCP, UPnP, NATPMP, ipv4, ipv6, NAT64, NAT66, NAT44, DS light and XLAT464 discussions
+
 
 References
   
