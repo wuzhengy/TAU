@@ -4,7 +4,7 @@ Version:	0.1 - on going draft
 
 Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd. 
 
-Internet Protocol 2 uses self-generated 256 bits public key as address, while previous Internet Protocol[3] uses hierarchically assigned address ether IPv4 or IPv6 to communicate. IP2 is designed for restriction free "public key to public key" overlay communication on UPD. IP2 is not easily affacted by network devices such as router, firewall and NAT.  
+Internet Protocol 2 uses self-generated 256-bits "public key" as address, while previous Internet Protocol uses hierarchically assigned address ether IPv4 or IPv6. IP2 is designed for restriction free "public key to public key" overlay communication. On top of IP2, traditional TCP or HTTP could be rebuilt from end to end without worrying about types of IP addresses or their firewall and NAT environment. 
 
 The technology stack includes "distributed routing vectors" for traversing, sending and capturing data, and ED25519 assymetric encryption for premission-less and colision-free unique addressing and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
 
@@ -13,6 +13,8 @@ Please note the terminology used in this document to avoid confusion. A "public 
 ### Overview
 
 Each Internet device such as phone, watch, pad or a node has a globally unique self generated public key, which is generated from random seed from ED25519 encyption scheme. When several network devices share the same public key, the data flow control will becoming multiple way and therefore potentially more powerful. TCP type of connection based communication, such as TCP/IP2 will be much different and employ Leveinstein distance array, rather than sequence number. libTAU provides a sample of such. 
+
+IP2 does not differenciate Intranet or Internet, so IP2 embedded port number idea in the basic layer. 
 
 A "distance metric" is used to compare two addresses for "closeness". The metric is XOR and the result is interpreted as an unsigned integer. distance(A,B) = |A xor B| Smaller values are closer. Nodes must maintain a routing vector containing the contact information for a number of other nodes. As opposed to the traditional Kademlia[1] "The routing table becomes more detailed as IDs get closer to the node's own ID", IP2 prefer a big single layer routing vector, in order to saving traversal data consumption. IP2 API provides more ability in saving data transmission, due to most of the Internet devices are personal devices on batteries and meterred network. 
 
