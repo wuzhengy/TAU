@@ -4,10 +4,13 @@ Version:	0.1 - on going draft
 
 Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd. 
 
-Internet Protocol 2 uses self-generated 256-bits "public key" as address, while previous Internet Protocol uses hierarchically and often dynamically appointed address ether IPv4 or IPv6 so to cause uncertain device to device direct communication especially when devices are moving among subnets. 
-IP2 is designed for "public key directly to public key" overlay communication. On top of IP2, traditional TCP or UDP could be rebuilt for device to device without worrying about static or dynamic, v4 or v6, local or public, wifi or cell types of IP addresses and their firewall/NAT rules. 
+Internet Protocol 2(IP2) uses self-generated 256-bits "public key" as address, while previous Internet Protocol(IP1) uses hierarchically and often dynamically appointed address. IP1 has caused uncertainty in device to device communication, especially when devices are moving among subnets and firewall rules changes; therefore additional communication server infrastructure burden is needed. 
 
-The technology stack includes "distributed routing vectors" for traversing, sending and capturing data, and ED25519 assymetric encryption for premission-less and colision-free unique addressing and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
+IP2 is designed for "public key directly to public key" overlay communication. Collectively the nodes are incentivated to relay communication to avoid burden for each application, thanks to the innovation of XOR distance to form the local capture swarm network to bring the incentive.
+
+On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static or dynamic, v4 or v6, local or public, wifi or cellular types of IP1 addresses and their firewall/NAT restriction. This potentially reduces cost of operating IOT devices.  
+
+The technology stack includes "distributed routing vectors" for sending and capturing data, ED25519 assymetric encryption for premission-less and colision-free unique addressing, and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
 
 Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket implementing the distributed hash table protocol. Multiple nodes can share one public key. 
 
