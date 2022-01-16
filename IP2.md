@@ -4,7 +4,7 @@ Version:	0.1 - on going draft
 
 Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd. 
 
-Internet Protocol 2(IP2) uses self-generated 256-bits "public key" as address, while previous Internet Protocol(IP1) uses hierarchically and often dynamically appointed address. IP1 has caused uncertainty in device to device communication, especially when devices are moving among subnets and firewall rules changes; therefore additional communication server infrastructure burden is needed. 
+Internet Protocol 2(IP2) uses self-generated 256-bits "public key" as address, while previous Internet Protocol(IP1) uses hierarchically and often dynamically appointed address. IP1 has caused "address uncertainty" in device to device communication, especially when devices are moving among subnets and firewall rules changes; therefore additional communication or name server infrastructure burden is needed for each application. 
 
 IP2 is designed for "public key directly to public key" overlay communication. Collectively the nodes are incentivated to relay communication to avoid burden for each application, thanks to the innovation of XOR distance to form the local capture swarm network to bring the incentive.
 
