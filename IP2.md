@@ -4,7 +4,7 @@ Version:	0.1 - on going draft
 
 Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd. 
 
-Internet Protocol 2 uses self-generated 256 bits public key as address, while previous Internet Protocol[3] uses hierarchically assigned address ether IPv4 or IPv6 to communicate. IP2 is designed for restriction free "public key to public key" overlay communication, which is not easily affacted by network devices such as router, firewall and NAT.  
+Internet Protocol 2 uses self-generated 256 bits public key as address, while previous Internet Protocol[3] uses hierarchically assigned address ether IPv4 or IPv6 to communicate. IP2 is designed for restriction free "public key to public key" overlay communication on UPD. IP2 is not easily affacted by network devices such as router, firewall and NAT.  
 
 The technology stack includes "distributed routing vectors" for traversing, sending and capturing data, and ED25519 assymetric encryption for premission-less and colision-free unique addressing and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
 
