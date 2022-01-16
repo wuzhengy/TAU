@@ -3,8 +3,6 @@
 The Bradfield Centre, UNIT 184, Cambridge Science Park, CB4 0GA <br>
 Tel: +44 07312 026 892 <br>
 Email: wuzhengy@hotmail.com <br>
-“TAU - Pay and Sell Digital Coins” <br>
-
 
 ### Links
 * Github - whitepaper, docs and code
