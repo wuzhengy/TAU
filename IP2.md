@@ -6,7 +6,7 @@ Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd.
 
 Internet Protocol 2(IP2) uses self-generated 256-bits "public key" as address, while previous Internet Protocol(IP1) uses hierarchically and often dynamically appointed address. IP1 has caused "address uncertainty" in device to device communication, especially when devices are moving among subnets and firewall rules changes; therefore additional communication or name server infrastructure burden is needed for each application. 
 
-IP2 is designed for "public key directly to public key" overlay communication. Collectively the nodes are incentivated to relay communication to avoid burden for each application, thanks to the innovation of XOR distance to form the local capture swarm network to bring the incentive.
+IP2 is designed for "public key direct to public key" overlay communication. Collectively the nodes are incentivated to share "public key to IP address locating" and relay disregard of application types, thanks to the innovation of XOR distance to form the local capture swarm network to bring the incentive.
 
 On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static or dynamic, v4 or v6, local or public, wifi or cellular types of IP1 addresses and their firewall/NAT restriction. This potentially reduces cost of operating IOT devices.  
 
