@@ -30,18 +30,20 @@ B - 区块链的无缓存无序列通信
 是有这个可能，X-YR-Y, Y可以把签名中包含X地址和自己时间戳，中继缓存XR会送达到X，X上线后从缓存中获得时间戳在24小时内YR就可以放行。100次的机会，只要一次通过就reset，所以发送方为了节约流量，可以随机的每80次包含下签名，降低流量。其实辅助网络信息也可以同理降低流量。第一次带辅助信息最重要。这个目前先就是理论探讨，实现不急的。
 
 
+Non Relay 节点不进入路由表，不成为中继，不成为捕捉网络成员，不push数据。NR节点可以被push协议送达，不要占用路由表空间，使用其他缓存供push协议寻址使用。
+- 计费节点属于 NR
+- 电池上运行属于NR
+- 没有UPNP的属于NR
+由于双栈和464XLAT技术，IP v4在手机上10年存在内没有问题，我们先不支持ipv6，运营商就算做了ipv6 only，在底层还是会支持ipv4 socket，主要是p2p游戏大量使用upnp。
+ 
+判断自己是Relay节点 
+- IPV4 UPNP 并且 DHT探测公网反馈end point和UPNP反馈end point一致
+- coded DHT bootstrap public IP addresses is Relay, provided by app developers like TAU 
 
+路由表live、rb、DHT bootstrap历史等缓存需要DHT层的数据库存储，在系统启动时装载。
 
+路由表基础设置可以考虑非常大的单层路由表。区块链上节点多了后，主要还是多依靠记忆，降低traverse的消耗。多层路由表会剔除离开原点远的节点，而依靠traverse去不断寻找，我们正好是相反的需求，区块链上的节点都是远处需要长期同步的节点。 
 
-Read Only 不进入路由表，不成为中继，不成为捕捉网络成员。Read Only节点可以被push协议送达，需要不同于路由表做内存缓存供push协议寻址使用
-- 计费节点属于 RO
-- NAT后节点属于RO
-- 防火墙后节点属于RO
-- ipv6全部属于RO，由于目前无法感知是否在防火墙后
-
-Non-Read-Only节点可以进入路由表 
-- ipv4 UPNP 并且 DHT探测公网end point和UPNP反馈end point一致
-- coded bootstrap public IP addresses is referable, provided by app developers 
 
 路由表live、rb、bootstrap和data item storage需要DHT层的数据库存储，在系统启动时装载
 
