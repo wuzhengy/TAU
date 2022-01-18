@@ -44,6 +44,7 @@ Upon inserting the first node into its routing vector and when starting up there
 
 ### Capture swarm vector
 * quality of the swarm member, end to end feedback.
+* capture swarm provides, relay temporary storage for nodes going off line. using libtorrent mutable data stucture. 
 
 Along with routing vector for storing good qualty know nodes, for the nodes without a direct quality connection, we define a capture swarm vector to record the relay nodes for receiver nodes. Comparinig to Kadmelia, IP2 has two routing vectors in the core, one for direct connection, one for relaying. 
 For relaying nodes, it is benefitical for them to wait until receiver response to give feedback to sender nodes to ensure the swarm quality. 
