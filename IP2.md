@@ -42,11 +42,11 @@ Routing vector should maintain a "last changed" property to indicate how "fresh"
 
 Upon inserting the first node into its routing vector and when starting up thereafter, the node should attempt to find the closest nodes in the DHT to itself. It does this by issuing find_node messages to closer and closer nodes until it cannot find any closer. The routing vector should be saved between invocations of the client software.
 
-### Capture swarm vector
+### Capture swarm and its vector
 Each node A will use a distance strategy to select 8 nodes to build own capture swarm. 5 of them are based on closest XOR distance. 3 of them are randomly selected from routing vector. This is to prevent hacker to generate set of close nodes to suffocating A. 
 The capture swarm has two jobs: 
 1. providing data passing, mostly when node A is behind public accessibility such as behind NAT or filter restrictions. 
-2. temporary data storage when target nodes are off line. This is a last resort for helping nodes to transmit critical data. Each node will maintain such storage for 1000 unites of 1 kb data item. 
+2. temporary data storage when target nodes are off line. This is a last resort for helping nodes to transmit critical data. This is for some application such as instant messaging to assure important data, link, hash or texts are deliverred at the best effort. Each node will maintain such storage for 1000 unites of 1 kb data item. 
 
 
 * quality of the swarm member, end to end feedback.
@@ -139,7 +139,12 @@ bencoded = d1:ad1:p3:...1:t3:...e1:q1:f1:t2:aa1:y1:qe
 Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
 bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 ```
-### PCP, UPnP, NATPMP, ipv4, ipv6, NAT64, NAT66, NAT44, DS light and XLAT464 discussions
+### PCP, UPnP, NATPMP, ipv4, ipv6, NAT64, NAT66, NAT44, DS light, XLAT464 and firewall filtering discussions
+While the networks the evolving, address translation, filtering, bridging and space extension protocols end up coexisting with each other. We are facing a mixture today. It is hardly to see IPv4 going away, even IPv6 only networks start to appear. 
+
+The dream of P2P direct communication requires address independance and filtering resistant connectivity. Network protocols on the transport layer are not be able to solve these two requirements; because transporting is concerned of that how data flows between phyical end points, not logical sender and receiver. 
+
+An overlay protocol such as IP2 is required to smooth up these building block edges. In the core of IP2, it is the capture swarm nodes collectively serving as relay. Even when a node has publicly accessible IP address, the node is still subject to firewall filtering from regional operators. The node can not solve this connectivity problem by own power, it has to rely on a nodes community randomly spread on global internet. The choices of such community and making such community available for global access is not a straight forward task. If too close to node public key, it will enable hacker's suffocating attack; if too far, it will bring sender searching difficulty. It might have to engage some time-sensitive address transform algorithm to make filter difficult to track the changing capture swarm. 
 
 
 References
