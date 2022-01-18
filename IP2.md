@@ -55,6 +55,21 @@ The capture swarm has two jobs:
 Along with routing vector for storing good qualty know nodes, for the nodes without a direct quality connection, we define a capture swarm vector to record the relay nodes for receiver nodes. Comparinig to Kadmelia, IP2 has two routing vectors in the core, one for direct connection, one for relaying. 
 For relaying nodes, it is benefitical for them to wait until receiver response to give feedback to sender nodes to ensure the swarm quality. 
 
+
+### admission of routing vector and capture swarm vector
+Overall, there is no static rule to decide whether a node is really open on public network or not. We do best effort to make decision on each nodes. 
+
+Non Relay: added to capture swarm vector for linking relays, not routing vector. NR nodes are restricted so that can not become relay or direct into routing vector. It will need capture swarm to receive data. 
+- Meterred nodes
+- Devices running on battery
+- IPv4 without UPNP port openning
+
+Relay: 
+- IPV4 UPNP and DHT response same external IP as UPNP response.
+- coded DHT bootstrap public IP addresses is Relay, provided by app developers like TAU.
+- IPv6 PCP inbound traffic openning accepted. However, tt is tricky to decide IPv6 relay nodes. Most of IPv6 does not go through NAT, and firewall filtering strategy is unknown. 
+
+
 ### Packet structure
 
 The structure is a mechanism consisting of bencoded dictionaries sent over UDP. A single query packet is sent out and a single packet is sent in response. There is no retry. There are three message types: query, response, and error. For the DHT protocol, there are three queries: ping, find_node, relay.
