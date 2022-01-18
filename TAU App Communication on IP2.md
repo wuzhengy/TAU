@@ -7,30 +7,12 @@ Assume data flow is X ->(Y relay)->Y and Y->(X relay)->X
 X will maintain a list of self-originated messages with receiving status. For each message, X will send message up to 30 times until Y confirms. There are 5 minutes between X each sending. Y relay will store the latest message for Y to capture when resuming online status. 
 X's UI will show the status of each message, so that user can engage to resend or accept that message status. The IP2 capture swarm relay will make best effort for cache and deliver. 
 Y will scan Y relay for caches messages each 30 minutes and each time off line for 5 minutes. 
+Chatting natively only support text. When user wants to send an image, we will provide a free picture server to basic low resolution image transfer. Sender just sends image link, the receiver will use the link to download the picture. 
 
 
-基本假设对方不在线。以消息为核心，不是以通信通道为核心。UI功能。不用来温斯坦数组。 消息发了30次后，显示对方没有收到。每半小时收下缓存数据。 
-1. DHT每15分钟get XX from捕捉网络，触发一次”traverse”，alpha=1, beta=8，invoke=16，DHT协议中15分钟是个ping的指标点。
-三次以后，就不发了，兜底。 
+### Blockchain gossipping
 
 
-TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major changes has been introduced in incentive system, ID, routing, bootstrap,time service, data item structure and blockchain support. TAU uses public_key to identify communication target, than IP endpoint. Therefore, when a device does not have a real IP address, it still can communicate independantly without attached to a server. DHT swarm overall becomes relay services. TAUcoin community is aiming for bootstraping network and community timestamp service. 
-
-通信描述
-
-					莱文斯坦		中继缓存		
-A. 朋友列表间通信		1 				1，仅存非莱文斯坦信息		
-B. 区块链内通信			0				0	
-		
-A - 基于相互朋友列表的中继缓存莱文斯坦通信
-假设：(X往Y发送数据，target组合YX ) X ->YR（UPNP） -> Y ； Y -> XR -> X；R为中继和目标节点的捕捉网络成员；put(receiver address, alpha, beta, payload, bool cache)
-1. （本地有新消息）或（与上次通信间隔10分钟 并且 莱文斯坦数组24小时内始终没有对齐），触发一次”traverse put”，alpha=1, beta=10，信息bencode中含有XR，XR end point 和 “时间戳“ 。 YR缓存非莱文斯坦数组数据。（本地需要建立全朋友列表对方莱文斯坦数组的数据和last seen时间) ，XR是否缓存类似replacement bucket的思路
-2. Y收到消息后，根据莱文斯坦数组相应处理，触发”traverse put“，alpha=1, beta=3，把第一步的XR信息融入路由表的m_result一起搜索，信息中附带YR’，YR‘ end point和时间戳。XR缓存消息数据。 
-3. X收到消息后，根据本地逻辑处理，回复消息给Y，触发”traverse put“，alpha=1, beta=3（类似第二步细节）。到第2步，直到双方莱文斯坦数组对齐，没有新消息发送。
-4. 步骤2和3，当过程由于某种原因中断。X和Y将等待下个10分钟通信窗口，或者自己有新消息，或者重新上线。
-5. XR会存储交互的数据，当X重新上线updateCaptureSwarm(本质 “*X” traverse get，alpha=1, beta=20)，XR会把缓存数据提交给X。缓存时间段最长为一天，或者X last seen之后的时间。updateCatureSwarm(alpha, beta, timestamp)。XR把缓存数据交给X的动作应该是XR的DHT业务，原因：1. X如果根据反馈向XR触发所有*X的缓存数据，耗费X流量。2. X每次触发的XR不能保证稳定的，XR是个swarm。
-6. 当轮到X -> X的情况触发一次”traverse put”，alpha=1, beta=10。这个动作是更新捕捉网络。
-7. 每个步骤最小时间间隔50ms
 
 B - 区块链的无缓存无序列通信
 假设： X ->YR -> Y ； Y -> XR -> X 
@@ -50,18 +32,6 @@ B - 区块链的无缓存无序列通信
 
 
 
-## Public Key format
-* 32 bytes ED25519 key-pair generated from random seed
-* Node ID is the public key for the incentive framework, nodes with closer prefix will have an incentive to help each other relaying the data. When a node refuses to relay data for other similar prefix nodes, it will found hard to get its requested data from close prefix neighboors, since peers will not add lazy nodes into routing table for referral. Nodes referral is a constant process in libTAU to locate other peers.  
-* ECEIS is used for peer to peer content encryption. We use this to achieve deep level UDP payload encryption. 
-
-## Routing table in DHT
-* Tuple: Node_ID, IP, Port, referee list, round trip time - rtt, contact timestamps vector, ping status, failure counts
-  * referee list is who has reported this nodeID and IP/Port combination. The more referees, the safer this node is reachable from public internet. 
-  * contact timestamp vector - recording the history of communications
-  * Single Layer routing table rather than multiple layers like libtorrent. This will make routing vector filled with multiple clusters(prefix groups). So that we need bigger size of the array for routing table. 
-  * selection of nodes: each main loop slot chose one feature: closer range, success nodes. 
- 路由表升级描述
 
 Read Only 不进入路由表，不成为中继，不成为捕捉网络成员。Read Only节点可以被push协议送达，需要不同于路由表做内存缓存供push协议寻址使用
 - 计费节点属于 RO
