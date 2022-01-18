@@ -8,7 +8,7 @@ Internet Protocol 2(IP2) enable user to choose self-generated 256-bits "public k
 
 IP2 is designed for "public key direct to public key" overlay communication. Thanks to the innovation of XOR distance to form up the local capture swarm network, the nodes are incentivated to share "public key to IP address" naming and relaying for restricted nodes, disregard of application types.
 
-On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static/dynamic, v4/v6, local/public, wifi/cellular types of IP1 addresses and their fluid firewall/NAT restrictions. This potentially reduces cost of operating IOT devices, as well.  
+On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static/dynamic, v4/v6, local/public, wifi/cellular types of IP1 addresses and their arbitrary address translation and filtering restrictions. This potentially reduces cost of operating IOT devices, as well.  
 
 The technology stack includes "distributed routing vectors" for sending and capturing data, ED25519 assymetric encryption for premission-less and colision-free unique addressing, and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
 
@@ -43,6 +43,12 @@ Routing vector should maintain a "last changed" property to indicate how "fresh"
 Upon inserting the first node into its routing vector and when starting up thereafter, the node should attempt to find the closest nodes in the DHT to itself. It does this by issuing find_node messages to closer and closer nodes until it cannot find any closer. The routing vector should be saved between invocations of the client software.
 
 ### Capture swarm vector
+Each node A will use a distance strategy to select 8 nodes to build own capture swarm. 5 of them are based on closest XOR distance. 3 of them are randomly selected from routing vector. This is to prevent hacker to generate set of close nodes to suffocating A. 
+The capture swarm has two jobs: 
+1. providing data passing, mostly when node A is behind public accessibility such as behind NAT or filter restrictions. 
+2. temporary data storage when target nodes are off line. This is a last resort for helping nodes to transmit critical data. Each node will maintain such storage for 1000 unites of 1 kb data item. 
+
+
 * quality of the swarm member, end to end feedback.
 * capture swarm provides, relay temporary storage for nodes going off line. using libtorrent mutable data stucture. 
 
