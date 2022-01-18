@@ -1,4 +1,19 @@
-# TAU communication on DHT
+# TAU app communication on IP2
+TAU app has two types of communication: public key to public key chatting and blockchain gossipping. 
+
+### P2P chatting
+Assume data flow is X ->(Y relay)->Y and Y->(X relay)->X
+
+X will maintain a list of self-originated messages with receiving status. For each message, X will send message up to 30 times until Y confirms. There are 5 minutes between X each sending. Y relay will store the latest message for Y to capture when resuming online status. 
+X's UI will show the status of each message, so that user can engage to resend or accept that message status. The IP2 capture swarm relay will make best effort for cache and deliver. 
+Y will scan Y relay for caches messages each 30 minutes and each time off line for 5 minutes. 
+
+
+基本假设对方不在线。以消息为核心，不是以通信通道为核心。UI功能。不用来温斯坦数组。 消息发了30次后，显示对方没有收到。每半小时收下缓存数据。 
+1. DHT每15分钟get XX from捕捉网络，触发一次”traverse”，alpha=1, beta=8，invoke=16，DHT协议中15分钟是个ping的指标点。
+三次以后，就不发了，兜底。 
+
+
 TAU communicaiton protocol is modified from libtorrent Mainline DHT. Major changes has been introduced in incentive system, ID, routing, bootstrap,time service, data item structure and blockchain support. TAU uses public_key to identify communication target, than IP endpoint. Therefore, when a device does not have a real IP address, it still can communicate independantly without attached to a server. DHT swarm overall becomes relay services. TAUcoin community is aiming for bootstraping network and community timestamp service. 
 
 通信描述
