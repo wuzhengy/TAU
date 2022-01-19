@@ -1,4 +1,5 @@
 ### libTAU
+* libTAU is an implementaiton of PPOT consensus using c++
 * C++ library
 * SWIG interface for Java, especially android platform
 * Shell interfece for Linux command line
