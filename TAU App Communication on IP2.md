@@ -9,6 +9,26 @@ X's UI will show the status of each message, so that user can engage to resend o
 Y will scan Y relay for caches messages each 30 minutes and each time off line for 5 minutes. 
 Chatting natively only support text. When user wants to send an image, we will provide a free picture server to basic low resolution image transfer. Sender just sends image link, the receiver will use the link to download the picture. 
 
+
+有缓存的通信简化版：
+X维护一个最近自己发出的消息表比如30个消息，每个新消息发送8次，每次隔开5分钟；这里使用有中继缓存传输。
+当X收到Y对这个消息回复，则提示UI消息收到；否则消息就是处于发送状态。
+Y每30分钟接受下中继缓存处理新消息。
+
+A - 基于相互朋友列表的莱文斯坦通信
+假设：(X往Y发送数据，mutable target形式为”YX” ) X ->YR(UPNP)-> Y, Y -> XR(UPNP) -> X；XR和YR为中继和目标节点的捕捉网络成员；
+维护D - 72小时内成功通信的朋友节点历史缓存(本质是长期没有联系的名单的补集），H: 10* log(D)分钟内成功通信的朋友节点历史缓存（避免请求过于频繁），L：莱文斯坦数组未对齐的朋友列表
+X.put(Y public key, alpha, beta, invoke, payload)
+1. X有给Y的“最新消息”时，这个是专门给UI驱动的，触发”cache relay“。最新消息触发8次，每次之间隔开5分钟，直到获得成功回复，8次以后就不再认为是最新消息，从而依靠来文斯坦数组对齐策略。
+2. 同步通信窗口 - 主循环随机在L中挑选Y，满足Y在D中，并且Y不在H中？”cache relay“ 同步来温斯坦数组。
+3. Y收到消息后，根据莱文斯坦数组相应处理，触发”traverse put“，alpha=1, beta=2, invoke_number = 3。X收到消息后，根据本地逻辑处理，回复消息给Y，触发”traverse put“，alpha=1, beta=2, invoke_number = 3（类似第二步细节）。到第2步，直到双方莱文斯坦数组对齐。
+4. X每次新上线离开上次H分钟，则从捕捉网络获得消息。
+5. 步骤2，3当过程由于某种原因中断。X和Y将等待下个通信窗口，或者自己有新消息
+6. DHT每15分钟更新XX捕捉网络，触发一次”traverse”，alpha=1, beta=8，invoke=16，DHT协议中15分钟是个ping的指标点。
+7. 每个步骤最小时间间隔50ms，或者UI规定的间隔
+8. 当UI关注在某个peer Z时，80%的随机资源给到这个Z，Z不受H和D的限制。”traverse put“，alpha=1, beta=2, invoke_number = 1. UI关注这个Y时，X访问Y的间隔为1分钟。
+9. XY每天交换下各自区块链表，寻找共同的链，用于重要信息的中继缓存数据。
+
 #### chatting target Meta data: last seen, last communicated
 * last seen: last time any signal is received.
 * last comminicate: last time a message or confirm of message recieved.
