@@ -10,8 +10,9 @@ Y will scan Y relay for caches messages each 30 minutes and each time off line f
 Chatting natively only support text. When user wants to send an image, we will provide a free picture server to basic low resolution image transfer. Sender just sends image link, the receiver will use the link to download the picture. 
 
 
-有缓存的通信简化版：
+有缓存的点对点通信简化版：
 X维护一个最近自己发出的消息表比如30个消息，每个新消息发送8次，每次隔开5分钟；这里使用有中继缓存传输。
+Y收到消息后反馈接受到，也是发送8次，没你间隔5分钟，雷同新消息。
 当X收到Y对这个消息回复，则提示UI消息收到；否则消息就是处于发送状态。
 Y每30分钟接受下中继缓存处理新消息。
 
