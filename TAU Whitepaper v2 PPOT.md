@@ -1,4 +1,4 @@
-Perishable POT
+Perishable POT drafting
 
 1. nounce: for message and transactions. 
 2. six months time frame.
