@@ -1,6 +1,12 @@
 # TAU app communication on IP2
 TAU app has two types of communication: public key to public key chatting and blockchain gossipping. 
 
+libTAU is an implementaiton of chatting and PPOT consensus on IP2
+* C++ library
+* SWIG interface for Java, especially android platform
+* Shell interfece for Linux command line
+
+
 ### P2P chatting
 Assume data flow is X ->(Y relay)->Y and Y->(X relay)->X
 
