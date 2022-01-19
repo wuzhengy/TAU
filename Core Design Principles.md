@@ -26,17 +26,10 @@ As a miner, you will maximum need 365 x 180 blocks information. However mining c
 * State database vs state trie
   * eth use state trie to record each variable and value. In libTAU stateless plan adopted, each variable will only live for certain unique time window, not epochs, the trie key-value data structure is hard to maintain such expiry. 
   * libTAU will use relationship database such as sqlite to hold states.  
-##### DDOS attack
-Creating big number of IP pool to request services from a phone node will abuse phone's computing power and bandwidth. libTorrent uses "token refreshing" to regulate such behavior. But the token acknowledgement will cause extra waste of bandwidth and prolonged latency. 
-In libTAU, since each node has its friends, routing table and blockchain peers public key memory, it will be efficient just to use public key to identify the source. One libTau node will allocate 50% of the resources for unknown public key messages, these are mostly relaying data for other nodes with closer publickey prefix, the reward for this, the node's address will be recorded in others routing table for easier discovery and also for relay. 
-This feature will be inplemented after mainnet on, assume initially we will not have too many attackers. 
-##### Ranges: 
+* DDOS: TAU network is a swarm, DDOS is mostly targetting to single point of the system to cause failure. We will use basic traffic peak control to flaten the traffic as for now. 
 * consensus point: current block number - 200, then cloeset previous block with 00 ending. for example current block is 86789;  86789-200 = 86589, the 86500 is the consensus point. 
 * stateful range: 6 months, 288 x 180 = 51840
-##### Block and Transaction special feature
- * add sender and miner end points, IP + port. This is for trustless bootstrap.
-
-### ipv4 and ipv6
+* Dual stack: ipv4 and ipv6
 ipv6 provides a stable bootstrap entry. we should support ipv6 as much as possible when data is not meterred. 
 ISP will love to control incoming packets, the local routing table database will need to be smart enough to measure such restrictions. 
 
@@ -134,7 +127,7 @@ Core UI experienses
 ### Genesis 
 ```
 // build genesis block
-blockJSON  = { 
+block  = { 
 1. version;
 2. chain id; 32 bytes `hash(GenesisMinerPubkey + timestamp)定长``community name变长`
 3. timestamp; 
@@ -150,8 +143,9 @@ blockJSON  = {
 14. `TminerTAUpk`Nonce= 1;
 15. `Treceiver`Balance = 1,000,000;
 16. `Treceiver`Nonce= 1;
-17. ED25519 public key
-18. ED25519 signature
+17. miner end point: * add sender and miner end points, IP + port. This is for trustless bootstrap.
+18. ED25519 public key
+19. ED25519 signature
 }
 
 ```
