@@ -70,6 +70,14 @@ Relay:
 - IPv6 PCP inbound traffic openning accepted. However, tt is tricky to decide IPv6 relay nodes. Most of IPv6 does not go through NAT, and firewall filtering strategy is unknown. 
 
 
+### relay control: cache, alpha, beta and invoke_limit
+
+* m_list: in libtorrent, this is the temporary list for traveral with sorted distance to the target
+* alpha is the parallel factor for invoking, most of time, it should be 1 
+* beta is the range in the m_list for invoking selection
+* invoke_limit is the total invoke one relay traverse will perform. 
+* cache: this is to tell the relay to temporary store the data for receiver to capture when receiver is resumed from offline. 
+
 ### Packet structure
 
 The structure is a mechanism consisting of bencoded dictionaries sent over UDP. A single query packet is sent out and a single packet is sent in response. There is no retry. There are three message types: query, response, and error. For the DHT protocol, there are three queries: ping, find_node, relay.
