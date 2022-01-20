@@ -4,6 +4,8 @@ Perishable POT drafting
 2. six months time frame.
 3. transaction que and mesasge que. 
 4. voting for consensus point. 
+5. why 6 months, and it is configurable. 
+6. off chain archive. 
 
 for both que, maxium is 100 members, each one has up to 10 txs. 
 ## 挖矿算法
