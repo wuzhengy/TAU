@@ -43,17 +43,19 @@ Routing vector should maintain a "last changed" property to indicate how "fresh"
 Upon inserting the first node into its routing vector and when starting up thereafter, the node should attempt to find the closest nodes in the DHT to itself. It does this by issuing find_node messages to closer and closer nodes until it cannot find any closer. The routing vector should be saved between invocations of the client software.
 
 ### Capture swarm and its vector
-Each node A will use a distance strategy to select 8 nodes to build own capture swarm. 5 of them are based on closest XOR distance. 3 of them are randomly selected from routing vector. This is to prevent hacker to generate set of close nodes to suffocating A. 
+Along with routing vector for storing good qualty know nodes, for the nodes without a direct quality connection, we define a capture swarm vector to record the relay nodes for receiver nodes. Comparinig to Kadmelia, IP2 has two routing vectors in the core, one for direct connection, one for relaying. 
+
+IP2 receiver node relys on "capture swarm" to increase the probability of receiving inbound data. Even for a node with public static address, it is still no garantee to receive data due to regional firewall filtering rules. Each node A will use a distance strategy to select 8 internet nodes to build own capture swarm, R. 5 of them are based on closest XOR distance. 3 of them are randomly selected from routing vector. This is to prevent hacker to generate set of close nodes to suffocating A's inbound data. After A register its existence to R, R will add A into local capture swarm vector. 
+
+
 The capture swarm has two jobs: 
-1. providing data passing, mostly when node A is behind public accessibility such as behind NAT or filter restrictions. 
+1. providing data passing, mostly when node A is behind public accessibility such as behind NAT or filter restrictions. R will have the ability to send data to A, because, A has openned up an inbound connection for R on the routing. Internet devices have to open outbound route for A to R, so reverse traffic is open for average 15 minutes according to convention port openning rules. Every 15 minutes, A should register to its capture swarm for inbound relay. 
 2. temporary data storage when target nodes are off line. This is a last resort for helping nodes to transmit critical data. This is for some application such as instant messaging to assure important data, link, hash or texts are deliverred at the best effort. Each node will maintain such storage for 1000 unites of 1 kb data item. 
 
+Quality assurance of swarm member
+* When receiver response data to sender, in the packet structure, it will include optional relay suggestion. When the suggestion confirms member of local swarm member, it means the member is a high quality member, since it is a closed loop.
 
-* quality of the swarm member, end to end feedback.
-* capture swarm provides, relay temporary storage for nodes going off line. using libtorrent mutable data stucture. 
 
-Along with routing vector for storing good qualty know nodes, for the nodes without a direct quality connection, we define a capture swarm vector to record the relay nodes for receiver nodes. Comparinig to Kadmelia, IP2 has two routing vectors in the core, one for direct connection, one for relaying. 
-For relaying nodes, it is benefitical for them to wait until receiver response to give feedback to sender nodes to ensure the swarm quality. 
 
 
 ### admission of routing vector and capture swarm vector
@@ -71,12 +73,12 @@ Relay:
 
 
 ### relay control: cache, alpha, beta and invoke_limit
+IP2 has to search the target nodes before data could be deliverred. We use Kadmelia type of traversal strategy to find the target node or its capture swarm. In order to help traversal code run efficiently. Application developer can set some control parameters. 
 
-* m_list: in libtorrent, this is the temporary list for traveral with sorted distance to the target
-* alpha is the parallel factor for invoking, most of time, it should be 1 
-* beta is the range in the m_list for invoking selection
-* invoke_limit is the total invoke one relay traverse will perform. 
-* cache: this is to tell the relay to temporary store the data for receiver to capture when receiver is resumed from offline. 
+* alpha is the parallel factor for invoking, most of time, it should be 1 ; if you want it to be very fast without worry data consumption, you can increase it.
+* beta is the range in the m_list for invoking selection, m_list: in libtorrent is the temporary list for traveral with sorted distance to the target
+* invoke_limit is the total invoke one full traverse will perform. 
+* cache: this is to tell the relay to temporary store the data for receiver to pull when receiver is resumed from offline. 
 
 ### Packet structure
 
