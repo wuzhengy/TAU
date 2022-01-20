@@ -1,3 +1,9 @@
+TAU Whitepaper 2 - Perishable Proof of Transaction - drafting...
+Date: Feb 1st, 2022
+
+In order to make Proof of Transaction consensus operatable on a mobile device, we propose a pershable blockchain. The history beyond certain time frame will be expired to relief the burden of mobile full nodes. 
+There are a few benefits other than smaller storage for perishable POT chain. Blockchain mining power will be more evenly distributed, due to expire of history power. We also make power untransferrable to make the chain immune to popular POS power shiftting attack. 
+
 Perishable POT drafting
 
 1. nounce: for message and transactions. 
@@ -10,6 +16,9 @@ Perishable POT drafting
 for both que, maxium is 100 members, each one has up to 10 txs. 
 
 消息nounce的问题可以在消息内带入consensus block hash, 只有在本consensus 范围内才可以上链，且一次。 这个覆盖范围是有共识的，而且长度不长。
+
+attack resistance: power shifitinig attack. 
+perishable make power distribution more even than stake concentration. 
 
 ## 挖矿算法
 * chain id: 32字节，包含社区名字和建立时间戳`hash(GenesisMinerPubkey + timestamp) 8 bytes定长``community name变长 24 bytes` ，每个区块内部都含有chain id，类似IPFS的multi-addressing的思路，一个区块链只要获得一些区块，就可以开始收集其他节点。
