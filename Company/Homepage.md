@@ -4,6 +4,11 @@ TAU helps you to create P2P crypto trade community independant from central serv
 
 We want to help individuals from everywhere to build crypto community and increase value of community coins; therefore TAU makes the full blockchain node system working on smart phones with low data consumption, which is important for developing regions such as Africa.
 
+#### Dream Crypto Airdrop tool
+* Free - no third party fee such as ETH gas
+* Drop to emails, whatsapp and telegram contacts
+* YOu just need a android phone for everything
+
 ### About the core technologies
 #### Perishable Proof of Transactions(PPOT) Blockchain Consensus Tailored for individual phones
 
