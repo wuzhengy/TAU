@@ -4,7 +4,7 @@ Version:	0.1 - on going draft
 
 Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd. 
 
-Internet Protocol 2(IP2) enable user to choose self-generated 256-bits "public key" as address, while classical Internet Protocol(IP1) appoints hierarchically and often dynamically addresses. IP1 has caused "uncertain device reachability" in type of address and connection, especially when  same device is moving among different networks or locating in unknown changing firewall rules; therefore additional proxy or name server infrastructure burden is needed for each application. 
+Internet Protocol 2(IP2) enable user to choose self-generated 256-bits "public key" as immutable address, while classical Internet Protocol(IP1) appoints hierarchically and often dynamically addresses. IP1 has caused "uncertain device reachability" in type of address and connection, especially when  same device is moving among different networks or locating in unknown changing firewall rules; therefore additional proxy or name server infrastructure burden is needed for each application. 
 
 IP2 is designed for "public key direct to public key" overlay communication. Thanks to the innovation of XOR distance to form up the local capture swarm network, the nodes are incentivated to share "public key to IP address" naming and relaying for restricted nodes, disregard of application types.
 
