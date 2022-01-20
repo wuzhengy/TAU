@@ -14,7 +14,7 @@ We help individuals from everywhere to build crypto community and increase value
 
 TAU discovered the PPOT blockchain concensus, the more transactions history made, the higher mining power a node has. Without intensive puzzel solving competition such as in bitcoin, PPOT is a light weight consensus. 
 
-The **perishable** ledger will forget any block and state 6 months older, to make full blockchain size under 50Mbytes. Unlike immutable blockchains such as ethereum and bitcoin designed for long term financial contracts, PPOT is light for day to day commuinciation oriented apps. PPOT blocks are designed to register user, essential wiring and high capacity communication. 
+The **perishable** ledger will forget any block and state 6 months older, to make full blockchain size under 50Mbytes. Unlike immutable blockchains such as ethereum and bitcoin designed for long term financial contracts, PPOT is light for day to day commuinciation oriented apps. PPOT blocks are designed to register user, essential wiring and high capacity communication. The forgetten history is still hash-linked, so that fans or commercial entities can provide archive to store that, not cause burden for current mining nodes. 
 
 PPOT enables a smart phone to hold and mine 100+ full blockchains. Collectively, the parallel blockchains bring to the ecosystem unlimted transaction capacity. 
 TAU Cambridge provides an opensource C++ reference implementation of PPOT parallel mining and messaging on [github](https://github.com/Tau-Coin/libTAU).
