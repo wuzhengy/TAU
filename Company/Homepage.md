@@ -1,6 +1,6 @@
 ### Introduction
 #### TAU App - Create crypto coins and trade community for free.
-TAU helps you to create P2P crypto trade community independantly from central servers. You can issue genuine blockchain coins free from third party transaction fee. TAU do not require you to buy any TAUcoins for enjoying full functions. Community leaders can airdrop coins to participants freely. 
+TAU helps you to create P2P crypto trade community independantly from central servers. You can issue genuine blockchain coins free from third party transaction fee. TAU do not require you to buy any TAUcoins for enjoying full functions. Community leaders can airdrop coins to friends freely. 
 
 We help individuals from everywhere to build crypto community and increase value of community coins; therefore TAU full blockchain node system works on smart phones with low data consumption, which is important for developing regions like Africa.
 
