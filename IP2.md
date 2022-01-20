@@ -49,13 +49,11 @@ IP2 receiver node relys on "capture swarm" to increase the probability of receiv
 
 
 The capture swarm has two jobs: 
-1. providing data passing, mostly when node A is behind public accessibility such as behind NAT or filter restrictions. R will have the ability to send data to A, because, A has openned up an inbound connection for R on the routing. Internet devices have to open outbound route for A to R, so reverse traffic is open for average 15 minutes according to convention port openning rules. Every 15 minutes, A should register to its capture swarm for inbound relay. 
-2. temporary data storage when target nodes are off line. This is a last resort for helping nodes to transmit critical data. This is for some application such as instant messaging to assure important data, link, hash or texts are deliverred at the best effort. Each node will maintain such storage for 1000 unites of 1 kb data item. 
+* providing data relay, mostly when node A is behind public accessibility such as behind NAT or filter restrictions. R will have the ability to send data to A, because, A has openned up an inbound connection for R on the routing. Internet devices have to open outbound route for A to R, so reverse traffic is open for average 15 minutes according to convention port openning rules. Every 15 minutes, A should register to its capture swarm for inbound relay. 
+* temporary data storage when target nodes are off line. This is a last resort for helping nodes to transmit critical data. This is for some application such as instant messaging to assure important data, link, hash or texts are deliverred at the best effort. Each node will maintain such storage for 1000 unites of 1 kb data item. 
 
-Quality assurance of swarm member
+Quality accredit of swarm member
 * When receiver response data to sender, in the packet structure, it will include optional relay suggestion. When the suggestion confirms member of local swarm member, it means the member is a high quality member, since it is a closed loop.
-
-
 
 
 ### admission of routing vector and capture swarm vector
@@ -165,6 +163,7 @@ Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
 bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 ```
 ### PCP, UPnP, NATPMP, ipv4, ipv6, NAT64, NAT66, NAT44, DS light, XLAT464 and firewall filtering discussions
+
 While the networks the evolving, address translation, filtering, bridging and space extension protocols end up coexisting with each other. We are facing a mixture today. It is hardly to see IPv4 going away, even IPv6 only networks start to appear. 
 
 The dream of P2P direct communication requires address independance and filtering resistant connectivity. Network protocols on the transport layer are not be able to solve these two requirements; because transporting is concerned of that how data flows between phyical end points, not logical sender and receiver. 
