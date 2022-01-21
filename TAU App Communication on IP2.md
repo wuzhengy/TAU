@@ -11,6 +11,8 @@ TAU app has two types of communication
 ### P2P chatting algorithm
 Assume data flow is X ->(Y relay)->Y and Y->(X relay)->X; relay is a concept in IP2 protocol and a node belong to a node capture swarm vector
 
+dual channel for chatting, p2p content cashes, p2p signal(non cache),  routing table 最后一个字节不用match, 提供更多信号种类。
+
 * X will maintain a list of self-originated messages with receiving status. For each message, X will send cached message up to 8 times until Y confirms. There are 5 minutes between X each sending. "Y relay" will store the latest message for Y to capture when Y resuming online status. 
 * X's app UI will show the status of each message, so that user can engage to resend or accept that message status. The Y capture swarm relay will make best effort for cache and deliver to Y. 
 * Y will scan Y relay for caches messages each 30 minutes and each time in off-line for 5 minutes. 
