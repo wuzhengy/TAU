@@ -12,7 +12,7 @@ On top of IP2, traditional TCP or UDP type of services could be rebuilt without 
 
 The technology stack includes "distributed routing vectors" for sending and capturing data, ED25519 assymetric encryption for premission-less and colision-free unique addressing, and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
 
-Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket implementing the distributed hash table protocol. Multiple nodes can share one public key. 
+Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket implementing the distributed hash table protocol. Due to self-addressing, multiple nodes can share one public key. This will make classical connection based communication such as TCP hard to use the sequencial flow method on key to key, since one public key can have many devices under and hard to differenciate to make end to end impossible. The levenstein distance array will come into the picture for public key to public key communication. This makes communciction potentially more powerful by including the broadcast function with just one public key.
 
 ### Overview
 
@@ -70,13 +70,14 @@ Relay:
 - IPv6 PCP inbound traffic openning accepted. However, tt is tricky to decide IPv6 relay nodes. Most of IPv6 does not go through NAT, and firewall filtering strategy is unknown. 
 
 
-### relay control: cache, alpha, beta and invoke_limit
-IP2 has to search the target nodes before data could be deliverred. We use Kadmelia type of traversal strategy to find the target node or its capture swarm. In order to help traversal code run efficiently. Application developer can set some control parameters. 
+### Relay control: cache, alpha, beta and invoke_limit
+In order for universal best effort connectivity, IP2 need to search the target node and its capture swarm on the entire internet, before data could be deliverred.
+The searching complexity is essentially O(nodes number of Internet). Thanks to Kadmelia, libtorrent reduces the search complexity to O(logN). We use the same traverse strategym. To help traverse running efficiently. Application developer can set some control parameters, depending on app's communication status such as initiation, normal, best effort, fast, slow or doze. 
 
-* alpha is the parallel factor for invoking, most of time, it should be 1 ; if you want it to be very fast without worry data consumption, you can increase it.
-* beta is the range in the m_list for invoking selection, m_list: in libtorrent is the temporary list for traveral with sorted distance to the target
+* alpha is the parallel factor for invoking, most of time, it should be 1 ; if you want be very fast without worry data consumption, you can increase it.
+* beta is the range in the searching candidates, m_results, indexed by distance for invoking selection. m_results is the temporary list for traveral with sorted distance to the target
 * invoke_limit is the total invoke one full traverse will perform. 
-* cache: this is to tell the relay to temporary store the data for receiver to pull when receiver is resumed from offline. 
+* cache: this is to tell the relay to temporary store the data for receiver nodes to pull, when receiver is resumed from offline. This is for best effort data delivery.
 
 ### Packet structure
 
