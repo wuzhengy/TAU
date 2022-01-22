@@ -29,6 +29,10 @@ perishable make power distribution more even than stake concentration.
   * 节点A收到UI给出的区块链的邀请信号，本质是个mutable item target, chain id + 推荐者公钥, 64字节。如果有多个推荐者，可以从UI多次给出64字节的邀请信号target。一个社区chain id和多个推荐者的公钥，可以放入二维码一起携带。
     * 这里需要修改mutable item合法性算法，就是前后半32位都可以验证通过签署内容。由于如果把chainID放在salt里面，就是target的前32位，会导致一个区块链的中继节点集中到某几个节点。所以这个位置和朋友mutable内容正好相反，朋友列表中发送者在target后32位可以签署，区块链是发送者在target前32位可以签署。 
   * A建立chain id的社区节点列表，类似朋友列表，第一个成员是推荐者公钥
+
+#### Blockchain bootstrap
+TAU blockchain need initial members to provide ledger data, on IP2, we no longer give bootstrap IP addresses for chain bootstrap such as all other chains built on top IP1. When some one received the invitation of a blockchain either from message or other blockchain, along with chain ID, bootstrap nodes public key information has to be attached. The more such information the better. Along the data sync with blockchain nodes, each node will learn more blockchain bootstrap and keep them in the local data base. 
+
   * A根据当前时间戳计算出5个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5个固定+1个可变的通信成员。 
   * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信号:
     * 包含consensus point hash和block number，这类区块要经过自己数学验证才能推荐 
