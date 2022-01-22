@@ -79,9 +79,14 @@ In order for universal best effort connectivity, IP2 need to search the target n
 The searching complexity is essentially O(nodes number of Internet). Thanks to Kadmelia, libtorrent reduces the search complexity to O(logN). We use the same traverse strategym. To help traverse running efficiently. Application developer can set some control parameters, depending on app's communication status such as initiation, normal, best effort, fast, slow or doze. 
 
 * alpha is the parallel factor for invoking, most of time, it should be 1 ; if you want be very fast without worry data consumption, you can increase it.
-* beta is the range in the searching candidates, m_results, indexed by distance for invoking selection. m_results is the temporary list for traveral with sorted distance to the target
+* beta, invoke window, is the range in the searching candidates, m_results, indexed by distance for invoking selection. m_results is the temporary list for traveral with sorted distance to the target
 * invoke_limit is the total invoke one full traverse will perform. 
 * cache: this is to tell the relay to temporary store the data for receiver nodes to pull, when receiver is resumed from offline. This is for best effort data delivery.
+
+Traversal control
+* copy beta number of nodes from routing vector to m_result
+* randomly select alpha number nodes from beta window of m_result, invoke these request and waiting for short timeout
+* refresh m_result, and invoke more request in the beta window until invoke limit or beta window depletes.  
 
 ### Packet structure
 
