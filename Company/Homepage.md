@@ -25,7 +25,7 @@ Internet Protocol 2(IP2) enables user to choose self-generated 256-bits "public 
 
 IP2 is designed for "public key direct to public key" overlay communication. Thanks to the innovation of XOR distance to form up the local capture swarm network, the nodes are incentivated to join "public key to IP address" naming and relaying for enhancing own connectivity.
 
-On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static/dynamic, v4/v6, local/public, wifi/cellular types of IP1 addresses, as well as their dynamic address translation and filtering restrictions. Due to self-addressing, each public key can be used by unlimited multiple devices. The traditional concept of definitive sequencial data stream need to be modified to use "probabilistic data structure" such as levenstain distance array. This potentially reduces cost of operating IOT devices. 
+On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static/dynamic, v4/v6, local/public, wifi/cellular types of IP1 addresses, as well as their dynamic address translation and filtering restrictions. Due to self-addressing, each public key can be used by unlimited multiple devices. The traditional concept of definitive sequencial data stream need to be modified to use "probabilistic data structure" such as levenstain distance list of hash. This potentially reduces cost of operating IOT devices. 
 
 The technology stack includes "distributed routing and capture swarm vectors", ED25519 assymetric encryption for premission-less and colision-free unique addressing, and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on [github](https://github.com/Tau-Coin/IP2).
 
