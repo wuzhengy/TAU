@@ -32,6 +32,7 @@ Since each node has key pairs, all the UDP payload between nodes are encrypted w
 
 IP2 nodes uses app-input, self-learning and pre-coded IP/Port addresses for bootstrap of routing vector. We view this as risk, due to any contact or leakage of node to public IP2 ready nodes will fill up routing vector very quickly. 
 
+## Three internal vectors
 ### Routing Vector
 
 Every node maintains a routing vector of known good nodes. The nodes in the routing vector are used as starting points for queries in the DHT. Nodes from the routing vector are returned in response to queries from other nodes. IP2 uses vector here than Kadmelia buckets table to save traveral data consumption. We trade storage for less traffic. 
@@ -43,20 +44,22 @@ Routing vector should maintain a "last changed" property to indicate how "fresh"
 Upon inserting the first node into its routing vector and when starting up thereafter, the node should attempt to find the closest nodes in the DHT to itself. It does this by issuing find_node messages to closer and closer nodes until it cannot find any closer. The routing vector should be saved between invocations of the client software.
 
 ### Capture swarm and its vector
-Along with routing vector for storing good qualty know nodes, for the nodes without a direct quality connection, we define a capture swarm vector to record the relay nodes for receiver nodes. Comparinig to Kadmelia, IP2 has two routing vectors in the core, one for direct connection, one for relaying. 
+Along with routing vector for storing good direct contact information for nodes, we define a capture swarm vector to record the alternative relay nodes for receiver nodes. The relay nodes will go extra "mile" to push the information to receiver, especially when receivers are behind restictions; while Kadmelia DHT does not "push".
 
-IP2 receiver node relys on "capture swarm" to increase the probability of receiving inbound data. Even for a node with public static address, it is still no garantee to receive data due to regional firewall filtering rules. Each node A will use a distance strategy to select 8 internet nodes to build own capture swarm, R. 5 of them are based on closest XOR distance. 3 of them are randomly selected from routing vector. This is to prevent hacker to generate set of close nodes to suffocating A's inbound data. After A register its existence to R, R will add A into local capture swarm vector. 
+IP2 receiver node relys on "capture swarm" to increase the probability of receiving inbound data. Even for a node conciously enabled with public static address, there is still no garantee to receive data due to unknown regional firewall filtering. Each node A will use a distance strategy to select 8 internet nodes, B, to register in B's capture swarm, R. 
 
+Five of them maybe based on closest XOR distance. Three of them are randomly selected from routing vector. This is to prevent hacker to generate set of close nodes to suffocating A's inbound data. After A registering its existence to R, R will add A into local capture swarm vector. 
 
-The capture swarm has two jobs: 
+The B will do two things for its capture swarm friends, since capture swarm meant to be mutual benefitical: 
 * providing data relay, mostly when node A is behind public accessibility such as behind NAT or filter restrictions. R will have the ability to send data to A, because, A has openned up an inbound connection for R on the routing. Internet devices have to open outbound route for A to R, so reverse traffic is open for average 15 minutes according to convention port openning rules. Every 15 minutes, A should register to its capture swarm for inbound relay. 
 * temporary data storage when target nodes are off line. This is a last resort for helping nodes to transmit critical data. This is for some application such as instant messaging to assure important data, link, hash or texts are deliverred at the best effort. Each node will maintain such storage for 1000 unites of 1 kb data item. 
 
 Quality accredit of swarm member
 * When receiver response data to sender, in the packet structure, it will include optional relay suggestion. When the suggestion confirms member of local swarm member, it means the member is a high quality member, since it is a closed loop.
 
-
-### admission of routing vector and capture swarm vector
+### Push vector
+```
+admission of routing vector and capture swarm vector
 Overall, there is no static rule to decide whether a node is really open on public network or not. We do best effort to make decision on each nodes. 
 
 Non Relay: added to capture swarm vector for linking relays, not routing vector. NR nodes are restricted so that can not become relay or direct into routing vector. It will need capture swarm to receive data. 
@@ -68,7 +71,8 @@ Relay:
 - IPV4 UPNP and DHT response same external IP as UPNP response.
 - coded DHT bootstrap public IP addresses is Relay, provided by app developers like TAU.
 - IPv6 PCP inbound traffic openning accepted. However, tt is tricky to decide IPv6 relay nodes. Most of IPv6 does not go through NAT, and firewall filtering strategy is unknown. 
-
+```
+When relay nodes receive members of push vector, which are out-bound initiated temporary connection, it can not be put into routing vector or capture swarm, which are both defined for good public accessible nodes. Push vector is setup for these potentially restricted nodes. 
 
 ### Relay control: cache, alpha, beta and invoke_limit
 In order for universal best effort connectivity, IP2 need to search the target node and its capture swarm on the entire internet, before data could be deliverred.
@@ -172,11 +176,11 @@ The dream of P2P direct communication requires address independance and filterin
 An overlay protocol such as IP2 is required to smooth up these building block edges. In the core of IP2, it is the capture swarm nodes collectively serving as relay. Even when a node has publicly accessible IP address, the node is still subject to firewall filtering from regional operators. The node can not solve this connectivity problem by own power, it has to rely on a nodes community randomly spread on global internet. The choices of such community and making such community available for global access is not a straight forward task. If too close to node public key, it will enable hacker's suffocating attack; if too far, it will bring sender searching difficulty. It might have to engage some time-sensitive address transform algorithm to make filter difficult to track the changing capture swarm. 
 
 
-References
+Main References
   
 [1]	Peter Maymounkov, David Mazieres, "Kademlia: A Peer-to-peer Information System Based on the XOR Metric", IPTPS 2002.
   
-[2]	Andrew Loewenstern <drue@bittorrent.com>, Arvid Norberg <arvid@bittorrent.com> "DHT Protocol", Bittorent.org, 31-Jan-2008.
+[2]	Andrew Loewenstern, Arvid Norberg, "DHT Protocol", Bittorent.org, 31-Jan-2008.
   
 [3] Information Sciences Institute University of Southern California, "INTERNET PROTOCOL", IETF RFC:791, September 1981
 
