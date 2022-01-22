@@ -9,24 +9,21 @@ TAU app has two types of communication
 * Shell interfece for Linux command line
 
 ### P2P chatting algorithm
-Assume data flow is X ->(Y relay)->Y and Y->(X relay)->X; relay is a concept in IP2 protocol and a node belong to a node capture swarm vector
-
-dual channel for chatting, p2p content cashes, p2p signal(non cache),  routing table 最后一个字节不用match, 提供更多信号种类。
-
-* X will maintain a list of self-originated messages with receiving status. For each message, X will send cached message up to 8 times until Y confirms. There are 5 minutes between X each sending. "Y relay" will store the latest message for Y to capture when Y resuming online status. 
-* X's app UI will show the status of each message, so that user can engage to resend or accept that message status. The Y capture swarm relay will make best effort for cache and deliver to Y. 
-* Y will scan Y relay for caches messages each 30 minutes and each time in off-line for 5 minutes. 
-* Chatting natively only support text. When user wants to send an image, TAU will provide a optional free picture server for low resolution image transfer. Sender just sends image link, the receiver will use the link to download the picture. This server is only for optinal image use and not affacting text transmission decentralized nature. 
+Assume data flow is X ->(Y relay)->Y and Y->(X relay)->X; Y relay is a concept in IP2 protocol belong to Y capture swarm
 
 ```
-有缓存的点对点通信简化版：
-* X维护一个最近自己发出的消息表比如30个消息，每个新消息发送8次，每次隔开5分钟；这里使用有中继缓存传输。
-* Y收到消息后反馈接受到，也是发送8次，间隔5分钟，雷同新消息。
-* 当X收到Y对这个消息回复，则提示UI消息收到；否则消息就是处于发送状态。
-* Y每30分钟接受下中继缓存处理新消息，或者每下线5分钟。
-```
+A - 基于相互朋友列表的中继缓存莱文斯坦通信
+假设：(X往Y发送数据，target组合YX ) X ->YR -> Y ； Y -> XR -> X；R为中继和目标节点的捕捉网络成员；put(receiver address, alpha, beta, payload, bool cache)
+1. （本地有新消息）或（与上次通信间隔5分钟 并且 莱文斯坦数组24小时内始终没有对齐），触发一次”traverse put”，alpha=1, beta=10，invoke number = 10，信息bencode中含有XR，XR end point 和 “时间戳“ 。 YR缓存非莱文斯坦数组数据，每10次缓存一次来温斯坦数据。（本地需要建立全朋友列表对方莱文斯坦数组的数据和last seen时间)
+2. Y收到消息后，根据莱文斯坦数组相应处理，触发”traverse put“，alpha=1, beta=3，invoke number = 3, 把第一步的XR信息融入路由表的m_result一起搜索，信息中附带YR’，YR‘ end point和时间戳。XR缓存数据
+3. X收到消息后，根据本地逻辑处理，回复消息给Y，触发”traverse put“，alpha=1, beta=3，invoke number = 3（类似第二步细节）。到第2步，直到双方莱文斯坦数组对齐，没有新消息发送。
+4. 步骤2和3，当过程由于某种原因中断。X和Y将等待下个10分钟通信窗口，或者自己有新消息，或者重新上线。
+5. XR会存储交互的数据，当X重新上线updateCaptureSwarm(本质 “*X” traverse get，alpha=1, beta=20)，XR会把缓存数据提交给X。缓存时间段最长为一天，或者X last seen之后的时间。updateCatureSwarm(alpha, beta, timestamp)
+6. 当轮到X -> X的情况 与上次通信间隔5分钟，触发一次”traverse put”，alpha=1, beta=10。这个动作是更新捕捉网络。
+7. 每个步骤最小时间间隔50ms；当UI关注在某个peer Z时，80%的随机资源给到这个Z
 
-#### chatting receiver status: last seen, last communicated
+```
+chatting receiver status: last seen, last communicated
 * last seen: last time any signal is received.
 * last comminicate: last time a message or confirm of message recieved.
 
@@ -39,8 +36,8 @@ Data forwarding: the protocol maintains two lists.
 
 ```
 转发集合分成两个列表：转账A和消息B
-A列表的转发规则是地址交易费贵优先，nonce保证发送地址唯一性,中位数以上的消息, 是否有 100名问题?。 
-B的转发规则是最近的5分钟时间窗口，没有nonce问题，只要是上链地址和在A列表里面未来要上链的地址就行。对B来说，策略是转发5分钟内中位数以上的消息。
+A列表的转发规则是地址交易费贵优先，nonce保证发送地址唯一性,中位数以上的消息。 
+B的转发规则是最近的5分钟时间窗口，没有nonce问题，只要是上链地址和在A列表里面未来要上链的地址就行。对B来说，策略是转发15分钟内中位数以上的消息。
 
 任务类型：
 主动请求任务类型：1. 请求投票；2. 请求head block; 3. 请求block;
@@ -58,7 +55,6 @@ B的转发规则是最近的5分钟时间窗口，没有nonce问题，只要是�
 2. 检查各peer所处的访问阶段，是否需要增删peer以及是否需要向各peer发起新请求
 3. 其它区块链业务，包括检查出块（出块了则添加至tasks队列，等待通知访问列表peer）,检查自己是否有同步需求（有需求则加入tasks队列，等待向访问列表peer请求）等
 ```
-
 
 ### Mainloop frequency
 * each device could setup the range of walking frequency from 1 - 20s, this will also limit the highest data consumption according to user perference. 
