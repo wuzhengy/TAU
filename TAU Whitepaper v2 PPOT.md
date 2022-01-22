@@ -19,7 +19,9 @@ for both que, maxium is 100 members, each one has up to 10 txs.
 
 attack resistance: power shifitinig attack. 
 perishable make power distribution more even than stake concentration. 
-
+#### Blockchain bootstrap
+TAU blockchain need initial members to provide ledger data, on IP2, we no longer give bootstrap IP addresses for chain bootstrap such as all other chains built on top IP1. When some one received the invitation of a blockchain either from message or other blockchain, along with chain ID, bootstrap nodes public key information has to be attached. The more such information the better. Along the data sync with blockchain nodes, each node will learn more blockchain bootstrap and keep them in the local data base.  
+miner end point: * add sender and miner end points, IP + port. This is for trustless bootstrap.
 ## 挖矿算法
 * chain id: 32字节，包含社区名字和建立时间戳`hash(GenesisMinerPubkey + timestamp) 8 bytes定长``community name变长 24 bytes` ，每个区块内部都含有chain id，类似IPFS的multi-addressing的思路，一个区块链只要获得一些区块，就可以开始收集其他节点。
 * consensus epoch: 在某个区块链中，节点成员对当前区块288个区块前的位置的区块投票结果(block hash, block number)，简单多数获胜，这个点是随时在变化，可以前进可以后退。当网络只有一个节点时，这个节点的投票结果就是consensus point。 Consensus point 可以定义为离开目前tip，倒数第二个结尾区块号为00的区块，这样可以投票集中。从而投票周期是每200 block内一个节点只能投1票，就是每天记录一票。
@@ -30,8 +32,7 @@ perishable make power distribution more even than stake concentration.
     * 这里需要修改mutable item合法性算法，就是前后半32位都可以验证通过签署内容。由于如果把chainID放在salt里面，就是target的前32位，会导致一个区块链的中继节点集中到某几个节点。所以这个位置和朋友mutable内容正好相反，朋友列表中发送者在target后32位可以签署，区块链是发送者在target前32位可以签署。 
   * A建立chain id的社区节点列表，类似朋友列表，第一个成员是推荐者公钥
 
-#### Blockchain bootstrap
-TAU blockchain need initial members to provide ledger data, on IP2, we no longer give bootstrap IP addresses for chain bootstrap such as all other chains built on top IP1. When some one received the invitation of a blockchain either from message or other blockchain, along with chain ID, bootstrap nodes public key information has to be attached. The more such information the better. Along the data sync with blockchain nodes, each node will learn more blockchain bootstrap and keep them in the local data base. 
+
 
   * A根据当前时间戳计算出5个 unchoked peers，计算方法是把时间戳哈希后分成5个随机数，每个随机数带入节点列表哈希，寻找最近自己的节点。加上每次随机选取的1个节点，构成当前每5分钟的5个固定+1个可变的通信成员。 
   * 每次循环A从6个成员中随机选取一个通信对象，获得区块链在线信号:
