@@ -111,7 +111,7 @@ Core UI experienses
   * app system: network data consumption, nodes status and devices status
   * chain status: 链的长度，难度，节点数，节点出块数量，总流通币量，前十名持币地址和币量，前10名power地址和pot，共识点投票前三名的区块号和哈希最后2个bytes的16进制,tip前三名区块号和哈希，当前分叉点区块号和哈希，全部节点列表可以点击添加朋友； （ Chain Length, Difficulty, Total Peers, Peers & Blocks, Total coins, Top 10 Peers and Coins, Top 10 Peers and Power, Top 3 Consensus Blocknumber and Hash, Top 3 Tip Blocknumber and Hash, Current Fork Blocknumber and Hash, Full Peers List) 
   * friend status: last seen, last communication, common chains
-
+#### starting with non-chinese language. 
 ## Concepts
 - Version 1 default parameters: 
   - 5 minutes average to generate a block. It can be upgraded when network enhance. 
