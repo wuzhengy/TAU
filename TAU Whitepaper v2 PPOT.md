@@ -22,6 +22,15 @@ perishable make power distribution more even than stake concentration.
 #### Blockchain bootstrap
 TAU blockchain need initial members to provide ledger data, on IP2, we no longer give bootstrap IP addresses for chain bootstrap such as all other chains built on top IP1. When some one received the invitation of a blockchain either from message or other blockchain, along with chain ID, bootstrap nodes public key information has to be attached. The more such information the better. Along the data sync with blockchain nodes, each node will learn more blockchain bootstrap and keep them in the local data base.  
 miner end point: * add sender and miner end points, IP + port. This is for trustless bootstrap.
+
+#### nodes gossipping - link gossipping communication on ip2
+
+#### block mining.
+* start with seeking consensus point through community voting
+* synching blocks and populate state database
+* generating blocks and transaction and gossippinig
+
+
 ## 挖矿算法
 * chain id: 32字节，包含社区名字和建立时间戳`hash(GenesisMinerPubkey + timestamp) 8 bytes定长``community name变长 24 bytes` ，每个区块内部都含有chain id，类似IPFS的multi-addressing的思路，一个区块链只要获得一些区块，就可以开始收集其他节点。
 * consensus epoch: 在某个区块链中，节点成员对当前区块288个区块前的位置的区块投票结果(block hash, block number)，简单多数获胜，这个点是随时在变化，可以前进可以后退。当网络只有一个节点时，这个节点的投票结果就是consensus point。 Consensus point 可以定义为离开目前tip，倒数第二个结尾区块号为00的区块，这样可以投票集中。从而投票周期是每200 block内一个节点只能投1票，就是每天记录一票。
