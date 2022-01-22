@@ -30,7 +30,7 @@ When a node, B, want to receive communication, it will traverse the "closest" no
 
 Since each node has key pairs, all the UDP payload between nodes are encrypted with sender private key to make only target node can read it. Internet routers can not tell the pattern of an encrypted payload, so that it can not differenciate from video and voice services. The cost of block IP2 packets will be turning down entire UDP protocol. 
 
-IP2 nodes uses app-input, self-learning and pre-coded IP/Port addresses for bootstrap of routing vector. We view this as risk, due to any contact or leakage of node to public IP2 ready nodes will fill up routing vector very quickly. 
+IP2 nodes uses app-input, self-learning and pre-coded IP/Port addresses for bootstrap of routing vector. We view this as risk, due to any contact or leakage of node to public IP2 ready nodes will fill up routing vector very quickly. Each node will learn IP2 bootstrap nodes during the life, the longer a nodes online, the more bootstrap knowledge it has as accumulation of such memory. 
 
 ## Three internal vectors
 ### Routing Vector
