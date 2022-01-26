@@ -32,11 +32,11 @@ Since each node has key pairs, all the UDP payload between nodes are encrypted w
 
 IP2 nodes uses app-input, self-learning and pre-coded IP/Port addresses for bootstrap of routing vector. We view this as risk, due to any contact or leakage of node to public IP2 ready nodes will fill up routing vector very quickly. Each node will learn IP2 bootstrap nodes during the life, the longer a nodes online, the more bootstrap knowledge it has as accumulation of such memory. 
 
-## Three internal vectors
-The implementation of IP2 will address a few address tables. 
-* Storing good relay node
-* Storing perishsable non-relay nodes which are behind firewall inbound control
-* Storing sender provided capture swarm nodes
+## Three internal vectors to handle address connectivity
+The implementation of IP2 needs a few address vectors. 
+* Routing vector - storing good relay node, which is traditional Kadmalia DHT
+* Capture swarm advisory vector - storing sender provided capture swarm nodes for fast response relay
+* Push vector - storing perishsable non-relay nodes which are under firewall inbound control for "hole punching"
  
 ### Routing Vector
 
@@ -48,7 +48,7 @@ Routing vector should maintain a "last changed" property to indicate how "fresh"
 
 Upon inserting the first node into its routing vector and when starting up thereafter, the node should attempt to find the closest nodes in the DHT to itself. It does this by issuing find_node messages to closer and closer nodes until it cannot find any closer. The routing vector should be saved between invocations of the client software.
 
-### Capture swarm and its vector
+### Capture swarm advisory vector
 Along with routing vector for storing good direct contact information for nodes, we define a capture swarm vector to record the alternative relay nodes for receiver nodes. The relay nodes will go extra "mile" to push the information to receiver, especially when receivers are behind restictions; while Kadmelia DHT does not "push".
 
 IP2 receiver node relys on "capture swarm" to increase the probability of receiving inbound data. Even for a node conciously enabled with public static address, there is still no garantee to receive data due to unknown regional firewall filtering. Each node A will use a distance strategy to select 8 internet nodes, B, to register in B's capture swarm, R. 
@@ -63,11 +63,9 @@ Quality accredit of swarm member
 * When receiver response data to sender, in the packet structure, it will include optional relay suggestion. When the suggestion confirms member of local swarm member, it means the member is a high quality member, since it is a closed loop.
 
 ### Push vector
-```
-admission of routing vector and capture swarm vector
-Overall, there is no static rule to decide whether a node is really open on public network or not. We do best effort to make decision on each nodes. 
+For nodes under firewall control, they need to register themself to public freedom nodes to receive external inbound data. Overall, there is no static rule to decide whether a node is under control or not. We do best effort to make decision on each nodes. The registration information will be stored in push vector for future use when the relay need to push data to nodes under inbound control, as known as "hole punching".
 
-Non Relay: added to capture swarm vector for linking relays, not routing vector. NR nodes are restricted so that can not become relay or direct into routing vector. It will need capture swarm to receive data. 
+Under control - Non Relay: added to capture swarm vector for linking relays, not routing vector. NR nodes are restricted so that can not become relay or direct into routing vector. It will need capture swarm to receive data. 
 - Meterred nodes
 - Devices running on battery
 - IPv4 without UPNP port openning
@@ -76,7 +74,7 @@ Relay:
 - IPV4 UPNP and DHT response same external IP as UPNP response.
 - coded DHT bootstrap public IP addresses is Relay, provided by app developers like TAU.
 - IPv6 PCP inbound traffic openning accepted. However, tt is tricky to decide IPv6 relay nodes. Most of IPv6 does not go through NAT, and firewall filtering strategy is unknown. 
-```
+
 When relay nodes receive members of push vector, which are out-bound initiated temporary connection, it can not be put into routing vector or capture swarm, which are both defined for good public accessible nodes. Push vector is setup for these potentially restricted nodes. 
 
 ### Relay control: cache, alpha, beta and invoke_limit
