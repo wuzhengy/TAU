@@ -77,20 +77,22 @@ Relay:
 
 When relay nodes receive members of push vector, which are out-bound initiated temporary connection, it can not be put into routing vector or capture swarm, which are both defined for good public accessible nodes. Push vector is setup for these potentially restricted nodes. 
 
-### Relay control: cache, alpha, beta and invoke_limit
+### Traversal control: alpha, beta and invoke_limit
 In order for universal best effort connectivity, IP2 need to search the target node and its capture swarm on the entire internet, before data could be deliverred.
 The searching complexity is essentially O(nodes number of Internet). Thanks to Kadmelia, libtorrent reduces the search complexity to O(logN). We use the same traverse strategym. To help traverse running efficiently. Application developer can set some control parameters, depending on app's communication status such as initiation, normal, best effort, fast, slow or doze. 
 
 * alpha is the parallel factor for invoking, most of time, it should be 1 ; if you want be very fast without worry data consumption, you can increase it.
 * beta, invoke window, is the range in the searching candidates, m_results, indexed by distance for invoking selection. m_results is the temporary list for traveral with sorted distance to the target
 * invoke_limit is the total invoke one full traverse will perform. 
-* cache: this is to tell the relay to temporary store the data for receiver nodes to pull, when receiver is resumed from offline. This is for best effort data delivery.
 
-Traversal control
+```
 * copy beta number of nodes from routing vector to m_result
 * randomly select alpha number nodes from beta window of m_result, invoke these request and waiting for short timeout
 * refresh m_result, and invoke more request in the beta window until invoke limit or beta window depletes.  
-
+```
+### Cached data transmission
+* cache: this is to tell the relay to temporary store the data for receiver nodes to pull, when receiver is resumed from offline. This is for best effort data delivery.
+* 
 ### Payload structure
 IP2 uses UDP as substrate, the UPD payload is composed of : 
 * The first 32 bytes are sender's public key for receiver to decrypt payload.
