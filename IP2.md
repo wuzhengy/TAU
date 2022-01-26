@@ -33,6 +33,11 @@ Since each node has key pairs, all the UDP payload between nodes are encrypted w
 IP2 nodes uses app-input, self-learning and pre-coded IP/Port addresses for bootstrap of routing vector. We view this as risk, due to any contact or leakage of node to public IP2 ready nodes will fill up routing vector very quickly. Each node will learn IP2 bootstrap nodes during the life, the longer a nodes online, the more bootstrap knowledge it has as accumulation of such memory. 
 
 ## Three internal vectors
+The implementation of IP2 will address a few address tables. 
+* Storing good relay node
+* Storing perishsable non-relay nodes which are behind firewall inbound control
+* Storing sender provided capture swarm nodes
+ 
 ### Routing Vector
 
 Every node maintains a routing vector of known good nodes. The nodes in the routing vector are used as starting points for queries in the DHT. Nodes from the routing vector are returned in response to queries from other nodes. IP2 uses vector here than Kadmelia buckets table to save traveral data consumption. We trade storage for less traffic. 
