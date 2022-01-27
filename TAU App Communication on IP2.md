@@ -21,6 +21,7 @@ A - 基于莱文斯坦距离的中继缓存通信
 5. 当节点重新上线包括doze恢复，需要对当前所有朋友执行缓存get。
 6. 每个步骤最小时间间隔50ms；当UI关注在某个peer Z时，80%的主循环资源给到这个Z
 
+* 来温斯坦数组放在正文里面发送。
 ```
 chatting receiver status: last seen, last communicated
 * last seen: last time any signal is received.
