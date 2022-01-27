@@ -77,19 +77,18 @@ Relay:
 
 When relay nodes receive members of push vector, which are out-bound initiated temporary connection, it can not be put into routing vector or capture swarm, which are both defined for good public accessible nodes. Push vector is setup for these potentially restricted nodes. 
 
-### Traversal control: alpha, beta and invoke_limit
+### Traversal control: invoke_window and invoke_limit
 In order to achieve best effort universal connectivity, IP2 needs to find the target node or its capture swarm from the internet, before data could be deliverred.
 The searching complexity is essentially O(nodes number of Internet), which is too big. Thanks to Kadmelia, libtorrent reduces the search complexity to O(logN). We use the same traverse strategym. To help traverse running efficiently. Application developer can set some control parameters, depending on app's communication status such as initiation, normal, best effort, fast, slow or doze. 
 
-* alpha is the parallel factor for invoking, most of time, it should be 1 ; if you want be very fast without worry data consumption, you can increase it.
-* beta, invoke window, is the range in the searching candidates, m_results, indexed by distance for invoking selection. m_results is the temporary list for traveral with sorted distance to the target
+* invoke_window, is the range in the searching candidates, m_results, indexed by distance for invoking selection. m_results is the temporary list for traveral with sorted distance to the target
 * invoke_limit is the total invoke one full traverse will perform. 
 
 A sequence of a traversal process could look like this: 
 ```
-* copy beta number of nodes from routing vector to m_result temporary list
-* randomly select alpha number nodes from beta window of m_result, invoke these request and waiting for short timeout
-* refresh m_result, and invoke more request in the beta window until invoke limit or beta window depletes.  
+* copy invoke_window number of nodes from routing vector to m_result temporary list
+* randomly select alpha number nodes from invoke_window  of m_result, invoke these request and waiting for short timeout
+* refresh m_result, and invoke more request in the invoke_window until invoke limit or invoke_window depletes.  
 ```
 ### Cached data transmission
 This is to tell the relay node to temporary store the data for receiver nodes to pull, when receiver is resumed from offline. This is for best effort data delivery. IP2 need to implement such transmission in a "put" protocol, which supports cache temporary storage. 
