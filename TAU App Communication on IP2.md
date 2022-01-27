@@ -18,9 +18,8 @@ A - 基于莱文斯坦距离的中继缓存通信
 2. Y收到消息后，根据莱文斯坦数组相应处理，触发”traverse put“，alpha=1, beta=3，invoke number = 3, 把第一步的XR信息融入路由表的m_result一起搜索，信息中附带YR’，YR‘ end point和时间戳。XR缓存数据
 3. X收到消息后，根据本地逻辑处理，回复消息给Y，触发”traverse put“，alpha=1, beta=3，invoke number = 3（类似第二步细节）。到第2步，直到双方莱文斯坦数组对齐，没有新消息发送。
 4. 步骤2和3，当过程由于某种原因中断。X和Y将等待下个5分钟通信窗口，或者自己有新消息，或者重新上线；当来温斯坦数组对齐时，不做通信。
-
-6. 当节点
-7. 每个步骤最小时间间隔50ms；当UI关注在某个peer Z时，80%的随机资源给到这个Z
+5. 当节点重新上线包括doze恢复，需要对当前所有朋友执行缓存get。
+6. 每个步骤最小时间间隔50ms；当UI关注在某个peer Z时，80%的主循环资源给到这个Z
 
 ```
 chatting receiver status: last seen, last communicated
