@@ -44,7 +44,7 @@ B的转发规则是最近的5分钟时间窗口，没有nonce问题，只要是�
 
 
 6. 每个步骤最小时间间隔50ms；当UI关注在某个peer Z时，80%的主循环资源给到这个Z
-***  不在线名单 
+***  不在线名单, any nodes in off-line list will have to wait sqrt(total nodes) time. 
 ***  ban list
 是否
 区块链是否缓存
