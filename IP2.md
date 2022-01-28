@@ -16,7 +16,7 @@ The technology stack includes "distributed routing vectors" for sending and capt
 
 Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket implementing the distributed hash table protocol. Due to self-addressing, multiple nodes can share one public key. This will make classical connection based communication such as TCP hard to use the sequencial flow method on key to key, since one public key can have many devices under and hard to differenciate to make end to end impossible. The levenstein distance array will come into the picture for public key to public key communication. This makes communciction potentially more powerful by including the broadcast function with just one public key.
 
-### Overview
+## Overview
 
 In IP2 overlay network, each Internet device such as phone, watch, pad or a node has a globally unique and immutable self-appointed public key, which is generated from random seed in ED25519 encyption scheme. Due to the "virtual-ness" of public key, several network devices can share the same public key, the data flow will branch to multiple way and therefore potentially more powerful. TCP type of connection based communication, such as TCP/IP2 will be much different to implement, potentially employing Leveinstein distance array rather than sequence number. libTAU provides a sample of connection based communication over IP2. 
 
@@ -99,7 +99,7 @@ When relay nodes receive members of push vector, which are out-bound initiated t
 
 
 
-### Payload structure
+## Payload structure
 IP2 uses UDP as substrate, the UPD payload is composed of : 
 * The first 32 bytes are sender's public key for receiver to decrypt payload.
 * The remaining payload is the encrypted content with sender private key and receiver public key.
@@ -193,16 +193,16 @@ Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
 bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 ```
 
-**put**
-very similar to relay, just type is differenciated to tell cache or not. 
-
-### PCP, UPnP, NATPMP, ipv4, ipv6, NAT64, NAT66, NAT44, DS light, XLAT464 and firewall filtering discussions
+## PCP, UPnP, NATPMP, ipv4, ipv6, NAT64, NAT66, NAT44, DS light, XLAT464 and firewall filtering discussions
 
 While the networks the evolving, address translation, filtering, bridging and space extension protocols end up coexisting with each other. We are facing a mixture today. It is hardly to see IPv4 going away, even IPv6 only networks start to appear. 
 
 The dream of P2P direct communication requires address independance and filtering resistant connectivity. Network protocols on the transport layer are not be able to solve these two requirements; because transporting is concerned of that how data flows between phyical end points, not logical sender and receiver. 
 
 An overlay protocol such as IP2 is required to smooth up these building block edges. In the core of IP2, it is the capture swarm nodes collectively serving as relay. Even when a node has publicly accessible IP address, the node is still subject to firewall filtering from regional operators. The node can not solve this connectivity problem by own power, it has to rely on a nodes community randomly spread on global internet. The choices of such community and making such community available for global access is not a straight forward task. If too close to node public key, it will enable hacker's suffocating attack; if too far, it will bring sender searching difficulty. It might have to engage some time-sensitive address transform algorithm to make filter difficult to track the changing capture swarm. 
+
+### IPv4 and IPv6 communication on IP2
+IP2 nodes should not bother with underneath IP protocol is v4 or v6. In the emerging of IPv6 only network in cellular network, data transmission between IPv4 nodes to IPv6 nodes will require relay nodes supporting dual stack for the best effort. 
 
 
 Main References
