@@ -1,4 +1,4 @@
-# Title:	Internet Protocol 2 - IP2 
+# Internet Protocol 2 - IP2 
 
 Version:	0.1 - on going draft
 
