@@ -4,7 +4,9 @@ Version:	0.1 - on going draft
 
 Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd. 
 
-Internet Protocol 2(IP2) enable user to choose self-generated 256-bits "public key" as immutable address, while classical Internet Protocol(IP1) appoints hierarchically and often dynamically addresses. IP1 has caused "uncertain device reachability" in type of address and connection, especially when  same device is moving among different networks or locating in unknown changing firewall rules; therefore additional proxy or name server infrastructure burden is needed for each application. 
+Internet Protocol 2(IP2) aims to provide the best effort universal p2p connectivity. 
+
+First of all, IP2 uses self-generated 256-bits "public key" as immutable address or ID, while classical Internet Protocol(IP1) appoints hierarchically and often dynamically IP addresses. IP1 has caused "uncertain reachability" in the type of address and connection, especially when  same device is moving among different networks or locates in unknown changing firewall rules; therefore additional proxy or name server infrastructure burden is needed for each application. 
 
 IP2 is designed for "public key direct to public key" overlay communication. Thanks to the innovation of XOR distance to form up the local capture swarm network, the nodes are incentivated to share "public key to IP address" naming and relaying for restricted nodes, disregard of application types.
 
@@ -31,6 +33,24 @@ When a node, B, want to receive communication, it will traverse the "closest" no
 Since each node has key pairs, all the UDP payload between nodes are encrypted with sender private key to make only target node can read it. Internet routers can not tell the pattern of an encrypted payload, so that it can not differenciate from video and voice services. The cost of block IP2 packets will be turning down entire UDP protocol. 
 
 IP2 nodes uses app-input, self-learning and pre-coded IP/Port addresses for bootstrap of routing vector. We view this as risk, due to any contact or leakage of node to public IP2 ready nodes will fill up routing vector very quickly. Each node will learn IP2 bootstrap nodes during the life, the longer a nodes online, the more bootstrap knowledge it has as accumulation of such memory. 
+
+### The best effort data transmission
+IP2 uses two types of tramsission to achieve "the best effort" due to dynamic nature of all nodes. 
+* Non-cached, the relay does not store data. This is for sequence un-senstive data transmission such as in blockchain. Non-cached transmission is implemented using API: relay
+* Cached, the relay nodes will store data from sender for 24 hours. The receiver can "get" the stored data. This is ideal for peer to peer messaging, where chat messages are critical for delivery.  Cached transmission is implemented using API: put/get
+
+#### transmission traversal control: invoke_window and invoke_limit
+In order to achieve best effort universal connectivity, IP2 needs to find the target node or its capture swarm from the internet, before data could be deliverred. Essentially in IP2, data are sent from sender to receiver swarm nodes to enhance the success rate. 
+The searching complexity is O(nodes number of Internet), which is too big. Thanks to Kadmelia DHT, it reduces the searching complexity to O(logN). We use the same traverse strategy. To help traverse running efficiently. App developer can set some control parameters, depending on communication status such as initiation, normal, best effort, fast, slow or doze. 
+* invoke_window, is the range in the searching candidates, m_results, indexed by distance for invoking selection. m_results is the temporary list for traveral with sorted distance to the target. Bigger window will prevent "local optimization" problem. 
+* invoke_limit is the total invoke number that one full traverse will perform. This controls the depth of the searching.  
+
+A sequence of a traversal process could look like this: 
+```
+* copy invoke_window number of nodes from routing vector to m_result temporary list
+* randomly select alpha number nodes from invoke_window  of m_result, invoke these request and waiting for short timeout
+* refresh m_result, and invoke more request in the invoke_window until invoke limit or invoke_window depletes.  
+```
 
 ## Three internal vectors to handle address connectivity
 The implementation of IP2 needs a few address vectors. 
@@ -77,21 +97,7 @@ Relay:
 
 When relay nodes receive members of push vector, which are out-bound initiated temporary connection, it can not be put into routing vector or capture swarm, which are both defined for good public accessible nodes. Push vector is setup for these potentially restricted nodes. 
 
-### Traversal control: invoke_window and invoke_limit
-In order to achieve best effort universal connectivity, IP2 needs to find the target node or its capture swarm from the internet, before data could be deliverred.
-The searching complexity is essentially O(nodes number of Internet), which is too big. Thanks to Kadmelia, libtorrent reduces the search complexity to O(logN). We use the same traverse strategym. To help traverse running efficiently. Application developer can set some control parameters, depending on app's communication status such as initiation, normal, best effort, fast, slow or doze. 
 
-* invoke_window, is the range in the searching candidates, m_results, indexed by distance for invoking selection. m_results is the temporary list for traveral with sorted distance to the target
-* invoke_limit is the total invoke one full traverse will perform. 
-
-A sequence of a traversal process could look like this: 
-```
-* copy invoke_window number of nodes from routing vector to m_result temporary list
-* randomly select alpha number nodes from invoke_window  of m_result, invoke these request and waiting for short timeout
-* refresh m_result, and invoke more request in the invoke_window until invoke limit or invoke_window depletes.  
-```
-### Cached data transmission
-This is to tell the relay node to temporary store the data for receiver nodes to pull, when receiver is resumed from offline. This is for best effort data delivery. IP2 need to implement such transmission in a "put" protocol, which supports cache temporary storage. 
 
 ### Payload structure
 IP2 uses UDP as substrate, the UPD payload is composed of : 
