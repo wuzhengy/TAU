@@ -1,8 +1,8 @@
 ### Introduction
 #### TAU App - Create crypto coins and trade community for free.
-TAU helps you to create P2P crypto trade community independantly from central hosting, therefore you can issue genuine blockchain coins free from third party charge. TAU do not require you to buy any TAUcoins for enjoying full functions. Community leaders can airdrop coins to friends freely. 
+TAU helps you to create P2P crypto trade community independantly from central hosting. You can issue genuine blockchain coins free from third party charge. TAU does not require you to buy any TAUcoins for enjoying all functions. Community leaders can airdrop coins to friends freely for community expansion.
 
-We aim to help individuals to build crypto community; therefore **TAU full blockchain node works on smart phones** with low data consumption, which is essential for developing regions like Africa.
+We aim to help individuals to build crypto community; therefore TAU full blockchain node is designed to works on **smart phones** with low data consumption, which is essential for developing regions like Africa.
 
 #### Crypto Airdrop dream tool
 * Free, no third party charge, such as ETH gas
@@ -39,5 +39,5 @@ TAU Cambridge(UK) is located in Cambridge Science Park and registered in United 
   * Size: 20MB
   * Android 5.1 up
 
-### Join us
+### Newsletter
 * Subscribe/unsubscribe newsletter by sending email to info@taucoin.io
