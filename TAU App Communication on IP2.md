@@ -27,8 +27,11 @@ chatting receiver status: last seen, last communicated
 * last comminicate: last time a message or confirm of message recieved.
 
 ### Blockchain gossipping
-In blockchain gossipping, we do not implement cached sending, everything is instant basis. Please check IP2 protocol API (cached vs non-cached)
+In blockchain gossipping, we use non-cached transmission on the assumption that blockchain has multiple nodes to remember the consensus. Please check IP2 protocol API (cached vs non-cached)
 
+Each node will maintain a **sync list**  of connected nodes to keep hot gossip channels. The list will include a few nodes such as between 2 to 5. When list has less than 2 nodes, it will recruite more nodes; when more than 5, it will kick out low score nodes. A scoring strategy is applied. High score is 100, when a node got 0, it will be kick out and added to **punish list**. TAU also maintains **off-line list**.
+In the off-line list, nodes will be blocked from request for 5 minutes, but responsing to this node will take such node out of the list. The punished time is from 5 minutes up to 1 hours, each time the node enter into off-line list, the punish time increases.  
+Node will also maintain **history list**, which remembers the activities of a node to give score to a certain node. 
 Data forwarding: the protocol maintains two lists. 
 * list for wiring transaction gossip: apply "always forward highest fee transaction for each account", use nounce to control replay attack
 * list for note transaction gossip: apply "always forward transaction fee above median fee happenning in recent 15 minutes", note does not affact transaction nounce. 
@@ -49,8 +52,9 @@ B的转发规则是最近的5分钟时间窗口，没有nonce问题，只要是�
 是否
 区块链是否缓存
 6. 每个步骤最小时间间隔50ms；当UI关注在某个community时，80%的主循环资源给到这个Z
-三个列表：
+4个列表：
 访问列表：保存于内存，记录当前访问的peer及其积分，列表peer数量可在2-5之间波动，低于2则随机找节点，高于5则踢出低分节点。访问列表记录各个节点表现打分情况，进入评分列表则有初始分30分，最低可扣至0分（只有零分者会被踢出至惩罚节点），最高可积累分数100分
+off-line list
 惩罚列表：保存于内存，记录罚分的节点，以及惩罚次数和惩罚起始时间，最多可记录链上所有节点。惩罚时间可以与惩罚次数挂钩，比如正比关系或者加倍关系，每多进一次惩罚列表，就多惩罚5min或者多一倍惩罚时间，起始惩罚可设为5min，最高惩罚时间可设为1h; 也可以有减刑策略，比如自己如果主动挑中访问，可减刑3s；
 历史列表：会记录一些历史信息，用于辅助加罚分。比如上次与列表节点通信阶段、数据类型及时间等通信历史信息，用于控制通信内容等。节点从第一次进入访问列表，请求任务的顺序为：1. 请求投票->2. 请求head block->3. 请求其它block/推送自己的block等一般性请求
 
