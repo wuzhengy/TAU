@@ -4,25 +4,18 @@ Version:	0.1 - on going draft
 
 Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd. 
 
+## Overview
 Internet Protocol 2(IP2) aims to provide the best effort universal p2p connectivity. 
 
 First of all, IP2 uses self-generated 256-bits "public key" as immutable address or ID, while classical Internet Protocol(IP1) appoints hierarchically and often dynamically IP addresses. IP1 has caused "uncertain reachability" in the type of address and connection, especially when the same device is moving among different networks or locates in unknown firewall rules; therefore additional proxy or name server infrastructure burden is needed for each application. 
-
-IP2 is designed for "public key direct to public key" overlay communication. Thanks to the innovation of XOR distance to form up the prefix capture swarm network, the nodes are incentivated to share "public key to IP address" naming and relaying for restricted nodes, disregard of application types.
 
 On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static/dynamic, v4/v6, local/public, wifi/cellular types of IP1 addresses and their arbitrary address translation and filtering restrictions. This potentially reduces cost of operating IOT devices, as well.  
 
 The technology stack includes "distributed vectors" for seeking, sending and capturing data, ED25519 assymetric encryption for premission-less and colision-free unique addressing, and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
 
-Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket. Due to self-addressing, multiple nodes can share one public key. This will make classical connection based communication such as TCP hard to use the sequencial method, since one public key can have many devices and hard to make end to end connection. The levenstein distance array will come into the picture for public key to public key communication. This makes communciction potentially more powerful by including the broadcast function with just one public key.
+* Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket. Due to self-addressing, multiple nodes can share one public key. This will make classical connection based communication such as TCP hard to use the sequencial method, since one public key can have many devices and hard to make end to end connection. The levenstein distance array will come into the picture for public key to public key communication. This makes communciction potentially more powerful by including the broadcast function with just one public key. libTAU provides a sample of connection based communication over IP2. 
 
-## Overview
-
-In IP2 overlay network, each Internet device such as phone, watch, pad or a node has a globally unique and immutable self-appointed public key, which is generated from random seed in ED25519 encyption scheme. Due to the "virtual-ness" of public key, several network devices can share the same public key, the data flow will branch to multiple way and therefore potentially more powerful. TCP type of connection based communication, such as TCP/IP2 will be much different to implement, potentially employing Leveinstein distance array rather than sequence number. libTAU provides a sample of connection based communication over IP2. 
-
-IP2 is a device oriented end point to end point protocol, not a routing protocol.  To differenciate applicationi type on the same devices, IP2 embedded port number in the base layer, which was missing in IP1 as a rounting protocol. 
-
-A "distance metric" is used to compare two addresses for "closeness". The metric is XOR and the result is interpreted as an unsigned integer. distance(A,B) = |A xor B| Smaller values are closer. Nodes must maintain a routing vector containing the contact information for a number of other nodes. As opposed to the traditional Kademlia[1] "The routing table becomes more detailed as IDs get closer to the node's own ID", IP2 prefer a big single layer routing vector, in order to saving traversal data consumption. IP2 API provides more ability in saving data transmission, due to most of the Internet devices are personal devices on batteries and meterred network. 
+IP2 is designed for "public key direct to public key" overlay communication. Thanks to the innovation of XOR distance to form up the prefix capture swarm network, the nodes are incentivated to share "public key to IP address" naming and relaying for restricted nodes, disregard of application types. A "distance metric" is used to compare two addresses for "closeness". The metric is XOR and the result is interpreted as an unsigned integer. distance(A,B) = |A xor B| Smaller values are closer. Nodes must maintain a routing vector containing the contact information for a number of other nodes. As opposed to the traditional Kademlia[1] "The routing table becomes more detailed as IDs get closer to the node's own ID", IP2 prefer a big single layer routing vector, in order to saving traversal data consumption. IP2 API gives more effort in saving data transmission, due to most of the Internet devices are personal devices on batteries and meterred network. 
 
 When a node wants to find another node for sending data, it uses the distance metric to compare the public key of the receiver with the records of the nodes in its own routing table. It then contacts the nodes it knows about with public key closest to the target node and asks them for the contact information of nodes. If a contacted node knows about the target public key, the contact information is returned with the response. Otherwise, the contacted node must respond with the contact information of the nodes in its routing vector that are closest to the public key. The original node iteratively queries nodes that are closer to the target until it cannot find any closer nodes. 
 
@@ -32,7 +25,7 @@ When a node, B, want to receive communication, it will traverse the "closest" no
 
 Since each node has key pairs, all the UDP payload between nodes are encrypted with sender private key to make only target node can read it. Internet routers can not tell the pattern of an encrypted payload, so that it can not differenciate from video and voice services. The cost of block IP2 packets will be turning down entire UDP protocol. 
 
-IP2 nodes uses app-input, self-learning and pre-coded IP/Port addresses for bootstrap of routing vector. We view this as risk, due to any contact or leakage of node to public IP2 ready nodes will fill up routing vector very quickly. Each node will learn IP2 bootstrap nodes during the life, the longer a nodes online, the more bootstrap knowledge it has as accumulation of such memory. 
+IP2 nodes uses app-input, self-learning and pre-coded IP/Port addresses for bootstrap of routing vector. We view this as risk, due to any contact or leakage of node to public IP2 nodes will fill up routing vector very quickly. Each node will learn IP2 bootstrap nodes during the life, the longer a nodes online, the more bootstrap knowledge it has as accumulation of such memory. 
 
 ### The best effort data transmission
 IP2 uses two types of tramsission to achieve "the best effort" due to dynamic nature of all nodes. 
@@ -52,11 +45,11 @@ A sequence of a traversal process could look like this:
 * refresh m_result, and invoke more request in the invoke_window until invoke limit or invoke_window depletes.  
 ```
 
-## Three internal vectors to handle address connectivity
-The implementation of IP2 needs a few address vectors. 
+## Three distributed vectors to handle address connectivity
+The implementation of IP2 needs a few vectors. 
 * Routing vector - storing good relay node, which is traditional Kadmalia DHT
 * Capture swarm advisory vector - storing sender provided capture swarm relay nodes for fast response
-* Push vector - storing perishsable non-relay nodes which are under firewall inbound control for "hole punching"
+* Push vector - storing temporary non-relay nodes which are under firewall inbound control for "hole punching"
  
 ### Routing Vector
 
@@ -96,8 +89,6 @@ Relay:
 - IPv6 PCP inbound traffic openning accepted. However, tt is tricky to decide IPv6 relay nodes. Most of IPv6 does not go through NAT, and firewall filtering strategy is unknown. 
 
 When relay nodes receive members of push vector, which are out-bound initiated temporary connection, it can not be put into routing vector or capture swarm, which are both defined for good public accessible nodes. Push vector is setup for these potentially restricted nodes. 
-
-
 
 ## Payload structure
 IP2 uses UDP as substrate, the UPD payload is composed of : 
