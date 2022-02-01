@@ -4,17 +4,17 @@ TAU helps you to create P2P crypto trade community independantly from central ho
 
 We help individuals to build crypto community; therefore, TAU full blockchain node is designed to works on **smart phones** with low data consumption, which is essential for data expensive areas like Africa.
 
-#### Crypto Airdrop dream tool
-* Free, no third party charge, such as ETH gas
-* Drop to contacts in emails, whatsapp, telegram and more
+#### Crypto Airdrop Toolset
+* Free, no third party charge, such as ETH gas.
+* Send coins to contacts in emails, whatsapp, telegram and more
 * An android phone for everything
 
 ### About the core technologies
 #### Perishable Proof of Transactions(PPOT) Blockchain Consensus Tailored for individual phones
 
-TAU discovered the PPOT blockchain concensus, that is the more transactions history made, the higher mining power a node has. Without intensive puzzel solving competition such as in bitcoin, PPOT is a light weight consensus in terms of electricty and computing power. 
+TAU discovered the PPOT blockchain concensus, that is the more transactions history made, the higher mining power a node has. Without intensive puzzle solving competition such as in bitcoin, PPOT is a light weight consensus in terms of electricty and computing power. 
 
-The **perishable** ledger will expire blocks beyond 6 months older, to make full blockchain size under 50 Mbytes. Unlike immutable blockchains such as ethereum and bitcoin, which is designed for long term financial contracts, PPOT is for day to day commuinciation oriented apps. **PPOT blocks are planned to register users, essential wiring and unlimited communication capacity**. The expired blocks have linked-hash to ensure the data integrity and could be optionally archived by any interested member, which reduces the burden of active mining nodes.
+The **perishable** ledger will expire blocks beyond 6 months older, to make full blockchain size under 50 Mbytes. Unlike immutable blockchains such as ethereum and bitcoin designed for long term financial contracts, PPOT is for commuinciation oriented apps. **PPOT blocks are planned to register users, essential wiring and unlimited communication capacity**. The expired blocks have linked-hash to ensure the data integrity and could be optionally archived by anyone interested, which reduces the burden of active mining nodes.
 
 PPOT enables a smart phone to hold and mine 100+ full blockchains. Collectively, the parallel blockchains bring to the ecosystem unlimted and unrestricted communication ability. 
 TAU Cambridge provides libTAU, an opensource C++ reference implementation of PPOT parallel mining and messaging on [github](https://github.com/Tau-Coin/libTAU).
