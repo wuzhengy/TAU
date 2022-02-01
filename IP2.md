@@ -55,7 +55,7 @@ A sequence of a traversal process could look like this:
 ## Three internal vectors to handle address connectivity
 The implementation of IP2 needs a few address vectors. 
 * Routing vector - storing good relay node, which is traditional Kadmalia DHT
-* Capture swarm advisory vector - storing sender provided capture swarm nodes for fast response relay
+* Capture swarm advisory vector - storing sender provided capture swarm relay nodes for fast response
 * Push vector - storing perishsable non-relay nodes which are under firewall inbound control for "hole punching"
  
 ### Routing Vector
