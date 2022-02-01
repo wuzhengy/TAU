@@ -6,15 +6,15 @@ Last-Modified:	Feb 1st, 2022, TAU Cambridge Ltd.
 
 Internet Protocol 2(IP2) aims to provide the best effort universal p2p connectivity. 
 
-First of all, IP2 uses self-generated 256-bits "public key" as immutable address or ID, while classical Internet Protocol(IP1) appoints hierarchically and often dynamically IP addresses. IP1 has caused "uncertain reachability" in the type of address and connection, especially when  same device is moving among different networks or locates in unknown changing firewall rules; therefore additional proxy or name server infrastructure burden is needed for each application. 
+First of all, IP2 uses self-generated 256-bits "public key" as immutable address or ID, while classical Internet Protocol(IP1) appoints hierarchically and often dynamically IP addresses. IP1 has caused "uncertain reachability" in the type of address and connection, especially when the same device is moving among different networks or locates in unknown firewall rules; therefore additional proxy or name server infrastructure burden is needed for each application. 
 
-IP2 is designed for "public key direct to public key" overlay communication. Thanks to the innovation of XOR distance to form up the local capture swarm network, the nodes are incentivated to share "public key to IP address" naming and relaying for restricted nodes, disregard of application types.
+IP2 is designed for "public key direct to public key" overlay communication. Thanks to the innovation of XOR distance to form up the prefix capture swarm network, the nodes are incentivated to share "public key to IP address" naming and relaying for restricted nodes, disregard of application types.
 
 On top of IP2, traditional TCP or UDP type of services could be rebuilt without worrying about static/dynamic, v4/v6, local/public, wifi/cellular types of IP1 addresses and their arbitrary address translation and filtering restrictions. This potentially reduces cost of operating IOT devices, as well.  
 
-The technology stack includes "distributed routing vectors" for sending and capturing data, ED25519 assymetric encryption for premission-less and colision-free unique addressing, and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
+The technology stack includes "distributed vectors" for seeking, sending and capturing data, ED25519 assymetric encryption for premission-less and colision-free unique addressing, and pattern randomized transmission on UDP. TAU Cambridge provides an opensource C++ reference implementation libIP2 on github(...). 
 
-Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket implementing the distributed hash table protocol. Due to self-addressing, multiple nodes can share one public key. This will make classical connection based communication such as TCP hard to use the sequencial flow method on key to key, since one public key can have many devices under and hard to differenciate to make end to end impossible. The levenstein distance array will come into the picture for public key to public key communication. This makes communciction potentially more powerful by including the broadcast function with just one public key.
+Please note the terminology used in this document to avoid confusion. A "public key" is self generated to be used as address for nodes. A "node" is a client/server with an "public key" listening on a UDP socket. Due to self-addressing, multiple nodes can share one public key. This will make classical connection based communication such as TCP hard to use the sequencial method, since one public key can have many devices and hard to make end to end connection. The levenstein distance array will come into the picture for public key to public key communication. This makes communciction potentially more powerful by including the broadcast function with just one public key.
 
 ## Overview
 
@@ -149,11 +149,7 @@ All queries have an "p" key and value containing the public key of the querying 
 **ping**
 
 The most basic query is a ping. "q" = "p" A ping query has a single argument, "p" the value is the senders public key. The appropriate response to a ping has a single key "p" containing the public key of the responding node.
-```
-arguments:  {"p" : "<querying node public key>"}
 
-response: {"p" : "<queried node public key>"}
-```
 Example Packets
 ```
 ping Query = {"t":"aa", "y":"q", "q":"p", "a":{"p":"..."}}
@@ -164,11 +160,7 @@ bencoded = d1:rd1:p3:...e1:t2:aa1:y1:re
 **find_node**
 
 Find node is used to find the contact information for a node given its ID. "q" == "f" A find_node query has two arguments, "p" containing the node public key of the querying node, and "target" containing the public key of the node sought by the queryer. When a node receives a find_node query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table.
-```
-arguments:  {"p" : "<querying nodes public key>", "t" : "<id of target node>"}
 
-response: {"p" : "<queried nodes public key>", "n" : "<compact nodes info>"}
-```
 Example Packets
 
 ```
@@ -180,11 +172,31 @@ bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 **relay**
 
 Relay is used to traverse and send data. "q" == "r" A r query has two arguments, "p" containing the node public key of the sender node, and "t" containing the public key of the receiver node. When a node receives a relay query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table. The node will be the receiver, if not, the node will check local relay vector for the receiver node, if existing, the node will send the payload to receiver to satisfy the relay function. 
-```
-arguments:  {"p" : "<querying nodes public key>", "t" : "<id of target node>"}
 
-response: {"p" : "<queried nodes public key>", "n" : "<compact nodes info>"}
+Example Packets
 ```
+relay Query = {"t":"aa", "y":"q", "q":"f", "a": {"p":"...", "t":"..."}} 
+bencoded = d1:ad1:p3:...1:t3:...e1:q1:f1:t2:aa1:y1:qe
+Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
+bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
+```
+
+**put**
+
+Put is used to traverse, send and store data. "q" == "p" A r query has two arguments, "p" containing the node public key of the sender node, and "t" containing the public key of the receiver node. When a node receives a relay query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table. The node will be the receiver, if not, the node will check local relay vector for the receiver node, if existing, the node will send the payload to receiver to satisfy the relay function. 
+
+Example Packets
+```
+relay Query = {"t":"aa", "y":"q", "q":"f", "a": {"p":"...", "t":"..."}} 
+bencoded = d1:ad1:p3:...1:t3:...e1:q1:f1:t2:aa1:y1:qe
+Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
+bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
+```
+
+**get**
+
+Get is used to traverse and get data. "q" == "g" A r query has two arguments, "p" containing the node public key of the sender node, and "t" containing the public key of the receiver node. When a node receives a relay query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table. The node will be the receiver, if not, the node will check local relay vector for the receiver node, if existing, the node will send the payload to receiver to satisfy the relay function. 
+
 Example Packets
 ```
 relay Query = {"t":"aa", "y":"q", "q":"f", "a": {"p":"...", "t":"..."}} 
