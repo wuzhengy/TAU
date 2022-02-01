@@ -13,13 +13,12 @@ Assume data flow is X ->(Y relay)->Y and Y->(X relay)->X; Y relay is a concept i
 
 ```
 A - 基于莱文斯坦距离的中继缓存通信
-假设：(X往Y发送数据，target组合YX ) X ->YR -> Y ； Y -> XR -> X；R为中继和目标节点的捕捉网络成员；put(receiver address, alpha, beta, payload, bool cache)
-1. （本地有新消息）或（与上次通信间隔5分钟 并且 莱文斯坦数组24小时内始终没有对齐），触发一次”traverse put”，alpha=1, beta=10，invoke number = 10，信息bencode中含有XR，XR end point 和 “时间戳“ 。 （本地需要建立全朋友列表对方莱文斯坦数组的数据和last seen时间)
-2. Y收到消息后，根据莱文斯坦数组相应处理，触发”traverse put“，alpha=1, beta=3，invoke number = 3, 把第一步的XR信息融入路由表的m_result一起搜索，信息中附带YR’，YR‘ end point和时间戳。XR缓存数据
-3. X收到消息后，根据本地逻辑处理，回复消息给Y，触发”traverse put“，alpha=1, beta=3，invoke number = 3（类似第二步细节）。到第2步，直到双方莱文斯坦数组对齐，没有新消息发送。
-4. 步骤2和3，当过程由于某种原因中断。X和Y将等待下个5分钟通信窗口，或者自己有新消息，或者重新上线；当来温斯坦数组对齐时，不做通信。
-5. 当节点重新上线包括doze恢复，需要对当前所有朋友执行缓存get。
-
+假设：(X往Y发送数据，target组合YX ) X ->YR -> Y ； Y -> XR -> X；R为中继和目标节点的捕捉网络成员
+1. （本地有新消息）或（与上次通信间隔5分钟 并且 莱文斯坦数组24小时内始终没有对齐），触发一次”put”，信息bencode中含有“时间戳“ 。（本地需要建立全朋友列表对方莱文斯坦数组的数据和last seen时间)
+2. Y收到消息后，根据莱文斯坦数组相应处理，触发”put“，信息中时间戳。
+3. X收到消息后，根据本地逻辑处理，回复消息给Y，触发”put“，（类似第二步细节）。到第2步，直到双方莱文斯坦数组对齐，没有新消息发送。
+4. 步骤2和3，当过程由于某种原因中断。X和Y将等待下个5分钟通信窗口，或者自己有新消息。
+5. 当节点重新上线或者每15分钟，需要对当前所有朋友执行缓存get。
 * 来温斯坦数组放在正文里面发送。
 ```
 chatting receiver status: last seen, last communicated
