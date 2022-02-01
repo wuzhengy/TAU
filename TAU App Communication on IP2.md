@@ -45,12 +45,11 @@ B的转发规则是最近的5分钟时间窗口，没有nonce问题，只要是�
 主动推送任务类型：1. 推送head block; 2. 推送有效tx
 
 
-6. 每个步骤最小时间间隔50ms；当UI关注在某个peer Z时，80%的主循环资源给到这个Z
 ***  不在线名单, any nodes in off-line list will have to wait sqrt(total nodes) time. 
 ***  ban list
 是否
 区块链是否缓存
-6. 每个步骤最小时间间隔50ms；当UI关注在某个community时，80%的主循环资源给到这个Z
+每个步骤最小时间间隔50ms；当UI关注在某个community时，80%的主循环资源给到这个Z
 4个列表：
 访问列表：保存于内存，记录当前访问的peer及其积分，列表peer数量可在2-5之间波动，低于2则随机找节点，高于5则踢出低分节点。访问列表记录各个节点表现打分情况，进入评分列表则有初始分30分，最低可扣至0分（只有零分者会被踢出至惩罚节点），最高可积累分数100分
 off-line list
@@ -64,6 +63,6 @@ off-line list
 2. 检查各peer所处的访问阶段，是否需要增删peer以及是否需要向各peer发起新请求
 3. 其它区块链业务，包括检查出块（出块了则添加至tasks队列，等待通知访问列表peer）,检查自己是否有同步需求（有需求则加入tasks队列，等待向访问列表peer请求）等
 ```
-
+快速跟踪链和慢速跟踪链。 对于自己币多的链，跟踪密集。
 ### Mainloop frequency
 * each device could setup the range of walking frequency from 1 - 20s, this will also limit the highest data consumption according to user perference. 
