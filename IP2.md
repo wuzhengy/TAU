@@ -207,14 +207,11 @@ bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 
 ## PCP, UPnP, NATPMP, ipv4, ipv6, NAT64, NAT66, NAT44, DS light, XLAT464 and firewall filtering discussions
 
-While the networks the evolving, address translation, filtering, bridging and space extension protocols end up coexisting with each other. We are facing a mixture today. It is hardly to see IPv4 going away, even IPv6 only networks start to appear. 
+While the networks the evolving, address translation, filtering, bridging and space extension protocols end up coexisting with each other. We are facing a mixture today. It is hardly to see IPv4 going away, even IPv6 only networks start to appear. IP2 nodes should not bother with underneath IP protocol of v4 or v6. In IPv6 only cellular network, data transmission between IPv4 nodes to IPv6 nodes will require relay nodes supporting dual stack. The self-addressing scheme is a way of smooth up v4 and v6 network.  
 
 The dream of P2P direct communication requires address independance and filtering resistant connectivity. Network protocols on the transport layer are not be able to solve these two requirements; because transporting is concerned of that how data flows between phyical end points, not logical sender and receiver. 
 
 An overlay protocol such as IP2 is required to smooth up these building block edges. In the core of IP2, it is the capture swarm nodes collectively serving as relay. Even when a node has publicly accessible IP address, the node is still subject to firewall filtering from regional operators. The node can not solve this connectivity problem by own power, it has to rely on a nodes community randomly spread on global internet. The choices of such community and making such community available for global access is not a straight forward task. If too close to node public key, it will enable hacker's suffocating attack; if too far, it will bring sender searching difficulty. It might have to engage some time-sensitive address transform algorithm to make filter difficult to track the changing capture swarm. 
-
-### IPv4 and IPv6 communication on IP2
-IP2 nodes should not bother with underneath IP protocol is v4 or v6. In the emerging of IPv6 only network in cellular network, data transmission between IPv4 nodes to IPv6 nodes will require relay nodes supporting dual stack for the best effort. 
 
 
 Main References
