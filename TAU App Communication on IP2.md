@@ -3,6 +3,8 @@ TAU app has two types of communication
 * public key to public key chatting: this is used for user direct messaging, in current mobile network condition, we will only suggest sending text. For image and video, it is better to send a link pointing to a server resource. 
 * blockchain gossipping: this is for reaching PPOT consensus among nodes. TAU app makes each phone a full node disregard phone's network location in restricted or public. 
 
+## TAU focuses on saving user mobile data to fit into data expensive region. 
+
 ### libTAU is an implementaiton of chatting and PPOT consensus on IP2
 * C++ open source library
 * SWIG interface for Java, especially android platform
