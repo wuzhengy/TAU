@@ -45,10 +45,10 @@ A sequence of a traversal process could look like this:
 * refresh m_result, and invoke more request in the invoke_window until invoke limit or invoke_window depletes.  
 ```
 
-## Three distributed vectors to handle address connectivity
-The implementation of IP2 needs a few vectors. 
-* Routing vector - storing good relay node, which is traditional Kadmalia DHT
-* Capture swarm advisory vector - storing sender provided capture swarm relay nodes for fast response
+## Three distributed vectors to handle best effort connectivity
+The implementation of IP2 global address seeking needs a few vectors. 
+* Routing vector - storing good relay node, which is traditional Kadmalia DHT to find prefix neighbour of a public key.
+* Capture swarm advisory vector - storing sender provided relay nodes for fast and randomized response path. It prevents "suffocating" on a public key. 
 * Push vector - storing temporary non-relay nodes which are under firewall inbound control for "hole punching"
  
 ### Routing Vector
@@ -174,11 +174,11 @@ bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 
 **put**
 
-Put is used to traverse, send and store data. "q" == "p" A r query has two arguments, "p" containing the node public key of the sender node, and "t" containing the public key of the receiver node. When a node receives a relay query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table. The node will be the receiver, if not, the node will check local relay vector for the receiver node, if existing, the node will send the payload to receiver to satisfy the relay function. 
+Put is used to traverse, send and store data. "q" == "p" A p query has two arguments, "p" containing the node public key of the sender node, and "t" containing the public key of the receiver node. When a node receives a put query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table. The node will be the receiver, if not, the node will check local relay vector for the receiver node, if existing, the node will send the payload to receiver to satisfy the put function; at the same time, it will store the value for future get. 
 
 Example Packets
 ```
-relay Query = {"t":"aa", "y":"q", "q":"f", "a": {"p":"...", "t":"..."}} 
+relay Query = {"t":"aa", "y":"q", "q":"p", "a": {"p":"...", "t":"..."}} 
 bencoded = d1:ad1:p3:...1:t3:...e1:q1:f1:t2:aa1:y1:qe
 Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
 bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
@@ -186,11 +186,11 @@ bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
 
 **get**
 
-Get is used to traverse and get data. "q" == "g" A r query has two arguments, "p" containing the node public key of the sender node, and "t" containing the public key of the receiver node. When a node receives a relay query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table. The node will be the receiver, if not, the node will check local relay vector for the receiver node, if existing, the node will send the payload to receiver to satisfy the relay function. 
+Get is used to traverse and get data from relay nodes cache. "q" == "g".  A g query has two arguments, "p" containing the node public key of the sender node, and "t" containing the public key of the receiver node. When a node receives a get query, it should respond with a key "nodes" and value of a string containing the compact node info for the target node or the K (8) closest good nodes in its own routing table. The node will check local storage, if existing, the node will send the payload to receiver to satisfy the get function. 
 
 Example Packets
 ```
-relay Query = {"t":"aa", "y":"q", "q":"f", "a": {"p":"...", "t":"..."}} 
+relay Query = {"t":"aa", "y":"q", "q":"g", "a": {"p":"...", "t":"..."}} 
 bencoded = d1:ad1:p3:...1:t3:...e1:q1:f1:t2:aa1:y1:qe
 Response = {"t":"aa", "y":"r", "r": {"p":"...", "n": "..."}}
 bencoded = d1:rd1:n3:...1:p3:...e1:t2:aa1:y1:re
@@ -202,7 +202,10 @@ While the networks the evolving, address translation, filtering, bridging and sp
 
 The dream of P2P direct communication requires address independance and filtering resistant connectivity. Network protocols on the transport layer are not be able to solve these two requirements; because transporting is concerned of that how data flows between phyical end points, not logical sender and receiver. 
 
-An overlay protocol such as IP2 is required to smooth up these building block edges. In the core of IP2, it is the capture swarm nodes collectively serving as relay. Even when a node has publicly accessible IP address, the node is still subject to firewall filtering from regional operators. The node can not solve this connectivity problem by own power, it has to rely on a nodes community randomly spread on global internet. The choices of such community and making such community available for global access is not a straight forward task. If too close to node public key, it will enable hacker's suffocating attack; if too far, it will bring sender searching difficulty. It might have to engage some time-sensitive address transform algorithm to make filter difficult to track the changing capture swarm. 
+An overlay protocol such as IP2 is required to smooth up these building block edges. In the core of IP2, it is the capture swarm nodes collectively serving as relay. Even when a node has publicly accessible IP address, the node is still subject to firewall filtering from regional operators. The node can not solve this connectivity problem by own power, it has to rely on a nodes community randomly spread on global internet. The choices of such community and making such community available for global access is not a straight forward task. If too close to node public key, it will enable hacker's suffocating attack; if too far, it will bring sender searching difficulty. It might have to engage some time-sensitive address transform algorithm to make filter difficult to track the changing capture swarm.
+
+## Future security consideration
+One key attack to self-addressing is to use brutal force to generate public key that is very close to a target public key. These keys can join the network to polute the searching. Some scheme of using random relay nodes based on time to join the capture swarm to maintain most basic signal is critical. 
 
 
 Main References
