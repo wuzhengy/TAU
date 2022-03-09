@@ -51,7 +51,7 @@ The implementation of IP2 global address seeking needs a few vectors.
 * Capture swarm advisory vector - storing sender provided relay nodes for fast and randomized response path. It prevents "suffocating" on a public key. 
 * Push vector - storing temporary non-relay nodes which are under firewall inbound control for "hole punching"
  
-### Routing Vector
+### Routing Vector and its replacement buckets
 
 Every node maintains a routing vector of known good nodes. The nodes in the routing vector are used as starting points for queries in the DHT. Nodes from the routing vector are returned in response to queries from other nodes. IP2 uses vector here than Kadmelia buckets table to save traveral data consumption. We trade storage for less traffic. 
 
@@ -89,6 +89,8 @@ Relay:
 - IPv6 PCP inbound traffic openning accepted. However, tt is tricky to decide IPv6 relay nodes. Most of IPv6 does not go through NAT, and firewall filtering strategy is unknown. 
 
 When relay nodes receive members of push vector, which are out-bound initiated temporary connection, it can not be put into routing vector or capture swarm, which are both defined for good public accessible nodes. Push vector is setup for these potentially restricted nodes. 
+#### adding resolving NAT short memory of port mapping issue ?????
+
 
 ## Payload structure
 IP2 uses UDP as substrate, the UPD payload is composed of : 
