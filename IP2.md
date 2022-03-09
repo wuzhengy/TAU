@@ -88,9 +88,11 @@ Relay:
 - coded DHT bootstrap public IP addresses is Relay, provided by app developers like TAU.
 - IPv6 PCP inbound traffic openning accepted. However, tt is tricky to decide IPv6 relay nodes. Most of IPv6 does not go through NAT, and firewall filtering strategy is unknown. 
 
-When relay nodes receive members of push vector, which are out-bound initiated temporary connection, it can not be put into routing vector or capture swarm, which are both defined for good public accessible nodes. Push vector is setup for these potentially restricted nodes. 
-#### adding resolving NAT short memory of port mapping issue ?????
-
+When relay nodes receive members of push vector, which are out-bound initiated temporary connection, it can not be put into routing vector or capture swarm, which are both defined for good public accessible nodes. Push vector is setup for these potentially restricted nodes. However, if one nodes claim to be relay, we can put those into routing table replacement bucket for testing. 
+#### adding resolving NAT short memory of port mapping issue
+While IPv4 and IPv6 coexisting in mobile network, the carrier NAT tends to allocate shorter memory time of incoming port mapping due to significant requests from internal network. The capture swarm nodes fit nicely to help internal nodes to establish constant port mapping relationship. We are now using 15 seconds as interval to register internal nodes to capture swarm, so that when new messages arrives, the pushing nodes can send information to internal nodes. 
+While we do the each 15 seconds resigerting, the relay nodes will send cached messages within 5 minutes history to internal nodes. 
+By these two means, the peer to peer communication will be rather robust. 
 
 ## Payload structure
 IP2 uses UDP as substrate, the UPD payload is composed of : 
