@@ -5,7 +5,7 @@ TAU app has two types of communication
 
 ## TAU focuses on saving user mobile data to fit into data expensive region. 
 
-### libTAU is an implementaiton of chatting and PPOT consensus on IP2
+### libTAU is an implementation of chatting and PPOT consensus on IP2
 * C++ open source library
 * SWIG interface for Java, especially android platform
 * Shell interfece for Linux command line
