@@ -47,9 +47,9 @@ A sequence of a traversal process could look like this:
 
 ## Three distributed vectors to handle best effort connectivity
 The implementation of IP2 global address seeking needs a few vectors. 
-* Routing vector - storing good relay node, which is traditional Kadmalia DHT to find prefix neighbour of a public key.
-* Capture swarm advisory vector - storing sender provided relay nodes for fast and randomized response path. It prevents "suffocating" on a public key. 
-* Push vector - storing temporary non-relay nodes which are under firewall inbound control for "hole punching"
+* Routing table - storing good relay node, which is traditional Kadmalia DHT to find prefix neighbour of a public key. Alive vector - capture swarm.  
+* Advisory vector - storing receiver sended abitratry relay nodes for fast and randomized response path. It prevents "suffocating" on a public key; vs traversed routing table relay nodes for receiver. 
+* Income list - storing temporary non-relay nodes which are under firewall inbound control for "hole punching"
  
 ### Routing Vector and its replacement buckets
 
