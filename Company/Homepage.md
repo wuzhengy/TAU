@@ -1,14 +1,13 @@
 ### Introduction
-#### TAU App - Freely create crypto coins and trade community.
-TAU helps you to create P2P trade community independantly. You can issue genuine crypto coins free from third party charge and servers. TAU does not require one to buy any TAUcoins for using all functions. Community leaders can freely airdrop coins to friends for expansion.
+#### TAU App - Freely create crypto coins
+TAU helps you to create coins community by issuing genuine cryptos independantly from third party coins such as ETH or BNB, and be avoid of gas charge. We do not require you to buy any TAUcoins for using functions. Community leaders can freely airdrop coins to friends for expansion.
 
-We help individuals to build crypto community; therefore, TAU blockchain is designed to work purely on **smart phones** with low data consumption, which is essential for data expensive areas like Africa.
-
+TAU blockchain is super light and designed to work on **smart phones** with low data and battery consumption.
 
 #### Crypto Airdrop Toolset
 * Free, no third party charge, such as ETH gas.
-* Send coins to contacts in emails, whatsapp, telegram and more
-* An android phone for everything
+* Send coins to contacts such as in whatsapp and telegram.
+* Work on an android phone
 
 ### About the core technologies
 #### Perishable Proof of Transactions(PPOT) Blockchain Consensus Tailored for individual phones
