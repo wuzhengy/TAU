@@ -2,7 +2,7 @@
 #### TAU App - Freely create crypto coins
 TAU helps you to create coins community by issuing genuine cryptos independantly from third party coins such as ETH or BNB, and be avoid of gas charge. We do not require you to buy any TAUcoins for using functions. Community leaders can freely airdrop coins to friends for expansion.
 
-TAU blockchain is super light and designed to work on **smart phones** with low data and battery consumption.
+TAU blockchain is super light and designed to work on **smart phones** with low data and battery consumption. TAU is a serverless technology, without using dedicated servers and everything is on phones network. 
 
 #### Crypto Airdrop Toolset
 * Free, no third party charge, such as ETH gas.
