@@ -1,12 +1,13 @@
 ### Introduction
-#### TAU App - Freely create crypto coins
-TAU helps you to create and airdrop coins to your community free from third party GAS fee such as ETH or BNB. We do not require you to buy any TAUcoins for using functions. 
+#### TAU App - Ads Coin for Telegram
+We help channel or group owners to FREELY run crypto Ads coin in a community. 
+By airdrop of Ads coin to members, a coins community is created. Owners can make money by selling coins to any marketeers for showing Ads in the community. 
 
-TAU is a serverless technology without using dedicated servers and everything is on phones network. 
+TAU is a serverless blockchain technology without using dedicated host and everything is on phones network. We do not require you to buy any TAUcoins. 
 
 #### Crypto Airdrop Toolset
-* Free, no third party charge, such as ETH gas.
-* Send and airdrop coins to contacts such as in whatsapp and telegram.
+* Free, no third party charge such as ETH gas.
+* Send and airdrop coins to Telegram members.
 * Work on an android phone network, without tieing to any servers. 
 
 ### About the core technologies
