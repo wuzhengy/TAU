@@ -1,7 +1,7 @@
 ### Introduction
 #### TAU App - Ads Coin for Telegram
 We help channel or group owners to FREELY run crypto Ads coin in a community. 
-By airdrop of Ads coin to members, a coins community is created. Owners can make money by selling coins to any marketeers for showing Ads in the community. 
+By airdrop of coins to members, a coin community is created. Owners can make money by selling coins to any marketeers for showing Ads in the community. 
 
 TAU is a serverless blockchain technology without using dedicated host and everything is on phones network. We do not require you to buy any TAUcoins. 
 
