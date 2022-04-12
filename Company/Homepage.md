@@ -7,7 +7,7 @@ TAU blockchain is super light and designed to work on **smart phones** with low 
 #### Crypto Airdrop Toolset
 * Free, no third party charge, such as ETH gas.
 * Send coins to contacts such as in whatsapp and telegram.
-* Work on an android phone
+* Work on an android phone network, without relying on any servers. 
 
 ### About the core technologies
 #### Perishable Proof of Transactions(PPOT) Blockchain Consensus Tailored for individual phones
