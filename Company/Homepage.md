@@ -1,12 +1,11 @@
 ### Introduction
-#### TAU App - Freely Operate Ads Coin
+#### TAU App - Ads Coin
 
 By free creation and airdrop of your crypto coins to members, a community is created. Coins holders can make money by selling coins to others, who can display Ads, buy things, pay people and chat with members.
 
 TAU is a serverless blockchain tech without using dedicated host, while everything is on phones network.
 
 We do not require you to buy any TAUcoins. TAU is FREE and open source.
-
 #### Crypto Airdrop Toolset
 * No third party charge such as ETH gas.
 * Send and airdrop coins to contacts.
