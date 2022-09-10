@@ -151,8 +151,55 @@ block  = {
 ```
 
 ## Constants
-* MutableRange:  288 blocks, range could touch geneis block as extreme. This is a concept of blocks, unrelated to time. 
 * GenesisBasetarget:  0x21D0369D036978; simulated 1 million blocks with average 60 seconds.
 * DefaultMinBlockTime:  60 seconds, this is fixed block time. do not let user choose as for now.
 * DefaultMaxBlockTime:  540 seconds, when no body mining, you can generate blocks
 * DefaultBlockTime: 300 seconds
+
+## Some key concepts
+#### TAU Doze
+```
+大多数操作系统包括android和chromeOS都会对电池电源做精细管理，但是对流量一般不做控制。TAU考虑到非洲地区流量成本，增加这个模式
+进入条件：
+1. 如果3分钟内（固定参数）用户和TAU app没有“鼠标键盘手指交互”并且没有“android doze过”就进入“TAU Doze”。
+2. 没有网络时，节点为0
+
+TAU Doze模式：
+app根据网络流量剩余来间歇工作 >70%，>50%，>30%，>10%，就进入“区块链业务进程挂起”对应的0，5，10，20分钟策略。
+
+退出tau doze模式的条件：
+1、鼠标键盘手指交互
+2、网络任何变化
+3、Android doze结束
+4、切入前台 foreground
+5、流量包选择变化
+```
+
+#### Signal of Switch/Stay on foreground
+```
+当用户切入前台，或者在前台保持10分钟，UI将触发libtau boost 信号。libtau收到这个信号后做：
+1. 发送p2p通行中对方没有收到的消息
+2. 对所有自己参加的区块链执行类似扫码加入动作（发出在线信号和读取区块信息）
+
+```
+
+#### Group Chat connection list
+
+
+
+```
+启初状态：是从区块链和状态机中读取各一半节点。
+这个表格的增加：接受到外界在线信号（包括回执和新信号），缓存中的gossip live节点，
+这个表格删除：在本类别中被新节点替换
+节点类别：1/3来自区块，1/3来自状态机，1/3来自链下
+```
+#### P2P API - IP2 
+```
+1. IP2 - P2P API: 目前考虑这是ip2唯一通信API，不考虑公布relay API
+参数： 信息哈希，时间戳（如果为0则视为immutable信息，任何一个满足的数据都返回）； 如果有合法时间戳是为mutable信息，则只返回大于时间戳的第一个数据
+A发送B过程
+1. A put 数据到 A swarm
+2. A 发送 relay 信号给 B，包括A swarm的辅助信息和信息哈希
+3. B 接受到relay信号，用本机当前时间减去3秒读取A swarm中的信息，如果长超时失败，用本机当前时间减去6秒再读取一次
+
+```
